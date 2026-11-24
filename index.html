@@ -61,6 +61,9 @@
 }
 .call-event svg { color: var(--purple); }
 .call-event small { display: flex; flex-wrap: wrap; gap: 2px 10px; }
+.call-event[data-action="return-call"] { border-color: #54345e; background: #24182e; text-align: left; }
+.call-event[data-action="return-call"]:hover { border-color: var(--purple); }
+.call-event-link { display: block; margin-top: 4px; color: var(--purple); font-size: 12px; font-weight: bold; }
 .video-call { max-width: 760px; margin: auto; }
 .video-stage {
   padding: 18px; border: 1px solid var(--line); border-radius: 18px;
@@ -126,9 +129,6 @@
 .call-indicator time { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; }
 .call-indicator .return-call { font-size: 12px; font-weight: 700; }
 .call-indicator .call-status-label { margin-right: 3px; }
-@media (min-width: 900px) and (max-width: 1050px) {
-  .nav:has(.call-indicator) { gap: 10px; }
-}
 @media (max-width: 899px) {
   .call-indicator { position: absolute; right: 12px; bottom: calc(100% + 8px); box-shadow: 0 8px 24px #0007; }
   .has-call-indicator .shell, .has-call-indicator .shell.chat-screen { padding-bottom: calc(140px + env(safe-area-inset-bottom)); }
@@ -173,8 +173,45 @@
 .schedule-fields>legend,.recruit-roles>legend{padding:0;margin-bottom:10px;font-weight:bold}
 .schedule-fields{padding:16px;border:1px solid var(--line);border-radius:12px}
 .schedule-fields>legend{padding:0 6px;margin:0 0 0 -6px}
-.schedule-fields .field input,.field input[type=date]{min-height:44px}
-.field input[type=date]::-webkit-calendar-picker-indicator,.field input[type=time]::-webkit-calendar-picker-indicator{cursor:pointer}
+.schedule-fields .field input{min-height:44px}
+.field input[type=time]::-webkit-calendar-picker-indicator{cursor:pointer}
+
+/* Calendar used by group scheduling and search filters. */
+.date-picker .calendar-trigger{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:44px;padding:10px 12px;
+  background:var(--card);border:1px solid var(--line);border-radius:8px;text-align:left;
+}
+.calendar-trigger[aria-expanded=true]{border-color:var(--purple)}
+.calendar-trigger[aria-invalid=true]{border-color:#f0a7b9}
+.calendar-trigger svg{width:18px;height:18px;color:var(--purple)}
+.calendar-value.is-empty{color:var(--dim)}
+.calendar-popup{
+  position:fixed;z-index:30;width:min(320px,calc(100% - 24px));padding:12px;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 16px 44px #0009;overflow:auto;scrollbar-width:thin;overscroll-behavior:contain;
+}
+.calendar-popup[hidden]{display:none}
+.calendar-header,.calendar-footer{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.calendar-header{margin-bottom:6px}
+.calendar-month{font-size:14px;text-align:center}
+.calendar-month-button{
+  display:grid;place-items:center;width:36px;height:36px;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--card);
+}
+.calendar-month-button svg{width:15px;height:15px}
+.calendar-days{width:100%;table-layout:fixed;border-spacing:3px;font-variant-numeric:tabular-nums}
+.calendar-days th{padding:5px 0;color:var(--dim);font-size:11px;font-weight:normal}
+.calendar-days td{padding:0}
+.calendar-day{width:100%;min-height:34px;padding:0;border-radius:7px;background:transparent}
+.calendar-day:hover:not(:disabled),.calendar-text-button:hover:not(:disabled){background:#34213f}
+.calendar-day:disabled{opacity:.42}
+.calendar-day[aria-current=date]{color:var(--purple);box-shadow:inset 0 0 0 1px #795283}
+.calendar-day[aria-pressed=true],.calendar-day[aria-pressed=true]:hover{
+  background:var(--purple);color:#1a0a20;box-shadow:none;font-weight:bold;
+}
+.calendar-popup button:focus-visible{outline-offset:-2px}
+.calendar-footer{margin-top:7px;padding-top:7px;border-top:1px solid var(--line)}
+.calendar-text-button{min-height:34px;padding:5px 8px;border-radius:7px;background:transparent;color:var(--purple);font-size:12px}
+.calendar-clear:disabled{opacity:.5}
 .field-label{display:block;font-size:12px;color:#c7c4d0;margin-bottom:7px}
 .schedule-period output,.lobby-format p{display:flex;align-items:center;min-height:44px;margin:0;padding:10px 12px;border-radius:8px;background:var(--panel);color:#d5d2df}
 .schedule-repeat,.recruit-roles .chip{display:flex;align-items:center;gap:8px}
@@ -273,6 +310,7 @@ Object.assign(icons, {
   bell: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9m-8 12a2 2 0 0 0 4 0"/>',
   lock: '<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 4v3"/>',
   clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  calendar: '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 10h18m-14 5h2m3 0h2m3 0h1"/>',
   logout: '<path d="M12 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h7m2-12 4 4-4 4m-6-4h13"/>'
 });
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -334,6 +372,39 @@ function tabs(items,selected,action){return `<div class="tabs">${items.map(([v,t
 function choices(name,label,items,current){let multiple=Array.isArray(current);return `<div class="field"><fieldset><legend>${esc(label)}</legend><div class="options">${items.map((v,i)=>`<button type="button" class="chip" data-action="filter-choice" data-field="${name}" data-value="${esc(v)}" aria-pressed="${multiple?(i===0?!current.length:current.includes(v)):v===current}">${esc(v)}</button>`).join('')}</div></fieldset></div>`}
 function field(name,label,control){return `<div class="field"><label for="${name}">${esc(label)}</label>${control}</div>`}
 function input(name,value,extra=''){return `<input id="${name}" name="${name}" value="${esc(value)}" ${extra}>`}
+const calendarDateLabel=new Intl.DateTimeFormat('ru-RU',{dateStyle:'long',timeZone:'UTC'});
+const calendarDayLabel=new Intl.DateTimeFormat('ru-RU',{dateStyle:'full',timeZone:'UTC'});
+const calendarMonthLabel=new Intl.DateTimeFormat('ru-RU',{month:'long',year:'numeric',timeZone:'UTC'});
+const calendarWeek=['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
+const calendarPlaceholder=required=>required?'Выбрать дату':'Любая дата';
+
+function calendarInput(name,label,value,required=false){
+  const selected=validDate(value)?value:'';
+  return `<div class="field date-picker" data-calendar-required="${required}">
+    <label id="${name}-label" for="${name}-trigger">${esc(label)}${required?'<span class="sr-only">, обязательно</span>':''}</label>
+    ${input(name,selected,'type="hidden"')}
+    <button id="${name}-trigger" type="button" class="calendar-trigger" data-calendar-action="toggle"
+      aria-haspopup="dialog" aria-controls="${name}-calendar" aria-expanded="false"
+      aria-labelledby="${name}-label ${name}-value" ${required?'aria-describedby="schedule-error"':''}>
+      <span id="${name}-value" class="calendar-value${selected?'':' is-empty'}">${selected?calendarDateLabel.format(new Date(selected)):calendarPlaceholder(required)}</span>${svg('calendar')}
+    </button>
+    <div id="${name}-calendar" class="calendar-popup" role="dialog" aria-label="Календарь" hidden>
+      <div class="calendar-header">
+        <button type="button" class="calendar-month-button" data-calendar-action="previous" aria-label="Предыдущий месяц">${svg('back')}</button>
+        <strong id="${name}-month" class="calendar-month" aria-live="polite"></strong>
+        <button type="button" class="calendar-month-button" data-calendar-action="next" aria-label="Следующий месяц">${svg('next')}</button>
+      </div>
+      <table class="calendar-days" aria-labelledby="${name}-month">
+        <thead><tr>${calendarWeek.map(day=>`<th scope="col" abbr="${day}">${day.slice(0,2)}</th>`).join('')}</tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="calendar-footer">
+        <button type="button" class="calendar-text-button" data-calendar-action="today">Сегодня</button>
+        ${required?'':'<button type="button" class="calendar-text-button calendar-clear" data-calendar-action="clear">Сбросить дату</button>'}
+      </div>
+    </div>
+  </div>`;
+}
 function select(name,values,value){return `<select id="${name}" name="${name}">${values.map(v=>{let [id,t]=Array.isArray(v)?v:[v,v];return `<option value="${esc(id)}" ${id===value?'selected':''}>${esc(t)}</option>`}).join('')}</select>`}
 function textarea(name,value,extra=''){return `<textarea id="${name}" name="${name}" ${extra}>${esc(value)}</textarea>`}
 const submit=text=>`<button type="submit" class="primary">${text}</button>`;
@@ -372,7 +443,7 @@ function filtersView(){
   const f=ui.draftFilters||{...ui.filters};
   ui.draftFilters=f;
   const game=games[f.game];
-  return title('Фильтры поиска','search')+`<form id="filters-form" class="narrow fields">${choices('game','Игра',[anyGame,...Object.keys(games)],f.game)}${choices('type','Формат',['Команда','Лобби'],f.type||(ui.searchType==='team'?'Команда':'Лобби'))}${game?choices('role','Роль в '+f.game,['Любая',...game.roles],f.role)+choices('rank','Ранг от',['Любой',...game.ranks],f.rank):''}${choices('language','Язык',['Любой','Русский','English'],f.language)}${choices('period','Время суток',['Любое',...periods],f.period)}${field('filter-date','Дата игры',input('filter-date',f.date,'type="date"'))}<div class="actions">${submit('Показать '+((f.type||(ui.searchType==='team'?'Команда':'Лобби'))==='Команда'?'команды':'лобби'))}${button('Сбросить','clear-filter-draft',{secondary:true})}</div></form>`;
+  return title('Фильтры поиска','search')+`<form id="filters-form" class="narrow fields">${choices('game','Игра',[anyGame,...Object.keys(games)],f.game)}${choices('type','Формат',['Команда','Лобби'],f.type||(ui.searchType==='team'?'Команда':'Лобби'))}${game?choices('role','Роль в '+f.game,['Любая',...game.roles],f.role)+choices('rank','Ранг от',['Любой',...game.ranks],f.rank):''}${choices('language','Язык',['Любой','Русский','English'],f.language)}${choices('period','Время суток',['Любое',...periods],f.period)}${calendarInput('filter-date','Дата игры',f.date)}<div class="actions">${submit('Показать '+((f.type||(ui.searchType==='team'?'Команда':'Лобби'))==='Команда'?'команды':'лобби'))}${button('Сбросить','clear-filter-draft',{secondary:true})}</div></form>`;
 }
 function teamView(){
   const g=group(route.id);
@@ -413,7 +484,7 @@ function lobbyParentField(d){
 function newView(){
   if(!db.plus)return createView();
   const d=draft(), team=d.type==='team';
-  return title(team?'Новая команда':'Новое лобби','groups')+`<form id="new-form" class="content fields"><div class="form-grid">${field('type','Формат',select('type',[['team','Постоянная команда'],['lobby','Лобби на одну игру']],d.type))}${field('name',team?'Название команды':'Название лобби',input('name',d.name,'required maxlength="60" placeholder="Например, Ancient Squad"'))}${field('game','Игра',select('game',Object.keys(games),d.game))}${field('language','Язык',select('language',['Русский','English'],d.language))}<div${team?' class="wide"':''}>${field('goal','Цель (необязательно)',input('goal',d.goal,'maxlength="140"'))}</div>${team?'':lobbyParentField(d)}<fieldset class="wide schedule-fields"><legend>Расписание</legend><div class="form-grid">${field('startsOn',team?'Дата первой игры':'Дата игры',input('startsOn',d.startsOn,`type="date" min="${todayDate()}" required`))}<div class="schedule-period"><span class="field-label">Время суток</span><output id="schedule-period" for="startsAt">${d.startsAt?timePeriod(d.startsAt):'Укажите время начала'}</output></div>${field('startsAt','Начало',input('startsAt',d.startsAt,'type="time" required'))}${field('endsAt','Окончание (необязательно)',input('endsAt',d.endsAt,'type="time"'))}</div>${team?`<label class="schedule-repeat"><input type="checkbox" name="repeatsWeekly" ${d.repeatsWeekly?'checked':''}> Повторять еженедельно</label>`:''}<p id="schedule-error" class="error" role="alert" hidden></p></fieldset><div class="wide">${field('description','Описание (необязательно)',textarea('description',d.description,'maxlength="1500"'))}</div></div>${submit('Перейти к условиям набора')}</form>`;
+  return title(team?'Новая команда':'Новое лобби','groups')+`<form id="new-form" class="content fields"><div class="form-grid">${field('type','Формат',select('type',[['team','Постоянная команда'],['lobby','Лобби на одну игру']],d.type))}${field('name',team?'Название команды':'Название лобби',input('name',d.name,'required maxlength="60" placeholder="Например, Ancient Squad"'))}${field('game','Игра',select('game',Object.keys(games),d.game))}${field('language','Язык',select('language',['Русский','English'],d.language))}<div${team?' class="wide"':''}>${field('goal','Цель (необязательно)',input('goal',d.goal,'maxlength="140"'))}</div>${team?'':lobbyParentField(d)}<fieldset class="wide schedule-fields"><legend>Расписание</legend><div class="form-grid">${calendarInput('startsOn',team?'Дата первой игры':'Дата игры',d.startsOn,true)}<div class="schedule-period"><span class="field-label">Время суток</span><output id="schedule-period" for="startsAt">${d.startsAt?timePeriod(d.startsAt):'Укажите время начала'}</output></div>${field('startsAt','Начало',input('startsAt',d.startsAt,'type="time" required'))}${field('endsAt','Окончание (необязательно)',input('endsAt',d.endsAt,'type="time"'))}</div>${team?`<label class="schedule-repeat"><input type="checkbox" name="repeatsWeekly" ${d.repeatsWeekly?'checked':''}> Повторять еженедельно</label>`:''}<p id="schedule-error" class="error" role="alert" hidden></p></fieldset><div class="wide">${field('description','Описание (необязательно)',textarea('description',d.description,'maxlength="1500"'))}</div></div>${submit('Перейти к условиям набора')}</form>`;
 }
 function requirementsView(){
   if(!db.plus)return createView();
@@ -436,10 +507,13 @@ function durationTime(milliseconds) {
   const seconds = Math.max(0, Math.floor(milliseconds / 1000));
   return [Math.floor(seconds / 60), seconds % 60].map(n => String(n).padStart(2, '0')).join(':');
 }
-function chatEntry(m) {
+function chatEntry(m, chatId) {
   if (m.kind === 'video-call') {
-    return `<div class="call-event">${svg('video')}<div><strong>Видеозвонок</strong>
-      <small><span>${callEventStatus(m)}</span><span>${shortDate(m.created)}, ${dateTime(m.created)}</span>${m.ended ? `<span>Длительность ${durationTime(m.ended - m.created)}</span>` : ''}</small></div></div>`;
+    const active = !m.ended && ui.call?.id === chatId && ui.call.eventId === m.id;
+    const tag = active ? 'button' : 'div';
+    return `<${tag} class="call-event" ${active ? 'type="button" data-action="return-call" aria-label="Видеозвонок. Вернуться в звонок"' : ''}>${svg('video')}<span><strong>Видеозвонок</strong>
+      <small><span>${callEventStatus(m)}</span><span>${shortDate(m.created)}, ${dateTime(m.created)}</span>${m.ended ? `<span>Длительность ${durationTime(m.ended - m.created)}</span>` : ''}</small>
+      ${active ? '<span class="call-event-link">Вернуться в звонок</span>' : ''}</span></${tag}>`;
   }
   return `<div class="bubble ${m.author === 'me' ? 'mine' : ''}"><small>${esc(authorName(m))} <time>${dateTime(m.created)}</time></small>${esc(m.text)}</div>`;
 }
@@ -463,7 +537,7 @@ function chatView() {
   const inThisCall = ui.call?.id === c.id;
   return title(chatName(c), 'messages') + `<div class="chat">
     <button class="callbar" data-action="${inThisCall ? 'return-call' : 'start-call'}" data-id="${esc(c.id)}">${svg('video')} ${inThisCall ? 'Вернуться в звонок' : 'Начать видеозвонок'}</button>
-    <div class="chatlog" id="chatlog" role="log" aria-label="Сообщения" aria-live="polite">${c.messages.length ? c.messages.map(chatEntry).join('') : '<p class="muted">Напишите первое сообщение.</p>'}</div>
+    <div class="chatlog" id="chatlog" role="log" aria-label="Сообщения" aria-live="polite">${c.messages.length ? c.messages.map(message => chatEntry(message, c.id)).join('') : '<p class="muted">Напишите первое сообщение.</p>'}</div>
     <form id="message-form" class="composer"><label for="message" class="sr-only">Сообщение</label><textarea name="message" id="message" placeholder="Сообщение…" rows="2" maxlength="2000" required></textarea><button type="submit" aria-label="Отправить сообщение" title="Отправить сообщение">${svg('send')}</button></form>
   </div>`;
 }
@@ -558,8 +632,9 @@ function render() {
   document.body.classList.toggle('signed-out', !!db.signedOut);
   nav.innerHTML = db.signedOut ? '<span class="brand">WithTeam</span>' : `
     <button class="brand" data-action="go" data-screen="search" aria-label="WithTeam — Поиск">WithTeam</button>
-    ${navRoutes.map(([s, t]) => `<button class="nav-item" data-action="go" data-screen="${s}" ${navSection === s ? 'aria-current="page"' : ''}>${svg(s)}<span>${t}</span></button>`).join('')}
-    ${showIndicator ? callIndicator() : ''}`;
+    ${showIndicator ? callIndicator() : ''}
+    ${navRoutes.map(([s, t]) => `<button class="nav-item" data-action="go" data-screen="${s}" ${navSection === s ? 'aria-current="page"' : ''}>${svg(s)}<span>${t}</span></button>`).join('')}`;
+  closeCalendar();
   app.innerHTML = (views[screen] || (() => missing()))();
   document.title = 'WithTeam — ' + (app.querySelector('h1')?.textContent || 'Поиск');
   const log = document.getElementById('chatlog');
@@ -718,6 +793,150 @@ function captureRecruit(form){
   form.querySelector('[data-delta="-1"]').disabled=valid&&vacancies<=Number(input.min);
   form.querySelector('[data-delta="1"]').disabled=valid&&vacancies>=Number(input.max);
 }
+let activeCalendar=null;
+const firstCalendarDate=new Date('0001-01-01');
+const lastCalendarDate=new Date('9999-12-31');
+const calendarDayOffsets={ArrowLeft:-1,ArrowRight:1,ArrowUp:-7,ArrowDown:7};
+const calendarISO=date=>date.toISOString().slice(0,10);
+const calendarWeekday=date=>(date.getUTCDay()+6)%7;
+
+function shiftCalendarDay(date,offset){
+  const next=new Date(date);
+  next.setUTCDate(next.getUTCDate()+offset);
+  return next;
+}
+function shiftCalendarMonth(date,offset,day=date.getUTCDate()){
+  const next=new Date(date);
+  next.setUTCMonth(next.getUTCMonth()+offset+1,0);
+  next.setUTCDate(Math.min(day,next.getUTCDate()));
+  return next;
+}
+function positionCalendar(){
+  if(!activeCalendar)return;
+  const {trigger,popup}=activeCalendar;
+  const target=trigger.getBoundingClientRect(), bar=nav.getBoundingClientRect();
+  const gutter=12, space=8;
+  const topLimit=bar.top<=0?bar.bottom+space:space;
+  const bottomLimit=bar.top>0?bar.top-space:window.innerHeight-space;
+  popup.style.maxHeight=`${Math.max(0,bottomLimit-topLimit)}px`;
+  const height=popup.offsetHeight, width=popup.offsetWidth;
+  const below=bottomLimit-target.bottom, above=target.top-topLimit;
+  const top=below>=height+space||below>=above?target.bottom+space:target.top-height-space;
+  popup.style.top=`${Math.max(topLimit,Math.min(top,bottomLimit-height))}px`;
+  popup.style.left=`${Math.max(gutter,Math.min(target.left,document.documentElement.clientWidth-width-gutter))}px`;
+}
+function renderCalendar(focusDay){
+  const {popup,value,minimum,today,date}=activeCalendar;
+  const start=shiftCalendarMonth(date,0,1), month=calendarISO(start).slice(0,7);
+  const weekdays=calendarWeekday(start);
+  const daysInMonth=shiftCalendarMonth(date,0,31).getUTCDate();
+  const activeDay=calendarISO(date);
+  const previous=popup.querySelector('[data-calendar-action="previous"]');
+  const next=popup.querySelector('[data-calendar-action="next"]');
+  previous.disabled=month<=minimum.slice(0,7);
+  next.disabled=month==='9999-12';
+  const monthLabel=calendarMonthLabel.format(date);
+  popup.querySelector('.calendar-month').textContent=monthLabel[0].toUpperCase()+monthLabel.slice(1);
+  const rows=[];
+  for(let week=0;week<Math.ceil((weekdays+daysInMonth)/7);week++){
+    const cells=[];
+    for(let weekday=0;weekday<7;weekday++){
+      const day=week*7+weekday-weekdays+1;
+      if(day<1||day>daysInMonth){
+        cells.push('<td></td>');
+        continue;
+      }
+      const key=month+'-'+String(day).padStart(2,'0');
+      const accessibleLabel=calendarDayLabel.format(new Date(key));
+      cells.push(`<td><button type="button" class="calendar-day" data-date="${key}"
+        tabindex="${key===activeDay?0:-1}" aria-label="${esc(accessibleLabel)}" aria-pressed="${key===value.value}"
+        ${key===today?'aria-current="date"':''} ${key<minimum?'disabled':''}>${day}</button></td>`);
+    }
+    rows.push(`<tr>${cells.join('')}</tr>`);
+  }
+  popup.querySelector('tbody').innerHTML=rows.join('');
+  const clear=popup.querySelector('[data-calendar-action="clear"]');
+  if(clear)clear.disabled=!value.value;
+  positionCalendar();
+  if(focusDay||document.activeElement===previous&&previous.disabled||document.activeElement===next&&next.disabled){
+    popup.querySelector(`[data-date="${activeDay}"]`).focus();
+  }
+}
+function closeCalendar(restoreFocus=false){
+  if(!activeCalendar)return;
+  const {popup,trigger}=activeCalendar;
+  activeCalendar=null;
+  popup.hidden=true;
+  trigger.setAttribute('aria-expanded','false');
+  if(restoreFocus)trigger.focus({preventScroll:true});
+}
+function openCalendar(trigger,field){
+  const popup=field.querySelector('.calendar-popup'), value=field.querySelector('input');
+  const today=todayDate(), minimum=field.dataset.calendarRequired==='true'?today:calendarISO(firstCalendarDate);
+  const selected=validDate(value.value)&&value.value>=minimum?value.value:today;
+  activeCalendar={field,popup,trigger,value,today,minimum,date:new Date(selected)};
+  popup.hidden=false;
+  trigger.setAttribute('aria-expanded','true');
+  renderCalendar(true);
+}
+function navigateCalendar(date,focusDay){
+  const minimum=new Date(activeCalendar.minimum);
+  activeCalendar.date=date<minimum?minimum:date>lastCalendarDate?lastCalendarDate:date;
+  renderCalendar(focusDay);
+}
+function selectCalendarDate(date){
+  const {trigger,value,field}=activeCalendar;
+  value.value=date;
+  const label=trigger.querySelector('.calendar-value');
+  label.textContent=date?calendarDateLabel.format(new Date(date)):calendarPlaceholder(field.dataset.calendarRequired==='true');
+  label.classList.toggle('is-empty',!date);
+  trigger.removeAttribute('aria-invalid');
+  value.dispatchEvent(new Event('input',{bubbles:true}));
+  closeCalendar(true);
+}
+document.addEventListener('click',event=>{
+  const button=event.target.closest('[data-calendar-action],.calendar-day');
+  if(!button||button.disabled)return;
+  const field=button.closest('.date-picker');
+  const {calendarAction,date}=button.dataset;
+  if(calendarAction==='toggle'){
+    const wasOpen=activeCalendar?.field===field;
+    closeCalendar(wasOpen);
+    if(!wasOpen)openCalendar(button,field);
+    return;
+  }
+  if(!activeCalendar||activeCalendar.field!==field)return;
+  if(date)return selectCalendarDate(date);
+  if(calendarAction==='today')return selectCalendarDate(activeCalendar.today);
+  if(calendarAction==='clear')return selectCalendarDate('');
+  const direction=calendarAction==='previous'?-1:1;
+  button.focus({preventScroll:true});
+  navigateCalendar(shiftCalendarMonth(activeCalendar.date,direction),false);
+});
+function dismissCalendarOutside(event){
+  if(activeCalendar&&!activeCalendar.field.contains(event.target))closeCalendar();
+}
+document.addEventListener('pointerdown',dismissCalendarOutside);
+document.addEventListener('focusin',dismissCalendarOutside);
+window.addEventListener('resize',positionCalendar);
+window.addEventListener('scroll',positionCalendar,{passive:true});
+document.addEventListener('keydown',event=>{
+  if(!activeCalendar)return;
+  if(event.key==='Escape'){
+    event.preventDefault();
+    closeCalendar(true);
+    return;
+  }
+  if(!event.target.matches('.calendar-day'))return;
+  const date=activeCalendar.date, key=event.key;
+  let target;
+  if(Object.hasOwn(calendarDayOffsets,key))target=shiftCalendarDay(date,calendarDayOffsets[key]);
+  else if(key==='Home'||key==='End')target=shiftCalendarDay(date,(key==='Home'?0:6)-calendarWeekday(date));
+  else if(key==='PageUp'||key==='PageDown')target=shiftCalendarMonth(date,(key==='PageUp'?-1:1)*(event.shiftKey?12:1));
+  else return;
+  event.preventDefault();
+  navigateCalendar(target,true);
+});
 function ensureGroupChat(g){let c=db.chats.find(c=>c.group===g.id);if(!c){c={id:newId('chat'),group:g.id,messages:[]};db.chats.push(c);persist()}return c}
 function decide(id,status){let a=db.applications.find(a=>a.id===id),g=a&&group(a.group);if(!a||!g||g.owner!=='me'||a.status!=='pending')return toast('Эта заявка уже обработана.');if(status==='accepted'){if(!capacity(g))return toast('Состав уже собран. Нового игрока пока добавить нельзя.');if(!g.members.includes(a.player))g.members.push(a.player);if(capacity(g)>0&&g.roles.length>1)g.roles=g.roles.filter(role=>role!==a.role);if(!capacity(g))g.active=false;ensureGroupChat(g)}a.status=status;a.decided=Date.now();persist();go('incoming',g.id);toast(status==='accepted'?'Игрок принят в состав':'В этот раз не подошло')}
 document.addEventListener('click',e=>{let b=e.target.closest('[data-action]');if(!b||b.disabled)return;let {action,screen,id,value,field:filterField,status}=b.dataset;
@@ -778,8 +997,14 @@ if(f.id==='new-form'){
   if(!d.name.trim())return toast('Введите название.');
   if(!validGroupDraft(d)){
     const error=document.getElementById('schedule-error');
-    error.textContent=d.startsAt===d.endsAt?'Укажите разное время начала и окончания.':'Проверьте дату и время игры.';
+    const invalidDate=!validDate(d.startsOn)||d.startsOn<todayDate();
+    error.textContent=invalidDate?'Выберите дату игры, начиная с сегодняшнего дня.':d.startsAt===d.endsAt?'Укажите разное время начала и окончания.':'Проверьте время игры.';
     error.hidden=false;
+    if(invalidDate){
+      const trigger=document.getElementById('startsOn-trigger');
+      trigger.setAttribute('aria-invalid','true');
+      trigger.focus();
+    }
     return;
   }
   go('requirements');
