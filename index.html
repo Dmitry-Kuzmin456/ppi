@@ -3,18 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b0b10">
+<meta name="theme-color" content="#0e0d14">
 <meta name="description" content="WithTeam — поиск постоянной команды и временных лобби для совместной игры.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%2334213f'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Arial' font-size='38' font-weight='bold' fill='%23d474f1'%3EW%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='12'%20fill='%23171522'/%3E%3Cg%20transform='skewX(-12)'%20fill='%23c497fa'%3E%3Crect%20x='20'%20y='29'%20width='6'%20height='11'%20rx='1'/%3E%3Crect%20x='31'%20y='25'%20width='6'%20height='19'%20rx='1'/%3E%3Crect%20x='42'%20y='21'%20width='6'%20height='27'%20rx='1'%20fill='none'%20stroke='%23c497fa'%20stroke-width='2'/%3E%3C/g%3E%3C/svg%3E">
 <title>WithTeam — Найди свою команду</title>
-<style>:root{color-scheme:dark;--bg:#0b0b10;--panel:#14131d;--card:#22212e;--purple:#d474f1;--dim:#aaa7b5;--line:#35323f;--green:#64dab2;--radius:14px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:#f4f3f7;font:14px/1.5 Arial,Helvetica,sans-serif}button,input,textarea,select{font:inherit}button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}button{cursor:pointer;color:inherit;border:0}button:hover:not(:disabled){filter:brightness(1.1)}button:disabled{opacity:.45;cursor:default}button:focus-visible,a:focus-visible{outline:2px solid var(--purple);outline-offset:4px}input:focus,select:focus,textarea:focus{outline:2px solid var(--purple);outline-offset:1px}h1,h2,h3,p{margin:0}h1{font-size:26px;line-height:1.2;letter-spacing:-.5px}h2{font-size:17px;line-height:1.4}h3{font-size:14px}p+p{margin-top:10px}small,.muted{font-size:12px;color:var(--dim)}.shell{max-width:1120px;margin:auto;padding:108px 32px 44px;min-height:100dvh}.page-head{display:flex;gap:12px;align-items:center;margin:0 0 26px}.page-head h1{overflow-wrap:anywhere}.back{width:36px;height:36px;flex-shrink:0;display:grid;place-items:center;border-radius:10px;background:var(--panel)}.back svg{width:19px}.subtitle{color:var(--dim);margin:-12px 0 24px;max-width:620px}.content{max-width:700px;margin:auto}.narrow{max-width:500px;margin:auto}.tabs,.options{display:flex;gap:8px;flex-wrap:wrap}.tabs{margin-bottom:18px}.chip{padding:8px 13px;border-radius:8px;font-size:12px;background:var(--card);border:1px solid var(--line);min-height:36px}.chip[aria-pressed=true]{background:#34213f;border-color:var(--purple);color:var(--purple)}.tabs .chip[aria-pressed=true]{background:var(--purple);color:#1a0a20}.filterbar{display:flex;gap:4px;background:var(--panel);border:1px solid #201e29;padding:5px;border-radius:12px;max-width:670px;margin-bottom:15px}.filterbar button{flex:1;background:none;color:var(--dim);border-radius:7px;padding:9px 5px;font-size:12px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.filterbar button:first-child{color:white}.filterbar button:last-child{color:var(--purple)}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}.toolbar .primary{width:auto;padding:10px 18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,285px),1fr));gap:16px;align-items:start}.grid .card{height:100%}.grid:has(>.card:only-child){grid-template-columns:minmax(0,500px)}.card{background:var(--panel);border-radius:var(--radius);padding:18px;text-align:left;min-width:0;overflow-wrap:anywhere}.card p{margin-top:8px}.team{background:var(--card);border:1px solid var(--line)}.teamtop,.person{display:flex;align-items:center;gap:10px;min-width:0}.teamtop h3{flex:1;min-width:0;overflow-wrap:anywhere}.gameicon,.avatar{width:32px;height:32px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;background:#34213f;color:var(--purple);border-radius:6px;font-size:10px;font-weight:bold}.avatar{border-radius:50%;width:36px;height:36px}.avatar.tint-1{background:#445b67;color:#d9e9ee}.avatar.tint-2{background:#5d4d49;color:#f1dfd6}.avatar.tint-3{background:#47385b;color:#e7d5fa}.count{background:var(--panel);color:var(--purple);font-size:12px;padding:5px 11px;border-radius:6px;white-space:nowrap}.tags{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}.tag{background:var(--panel);color:#c2bfcc;padding:5px 9px;border-radius:6px;font-size:11px}.cardfoot{display:flex;align-items:center;gap:6px;border-top:1px solid var(--line);padding-top:11px;margin-top:10px}.cardfoot .avatar{width:28px;height:28px;font-size:9px}.link{background:none;color:var(--purple);padding:8px;font-size:12px;font-weight:bold}.cardfoot .link{margin-left:auto;white-space:nowrap;flex-shrink:0}.primary,.secondary,.danger{display:block;width:100%;border-radius:9px;padding:12px 16px;min-height:44px;font-weight:bold;font-size:13px;text-align:center;line-height:1.5}.primary{background:var(--purple);color:#1a0a20}.secondary{background:var(--card);border:1px solid var(--line);color:#f4f3f7}.danger{background:#3b2332;color:#f1b3cc;border:1px solid #694053}.actions{display:grid;gap:9px;margin-top:24px}.actions.row{grid-template-columns:1fr 1fr}.section{margin-top:24px}.section h2{margin-bottom:10px}.fields{display:grid;gap:18px}.field{min-width:0}.field label,.field legend{display:block;font-size:12px;color:#c7c4d0;margin-bottom:7px}.field fieldset{border:0;padding:0;margin:0;min-width:0}.field input,.field select,.field textarea,.composer textarea{display:block;width:100%;border:1px solid var(--line);border-radius:8px;background:var(--card);color:white;padding:10px 12px;min-width:0;font-size:14px}.field textarea{background:var(--panel);min-height:100px;resize:vertical}.field input[type=checkbox]{width:auto}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.form-grid .wide{grid-column:1/-1}.banner{background:#34213f;border-radius:var(--radius);padding:22px;display:flex;align-items:center;justify-content:space-between;gap:12px}.monogram{color:var(--purple);font-size:40px;font-weight:bold}.open{color:var(--green);font-size:14px;font-weight:bold}.avatars{display:flex;gap:10px;flex-wrap:wrap}.member{border-radius:8px;background:var(--panel);display:flex;align-items:center;gap:10px;padding:8px 10px;text-align:left}.member small{display:block;font-size:10px}.note{color:var(--purple)}.list{display:grid;gap:12px}.badge{display:inline-block;padding:5px 8px;font-size:10px;border-radius:6px;background:#34213f;color:var(--purple);margin-top:9px}.badge.good{color:#80e0b6;background:#19382c}.badge.bad{color:#ecacc9;background:#3a2331}.badge.neutral{color:#c7c4d0;background:var(--card)}.menu{display:flex;align-items:center;justify-content:space-between;gap:15px;width:100%;font-weight:bold;min-height:54px}.menu svg{width:16px;color:var(--dim)}.menu small{color:var(--purple)}.center{max-width:440px;margin:clamp(24px,9vh,90px) auto 0;text-align:center}.center .card{text-align:left;margin-top:22px}.center h2{font-size:20px;margin-bottom:8px}.center p{color:var(--dim)}.symbol{display:grid;place-items:center;width:100px;height:100px;border-radius:24px;background:#34213f;color:var(--purple);margin:0 auto 22px}.symbol svg{width:42px;height:42px;stroke-width:2.5}.symbol.round{border-radius:50%}.nav{position:fixed;top:0;left:0;right:0;z-index:20;background:#14131df5;border-bottom:1px solid #25222f;padding:0 max(24px,calc((100vw - 1056px)/2));height:72px;display:flex;align-items:center;gap:22px;backdrop-filter:blur(12px)}.brand{background:none;color:var(--purple);font-weight:bold;font-size:22px;letter-spacing:-.6px;margin-right:auto;padding:6px 0}.nav-item{display:flex;align-items:center;gap:9px;background:none;color:var(--dim);font-size:12px;min-height:44px;padding:6px 8px}.nav-item[aria-current=page]{color:var(--purple)}svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}.profilehero{display:flex;gap:24px;align-items:center;padding:26px}.profilehero .avatar{width:58px;height:58px;font-size:21px;border-radius:14px}.profilehero strong{font-size:20px}.profilehero small{display:block}.checkrow{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:15px 0;border-bottom:1px solid var(--line)}.checkrow input{accent-color:var(--purple);width:18px;height:18px}.chat{max-width:700px;margin:auto}.callbar{display:flex;align-items:center;gap:8px;background:#34213f;color:var(--purple);padding:10px 14px;border-radius:8px;width:100%;text-align:left;font-size:12px}.chatlog{display:flex;flex-direction:column;gap:12px;padding:18px 0;min-height:240px;max-height:calc(100dvh - 340px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}.bubble{background:var(--card);border-radius:12px;padding:13px 16px;max-width:80%;width:fit-content;overflow-wrap:anywhere;white-space:pre-wrap;font-size:13px}.bubble.mine{background:#34213f;align-self:flex-end}.bubble small{display:block;font-size:10px;font-weight:bold;color:var(--purple);margin-bottom:6px}.composer{display:flex;align-items:flex-end;gap:8px;background:var(--bg);padding-top:8px}.composer textarea{background:var(--panel);resize:none;min-height:46px;max-height:120px;height:46px;line-height:24px;padding:10px 12px}.composer button{min-height:46px;width:46px;border-radius:9px;background:var(--purple);color:#1a0a20;display:grid;place-items:center;flex-shrink:0}.callgrid{background:#34213f;border-radius:22px;padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px}.callgrid .card{background:var(--card)}.callgrid b{color:var(--purple)}.timer{text-align:center;font-size:22px;font-variant-numeric:tabular-nums;margin:16px 0}.hint{font-size:12px;color:var(--dim);line-height:1.6}.pricing h2{font-size:24px;margin:14px 0 20px}.pricing ul{padding:0;list-style:none;display:grid;gap:12px}.pricing li:before{content:'✓';margin-right:8px;color:var(--green)}.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:40;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 20px;max-width:min(480px,calc(100% - 32px));box-shadow:0 8px 30px #0007;font-size:13px}.error{color:#f0a7b9;font-size:12px}.empty-inline{padding:26px 18px;border:1px dashed var(--line);border-radius:12px;color:var(--dim)}.skip{position:fixed;left:12px;top:-70px;background:var(--purple);color:black;padding:12px;z-index:50}.skip:focus{top:10px}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}.compact-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.spacer{margin-bottom:16px}.split{display:grid;grid-template-columns:1fr 1fr;gap:20px}.group-summary .card{height:auto}.meta{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}.meta dt{font-size:11px;color:var(--dim);margin-bottom:4px}.meta dd{margin:0;font-size:13px}.wrap{overflow-wrap:anywhere}.no-motion *{scroll-behavior:auto}
-@media(max-width:899px){.shell{padding:28px 24px calc(100px + env(safe-area-inset-bottom));max-width:760px}.nav{top:auto;bottom:0;height:auto;min-height:74px;border-bottom:0;border-top:1px solid #25222f;padding:10px 12px calc(10px + env(safe-area-inset-bottom));justify-content:space-around;gap:0}.brand{display:none}.nav-item{display:grid;justify-items:center;gap:5px;font-size:10px;flex:1}.nav-item svg{width:20px;height:20px}.toast{bottom:calc(90px + env(safe-area-inset-bottom))}.page-head{margin-bottom:24px}h1{font-size:24px}.chatlog{max-height:calc(100dvh - 310px)}}
+<style>
+@font-face {
+  font-family: 'Geologica';
+  font-style: normal;
+  font-weight: 500 800;
+  font-display: swap;
+  src: url(assets/fonts/geologica-cyrillic.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Geologica';
+  font-style: normal;
+  font-weight: 500 800;
+  font-display: swap;
+  src: url(assets/fonts/geologica-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Onest';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(assets/fonts/onest-cyrillic.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Onest';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(assets/fonts/onest-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* WithTeam design tokens */
+:root {
+  color-scheme: dark;
+  --bg: #0e0d14;
+  --nav-surface: #13111b;
+  --panel: #171522;
+  --card: #201c2d;
+  --surface-hover: #292238;
+  --surface-accent: #2e2342;
+  --text: #f2eff8;
+  --dim: #b4aec5;
+  --line: #3d3550;
+  --line-strong: #746789;
+  --purple: #c497fa;
+  --accent-ink: #180d2a;
+  --focus: #e4c9ff;
+  --green: #7ad8b2;
+  --status-bg: #1b2d2b;
+  --status-line: #3c6053;
+  --danger-text: #f293a6;
+  --danger-bg: #322534;
+  --danger-line: #6b475c;
+  --radius: 11px;
+  --font-display: Geologica, Onest, system-ui, sans-serif;
+  --font-ui: Onest, system-ui, sans-serif;
+}
+
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);}button,input,textarea,select{font:inherit}button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}button{cursor:pointer;color:inherit;border:0}button:hover:not(:disabled){filter:brightness(1.1)}button:disabled{opacity:.45;cursor:default}button:focus-visible,a:focus-visible{outline:2px solid var(--purple);outline-offset:4px}input:focus,select:focus,textarea:focus{outline:2px solid var(--purple);outline-offset:1px}h1,h2,h3,p{margin:0}h1{font-size:26px;line-height:1.2;letter-spacing:-.5px}h2{font-size:17px;line-height:1.4}h3{font-size:14px}p+p{margin-top:10px}small,.muted{font-size:12px;color:var(--dim)}.shell{max-width:1120px;margin:auto;padding:108px 32px 44px;min-height:100dvh}.page-head{display:flex;gap:12px;align-items:center;margin:0 0 26px}.page-head h1{overflow-wrap:anywhere}.back{width:36px;height:36px;flex-shrink:0;display:grid;place-items:center;border-radius:10px;background:var(--panel)}.back svg{width:19px}.subtitle{color:var(--dim);margin:-12px 0 24px;max-width:620px}.content{max-width:700px;margin:auto}.narrow{max-width:500px;margin:auto}.tabs,.options{display:flex;gap:8px;flex-wrap:wrap}.tabs{margin-bottom:18px}.chip{padding:8px 13px;border-radius:8px;font-size:12px;background:var(--card);border:1px solid var(--line);min-height:36px}.chip[aria-pressed=true]{background:var(--surface-accent);border-color:var(--purple);color:var(--purple)}.tabs .chip[aria-pressed=true]{background:var(--purple);color:var(--accent-ink)}.filterbar{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);padding:5px;border-radius:12px;max-width:670px;margin-bottom:15px}.filterbar button{flex:1;background:none;color:var(--dim);border-radius:7px;padding:9px 5px;font-size:12px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.filterbar button:first-child{color:white}.filterbar button:last-child{color:var(--purple)}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}.toolbar .primary{width:auto;padding:10px 18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,285px),1fr));gap:16px;align-items:start}.grid .card{height:100%}.grid:has(>.card:only-child){grid-template-columns:minmax(0,500px)}.card{background:var(--panel);border-radius:var(--radius);padding:18px;text-align:left;min-width:0;overflow-wrap:anywhere}.card p{margin-top:8px}.team{background:var(--card);border:1px solid var(--line)}.teamtop,.person{display:flex;align-items:center;gap:10px;min-width:0}.teamtop h3{flex:1;min-width:0;overflow-wrap:anywhere}.gameicon,.avatar{width:32px;height:32px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;background:var(--surface-accent);color:var(--purple);border-radius:6px;font-size:10px;font-weight:bold}.avatar{border-radius:50%;width:36px;height:36px}.avatar.tint-1{background:#445b67;color:#d9e9ee}.avatar.tint-2{background:#5d4d49;color:#f1dfd6}.avatar.tint-3{background:#47385b;color:#e7d5fa}.count{background:var(--panel);color:var(--purple);font-size:12px;padding:5px 11px;border-radius:6px;white-space:nowrap}.tags{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}.tag{background:var(--panel);color:var(--dim);padding:5px 9px;border-radius:6px;font-size:11px}.cardfoot{display:flex;align-items:center;gap:6px;border-top:1px solid var(--line);padding-top:11px;margin-top:10px}.cardfoot .avatar{width:28px;height:28px;font-size:9px}.link{background:none;color:var(--purple);padding:8px;font-size:12px;font-weight:bold}.cardfoot .link{margin-left:auto;white-space:nowrap;flex-shrink:0}.primary,.secondary,.danger{display:block;width:100%;border-radius:9px;padding:12px 16px;min-height:44px;font-weight:bold;font-size:13px;text-align:center;line-height:1.5}.primary{background:var(--purple);color:var(--accent-ink)}.secondary{background:var(--card);border:1px solid var(--line);color:var(--text)}.danger{background:var(--danger-bg);color:var(--danger-text);border:1px solid var(--danger-line)}.actions{display:grid;gap:9px;margin-top:24px}.actions.row{grid-template-columns:1fr 1fr}.section{margin-top:24px}.section h2{margin-bottom:10px}.fields{display:grid;gap:18px}.field{min-width:0}.field label,.field legend{display:block;font-size:12px;color:var(--dim);margin-bottom:7px}.field fieldset{border:0;padding:0;margin:0;min-width:0}.field input,.field select,.field textarea,.composer textarea{display:block;width:100%;border:1px solid var(--line);border-radius:8px;background:var(--card);color:white;padding:10px 12px;min-width:0;font-size:14px}.field textarea{background:var(--panel);min-height:100px;resize:vertical}.field input[type=checkbox]{width:auto}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.form-grid .wide{grid-column:1/-1}.banner{background:var(--surface-accent);border-radius:var(--radius);padding:22px;display:flex;align-items:center;justify-content:space-between;gap:12px}.monogram{color:var(--purple);font-size:40px;font-weight:bold}.open{color:var(--green);font-size:14px;font-weight:bold}.avatars{display:flex;gap:10px;flex-wrap:wrap}.member{border-radius:8px;background:var(--panel);display:flex;align-items:center;gap:10px;padding:8px 10px;text-align:left}.member small{display:block;font-size:10px}.note{color:var(--purple)}.list{display:grid;gap:12px}.badge{display:inline-block;padding:5px 8px;font-size:10px;border-radius:6px;background:var(--surface-accent);color:var(--purple);margin-top:9px}.badge.good{color:var(--green);background:var(--status-bg)}.badge.bad{color:var(--danger-text);background:var(--danger-bg)}.badge.neutral{color:var(--dim);background:var(--card)}.menu{display:flex;align-items:center;justify-content:space-between;gap:15px;width:100%;font-weight:bold;min-height:54px}.menu svg{width:16px;color:var(--dim)}.menu small{color:var(--purple)}.center{max-width:440px;margin:clamp(24px,9vh,90px) auto 0;text-align:center}.center .card{text-align:left;margin-top:22px}.center h2{font-size:20px;margin-bottom:8px}.center p{color:var(--dim)}.symbol{display:grid;place-items:center;width:100px;height:100px;border-radius:24px;background:var(--surface-accent);color:var(--purple);margin:0 auto 22px}.symbol svg{width:42px;height:42px;stroke-width:2.5}.symbol.round{border-radius:50%}.nav{position:fixed;top:0;left:0;right:0;z-index:20;background:var(--nav-surface);border-bottom:1px solid var(--line);padding:0 max(24px,calc((100vw - 1056px)/2));height:72px;display:flex;align-items:center;gap:22px;backdrop-filter:blur(12px)}.brand{background:none;color:var(--purple);font-weight:bold;font-size:22px;letter-spacing:-.6px;margin-right:auto;padding:6px 0}.nav-item{display:flex;align-items:center;gap:9px;background:none;color:var(--dim);font-size:12px;min-height:44px;padding:6px 8px}.nav-item[aria-current=page]{color:var(--purple)}svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}.profilehero{display:flex;gap:24px;align-items:center;padding:26px}.profilehero .avatar{width:58px;height:58px;font-size:21px;border-radius:14px}.profilehero strong{font-size:20px}.profilehero small{display:block}.checkrow{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:15px 0;border-bottom:1px solid var(--line)}.checkrow input{accent-color:var(--purple);width:18px;height:18px}.chat{max-width:700px;margin:auto}.callbar{display:flex;align-items:center;gap:8px;background:var(--surface-accent);color:var(--purple);padding:10px 14px;border-radius:8px;width:100%;text-align:left;font-size:12px}.chatlog{display:flex;flex-direction:column;gap:12px;padding:18px 0;min-height:240px;max-height:calc(100dvh - 340px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}.bubble{background:var(--card);border-radius:12px;padding:13px 16px;max-width:80%;width:fit-content;overflow-wrap:anywhere;white-space:pre-wrap;font-size:13px}.bubble.mine{background:var(--surface-accent);align-self:flex-end}.bubble small{display:block;font-size:10px;font-weight:bold;color:var(--purple);margin-bottom:6px}.composer{display:flex;align-items:flex-end;gap:8px;background:var(--bg);padding-top:8px}.composer textarea{background:var(--panel);resize:none;min-height:46px;max-height:120px;height:46px;line-height:24px;padding:10px 12px}.composer button{min-height:46px;width:46px;border-radius:9px;background:var(--purple);color:var(--accent-ink);display:grid;place-items:center;flex-shrink:0}.callgrid{background:var(--surface-accent);border-radius:22px;padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px}.callgrid .card{background:var(--card)}.callgrid b{color:var(--purple)}.timer{text-align:center;font-size:22px;font-variant-numeric:tabular-nums;margin:16px 0}.hint{font-size:12px;color:var(--dim);line-height:1.6}.pricing h2{font-size:24px;margin:14px 0 20px}.pricing ul{padding:0;list-style:none;display:grid;gap:12px}.pricing li:before{content:'✓';margin-right:8px;color:var(--green)}.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:40;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 20px;max-width:min(480px,calc(100% - 32px));box-shadow:0 8px 30px #0007;font-size:13px}.error{color:var(--danger-text);font-size:12px}.empty-inline{padding:26px 18px;border:1px dashed var(--line);border-radius:12px;color:var(--dim)}.skip{position:fixed;left:12px;top:-70px;background:var(--purple);color:black;padding:12px;z-index:50}.skip:focus{top:10px}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}.compact-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.spacer{margin-bottom:16px}.split{display:grid;grid-template-columns:1fr 1fr;gap:20px}.group-summary .card{height:auto}.meta{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}.meta dt{font-size:11px;color:var(--dim);margin-bottom:4px}.meta dd{margin:0;font-size:13px}.wrap{overflow-wrap:anywhere}.no-motion *{scroll-behavior:auto}
+@media(max-width:899px){.shell{padding:28px 24px calc(100px + env(safe-area-inset-bottom));max-width:760px}.nav{top:auto;bottom:0;height:auto;min-height:74px;border-bottom:0;border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));justify-content:space-around;gap:0}.brand{display:none}.nav-item{display:grid;justify-items:center;gap:5px;font-size:10px;flex:1}.nav-item svg{width:20px;height:20px}.toast{bottom:calc(90px + env(safe-area-inset-bottom))}.page-head{margin-bottom:24px}h1{font-size:24px}.chatlog{max-height:calc(100dvh - 310px)}}
 @media(max-width:540px){.shell{padding:24px 20px calc(98px + env(safe-area-inset-bottom))}.page-head{margin-bottom:24px;gap:10px}.grid{grid-template-columns:1fr;gap:13px}.grid:has(>.card:only-child){grid-template-columns:1fr}.card{padding:16px}.teamtop h3{font-size:13px}.chip{font-size:11px;padding:7px 11px}.filterbar button{font-size:11px}.cardfoot .link{padding-right:0}.form-grid,.split{grid-template-columns:1fr}.form-grid .wide{grid-column:auto}.banner{padding:20px}.monogram{font-size:36px}.open{font-size:13px}.fields{gap:17px}.center{margin-top:40px}.symbol{width:94px;height:94px}.toolbar{align-items:flex-start}.toolbar .primary{font-size:11px;padding:10px 12px}.bubble{max-width:90%}.chatlog{min-height:220px;max-height:calc(100dvh - 300px)}.hint{font-size:11px}.actions{margin-top:22px}.actions.row{grid-template-columns:1fr}.avatar{width:34px;height:34px}.member{padding:6px 8px}.profilehero{padding:24px 18px}.tabs{gap:7px}.back{width:32px;height:32px}.nav-item{font-size:10px}.meta{gap:12px}.filterbar{margin-bottom:14px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 
-.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23d474f1' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-position:right 12px center;background-repeat:no-repeat;padding-right:42px;cursor:pointer;min-height:44px}.stepper{display:flex;align-items:center;gap:8px}.stepper button{width:44px;height:44px;border-radius:9px;background:var(--card);border:1px solid var(--line);color:var(--purple);font-size:22px}.stepper input{width:76px;text-align:center;appearance:textfield}.stepper input::-webkit-inner-spin-button{appearance:none}.nav-item{white-space:nowrap}.pricing small{display:block;margin-top:6px}
+.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23c497fa' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-position:right 12px center;background-repeat:no-repeat;padding-right:42px;cursor:pointer;min-height:44px}.stepper{display:flex;align-items:center;gap:8px}.stepper button{width:44px;height:44px;border-radius:9px;background:var(--card);border:1px solid var(--line);color:var(--purple);font-size:22px}.stepper input{width:76px;text-align:center;appearance:textfield}.stepper input::-webkit-inner-spin-button{appearance:none}.nav-item{white-space:nowrap}.pricing small{display:block;margin-top:6px}
 
-.dashboard-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:24px}.dashboard-head .page-head{margin-bottom:18px}.dashboard-head .subtitle{margin:0;max-width:620px}.dashboard-head>.primary{width:auto;flex-shrink:0}.dashboard-layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:24px}.dashboard-aside{display:grid;gap:16px;align-content:start}.dashboard-aside h2{font-size:15px}.dashboard-aside .card{border:1px solid #25222f}.squads{display:grid;gap:16px}.squad{border:1px solid var(--line);padding:22px}.squad .teamtop>.badge{margin:0 0 0 auto;white-space:nowrap}.squad .teamtop h3{font-size:17px;margin-bottom:3px}.squad .gameicon{width:42px;height:42px;font-size:13px}.squad-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.squad .avatars{margin-bottom:12px}.review-applications{display:flex;justify-content:space-between;gap:10px;background:#34213f;color:var(--purple);padding:12px;border-radius:8px;width:100%;margin-top:12px;font-size:12px;text-align:left}.attention{display:grid;gap:6px;width:100%;text-align:left;background:#34213f;border-radius:9px;color:var(--purple);padding:14px;margin-top:14px}.attention span{font-size:12px}.session{padding-top:14px}.session+.session{border-top:1px solid var(--line);margin-top:14px}.session .link{display:block;padding-left:0;margin-top:6px}.toolbar .tabs{margin:0}.dashboard-layout .toolbar{margin-bottom:10px}.page-head h1:focus{outline:none}@media(min-width:1200px){.shell{max-width:1240px}.dashboard-layout{grid-template-columns:minmax(0,1fr) 320px}}@media(max-width:760px){.dashboard-head{display:block}.dashboard-head>.primary{margin-top:18px;width:100%}.dashboard-layout{grid-template-columns:1fr}.dashboard-aside{grid-template-columns:1fr}.squad{padding:16px}.squad .teamtop{flex-wrap:wrap}.squad .teamtop>.badge{margin-left:0}.squad-actions{grid-template-columns:1fr 1fr}.review-applications{flex-wrap:wrap}}
+.dashboard-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:24px}.dashboard-head .page-head{margin-bottom:18px}.dashboard-head .subtitle{margin:0;max-width:620px}.dashboard-head>.primary{width:auto;flex-shrink:0}.dashboard-layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:24px}.dashboard-aside{display:grid;gap:16px;align-content:start}.dashboard-aside h2{font-size:15px}.dashboard-aside .card{border:1px solid var(--line)}.squads{display:grid;gap:16px}.squad{border:1px solid var(--line);padding:22px}.squad .teamtop>.badge{margin:0 0 0 auto;white-space:nowrap}.squad .teamtop h3{font-size:17px;margin-bottom:3px}.squad .gameicon{width:42px;height:42px;font-size:13px}.squad-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.squad .avatars{margin-bottom:12px}.review-applications{display:flex;justify-content:space-between;gap:10px;background:var(--surface-accent);color:var(--purple);padding:12px;border-radius:8px;width:100%;margin-top:12px;font-size:12px;text-align:left}.attention{display:grid;gap:6px;width:100%;text-align:left;background:var(--surface-accent);border-radius:9px;color:var(--purple);padding:14px;margin-top:14px}.attention span{font-size:12px}.session{padding-top:14px}.session+.session{border-top:1px solid var(--line);margin-top:14px}.session .link{display:block;padding-left:0;margin-top:6px}.toolbar .tabs{margin:0}.dashboard-layout .toolbar{margin-bottom:10px}.page-head h1:focus{outline:none}@media(min-width:1200px){.shell{max-width:1240px}.dashboard-layout{grid-template-columns:minmax(0,1fr) 320px}}@media(max-width:760px){.dashboard-head{display:block}.dashboard-head>.primary{margin-top:18px;width:100%}.dashboard-layout{grid-template-columns:1fr}.dashboard-aside{grid-template-columns:1fr}.squad{padding:16px}.squad .teamtop{flex-wrap:wrap}.squad .teamtop>.badge{margin-left:0}.squad-actions{grid-template-columns:1fr 1fr}.review-applications{flex-wrap:wrap}}
 
 .application-workspace{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:24px;align-items:start}.application-card{border:1px solid var(--line);padding:22px}.application-card .teamtop>.badge{margin:0 0 0 auto}.application-card h3{font-size:17px}.application-card h4{font-size:12px;margin:0 0 8px;color:var(--dim)}.application-message{background:var(--bg);padding:14px;border-radius:8px;white-space:pre-wrap;overflow-wrap:anywhere}.application-footer{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-top:10px;margin-top:16px}.application-help{border:1px solid var(--line)}.application-help h2{font-size:16px}.application-help ol{padding-left:20px;margin:18px 0}.application-help li{padding:0 0 18px 4px;font-size:12px}.application-help li::marker{color:var(--purple)}.application-help li p{color:var(--dim);margin-top:5px}.application-help li:last-child{padding-bottom:0}@media(max-width:760px){.application-workspace{grid-template-columns:1fr}.application-card{padding:16px}.application-card .teamtop{flex-wrap:wrap}.application-card .teamtop>.badge{margin-left:0}}
 
@@ -46,102 +106,163 @@
 .chat-screen .composer textarea{margin:0}
 @media(max-width:899px){.shell.chat-screen{padding-bottom:calc(90px + env(safe-area-inset-bottom))}.chat-screen .composer textarea{font-size:16px}}
 
-/* Chat and video call */
+/* Messages, chat and video call */
+.message-card {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; gap: 11px;
+  border: 1px solid var(--line); background: var(--card);
+}
+.message-card-icon {
+  display: grid; place-items: center; width: 32px; height: 32px;
+  border-radius: 7px; background: var(--surface-hover, #292238); color: var(--purple);
+}
+.message-card-icon svg { width: 16px; height: 16px; }
+.message-card h3 {
+  margin: 0; font-family: var(--font-display, inherit); font-size: 16px; font-weight: 650; line-height: 1.3;
+}
+.message-card small { display: block; margin-top: 2px; }
+.message-card p { margin-top: 7px; line-height: 1.45; }
+.message-card > svg { align-self: center; width: 15px; height: 15px; color: var(--dim); }
 .chat .callbar {
-  width: fit-content; min-height: 42px; gap: 8px;
-  border: 1px solid #54345e; font-weight: 700;
+  width: fit-content; min-height: 44px; gap: 7px; padding-inline: 12px;
+  border: 1px solid var(--line); border-radius: 7px;
+  color: var(--purple); background: var(--panel); font-weight: 650;
 }
-.chat .callbar svg { width: 19px; height: 19px; }
+.chat .callbar[data-action="return-call"] { background: var(--surface-hover, #292238); }
+.chat .callbar svg { width: 17px; height: 17px; }
 .chat .composer textarea { field-sizing: content; height: auto; min-height: 70px; }
-.bubble small time { margin-left: 8px; color: var(--dim); font-weight: 400; }
+.chat .composer button { border-radius: 7px; color: var(--accent-ink, #180D2A); }
+.chat .composer button svg { width: 19px; height: 19px; }
+.bubble { padding: 9px 12px; border-radius: 3px 9px 9px 9px; font-size: 14px; }
+.bubble.mine { border-radius: 9px 3px 9px 9px; background: var(--surface-hover, #292238); }
+.bubble small { margin-bottom: 3px; font-size: 11px; font-weight: 650; }
+.bubble small time { margin-inline-start: 7px; color: var(--dim); font-weight: 400; font-variant-numeric: tabular-nums; }
 .call-event {
-  display: flex; align-items: center; align-self: center; gap: 12px;
-  max-width: 100%; padding: 10px 15px; border: 1px solid var(--line);
-  border-radius: 12px; background: var(--panel);
+  display: flex; align-items: center; align-self: center; gap: 10px;
+  max-width: 100%; padding: 10px 12px; border: 1px solid var(--line);
+  border-radius: 9px; background: var(--panel); text-align: left;
 }
-.call-event svg { color: var(--purple); }
-.call-event small { display: flex; flex-wrap: wrap; gap: 2px 10px; }
-.call-event[data-action="return-call"] { border-color: #54345e; background: #24182e; text-align: left; }
-.call-event[data-action="return-call"]:hover { border-color: var(--purple); }
-.call-event-link { display: block; margin-top: 4px; color: var(--purple); font-size: 12px; font-weight: bold; }
+.call-event > span { min-width: 0; }
+.call-event svg { width: 17px; height: 17px; color: var(--dim); }
+.call-event strong { display: block; font-size: 13px; font-weight: 650; }
+.call-event small { display: flex; flex-wrap: wrap; gap: 2px 9px; font-size: 11px; font-variant-numeric: tabular-nums; }
+.call-event[data-action="return-call"] { border-color: color-mix(in srgb, var(--purple) 42%, var(--line)); }
+.call-event[data-action="return-call"] svg { color: var(--purple); }
+.call-event-arrow { display: flex; flex: none; }
+.call-event-link { display: block; margin-top: 3px; color: var(--purple); font-size: 12px; font-weight: 650; }
 .video-call { max-width: 760px; margin: auto; }
 .video-stage {
-  padding: 18px; border: 1px solid var(--line); border-radius: 18px;
+  padding: 14px; border: 1px solid var(--line); border-radius: 11px;
   background: var(--panel);
 }
 .video-stage-head {
   display: flex; align-items: center; justify-content: space-between;
-  gap: 12px; margin-bottom: 14px; padding: 0 2px;
+  gap: 12px; margin-bottom: 12px;
 }
-.video-stage-head h2 { overflow-wrap: anywhere; }
+.video-stage-head h2 { overflow-wrap: anywhere; font-size: 15px; }
 .video-time, .call-indicator time { font-variant-numeric: tabular-nums; }
 .video-time {
-  display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0;
-  padding: 5px 10px; border-radius: 7px; background: #19382c; color: var(--green);
-  font-weight: 700;
+  flex: none; color: var(--green); font-size: 13px; font-weight: 650;
 }
-.video-time::before, .call-indicator time::before {
-  content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+.call-indicator time::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor;
 }
 .video-tiles {
-  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px;
   max-height: min(62vh, 510px); overflow: auto; scrollbar-width: thin;
 }
 .video-tile {
   display: grid; place-items: center; position: relative; overflow: hidden;
-  width: 100%; min-width: 0; min-height: 140px; aspect-ratio: 2 / 1; border: 1px solid #3b354c;
-  border-radius: 12px; background: radial-gradient(ellipse at 50% 40%, #332747, #1d1b2b 70%);
+  width: 100%; min-width: 0; min-height: 140px; aspect-ratio: 2 / 1; border: 1px solid var(--line);
+  border-radius: 7px; background: var(--card);
 }
-.video-tile.is-local { border-color: #855296; }
+.video-tile.is-local {
+  border-color: color-mix(in srgb, var(--purple) 57%, var(--line));
+  background: color-mix(in srgb, var(--purple) 6%, var(--card));
+}
+.video-tile:has(video:not([hidden])) { border-color: var(--purple); }
 .video-tile .avatar {
-  width: 56px; height: 56px; font-size: 18px; margin-bottom: 15px;
-  border: 1px solid #ffffff22;
+  width: 44px; height: 44px; margin-bottom: 9px; border-radius: 8px;
+  background: var(--surface-hover, #292238); color: var(--dim); font-size: 15px; font-weight: 650;
+  font-family: var(--font-display, inherit);
 }
+.video-tile.is-local .avatar { color: var(--purple); }
 .video-tile video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
 .video-participant {
   position: absolute; inset: auto 8px 8px; display: flex; justify-content: space-between;
-  align-items: center; gap: 5px;
+  align-items: center; gap: 5px; font-size: 12px;
 }
 .video-participant span, .video-participant .video-mic {
-  display: inline-flex; align-items: center; gap: 6px; min-width: 0;
-  padding: 4px 8px; border-radius: 6px; background: #0b0b10d9;
+  display: inline-flex; align-items: center; gap: 5px; min-width: 0;
 }
 .video-participant span { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.video-participant small { margin-left: 4px; }
-.video-participant svg { width: 16px; height: 16px; }
-.video-controls { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.video-participant small { margin-inline-start: 3px; font-size: 11px; }
+.video-participant .video-mic { flex: none; color: var(--dim); }
+.video-participant .video-mic.is-on { color: var(--green); }
+.video-participant svg { width: 15px; height: 15px; }
+video:not([hidden]) + .video-participant :is(span, .video-mic) {
+  padding: 3px 5px; border-radius: 4px; background: var(--bg);
+}
+.video-controls { display: flex; justify-content: center; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
 .video-controls button {
   display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-  min-height: 44px; padding: 8px 13px; border: 1px solid var(--line);
-  border-radius: 9px; background: var(--card); color: #f4f3f7; font-size: 12px; font-weight: 700;
+  min-height: 44px; padding: 8px 11px; border: 1px solid var(--line);
+  border-radius: 8px; background: var(--card); font-size: 13px; font-weight: 650; line-height: 1.3;
 }
-.video-controls button svg { width: 18px; height: 18px; }
-.video-controls button[aria-pressed=true] { color: var(--green); border-color: #396455; }
-.video-controls button[data-action=end-call] { background: #702f4d; border-color: #a34c70; }
+.video-controls button svg { width: 17px; height: 17px; }
+.video-controls button[aria-pressed=true] {
+  color: var(--purple); background: var(--surface-hover, #292238); border-color: var(--purple);
+}
+.video-controls button[data-action=end-call] {
+  color: var(--danger-text, #F293A6);
+  background: color-mix(in srgb, var(--danger-text, #F293A6) 11%, var(--card));
+  border-color: color-mix(in srgb, var(--danger-text, #F293A6) 37%, var(--line));
+}
 .video-stage .hint { margin-top: 10px; text-align: center; }
 .call-indicator {
-  display: inline-flex; align-items: center; gap: 0; padding: 2px;
-  background: #172d26; border: 1px solid #396455; border-radius: 10px; color: var(--green);
+  display: inline-flex; flex: none; align-items: center; gap: 2px; padding: 2px;
+  border: 1px solid color-mix(in srgb, var(--green) 32%, var(--line)); border-radius: 8px;
+  background: color-mix(in srgb, var(--green) 8%, var(--panel)); color: var(--green);
 }
-.call-indicator button { display: flex; align-items: center; gap: 7px; min-height: 35px; padding: 5px 9px; border-radius: 7px; background: transparent; white-space: nowrap; }
-.call-indicator button svg { width: 17px; height: 17px; }
-.call-indicator .quick-hangup { color: #f1b3cc; background: #3b2332; }
-.call-indicator time { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; }
-.call-indicator .return-call { font-size: 12px; font-weight: 700; }
-.call-indicator .call-status-label { margin-right: 3px; }
+.call-indicator button { display: flex; align-items: center; gap: 6px; min-height: 35px; padding: 5px 7px; border-radius: 5px; background: transparent; white-space: nowrap; }
+.call-indicator button svg { width: 15px; height: 15px; }
+.call-indicator .quick-hangup {
+  color: var(--danger-text, #F293A6);
+  background: color-mix(in srgb, var(--danger-text, #F293A6) 12%, var(--panel));
+}
+.call-indicator time { display: inline-flex; align-items: center; gap: 5px; min-width: 5em; font-size: 11px; }
+.call-indicator .return-call { font-size: 12px; font-weight: 650; }
+@media (hover: hover) {
+  .message-card:hover, .chat .callbar:hover, .call-event[data-action="return-call"]:hover {
+    border-color: var(--purple); background: var(--surface-hover, #292238);
+  }
+  .video-controls button:hover:not(:disabled) { border-color: var(--purple); background: var(--surface-hover, #292238); }
+  .video-controls button[data-action=end-call]:hover {
+    border-color: var(--danger-text, #F293A6);
+    background: color-mix(in srgb, var(--danger-text, #F293A6) 19%, var(--card));
+  }
+  .call-indicator .return-call:hover { background: color-mix(in srgb, var(--green) 13%, var(--panel)); }
+  .call-indicator .quick-hangup:hover { background: color-mix(in srgb, var(--danger-text, #F293A6) 22%, var(--panel)); }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .call-event-arrow { transition: transform 145ms cubic-bezier(.2, .75, .25, 1); }
+  .call-event[data-action="return-call"]:hover .call-event-arrow { transform: translateX(2px); }
+}
 @media (max-width: 899px) {
-  .call-indicator { position: absolute; right: 12px; bottom: calc(100% + 8px); box-shadow: 0 8px 24px #0007; }
+  .call-indicator { position: absolute; right: 12px; bottom: calc(100% + 8px); }
+  .call-indicator button { min-height: 44px; }
+  .call-indicator .quick-hangup { min-width: 44px; justify-content: center; }
   .has-call-indicator .shell, .has-call-indicator .shell.chat-screen { padding-bottom: calc(140px + env(safe-area-inset-bottom)); }
   .has-call-indicator .toast { bottom: calc(137px + env(safe-area-inset-bottom)); }
 }
 @media (max-width: 540px) {
-  .video-stage { padding: 12px; }
+  .video-stage { padding: 11px; }
   .video-tile { min-height: 106px; }
-  .video-tile .avatar { width: 44px; height: 44px; font-size: 15px; }
+  .video-tile .avatar { width: 36px; height: 36px; font-size: 13px; }
   .video-participant { bottom: 5px; inset-inline: 5px; gap: 3px; }
-  .video-participant span, .video-participant .video-mic { padding: 3px 5px; font-size: 11px; }
+  .video-participant span, .video-participant .video-mic { font-size: 11px; }
   .video-participant small { font-size: 10px; }
-  .video-controls button { padding-inline: 9px; }
+  .video-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .video-controls button { padding-inline: 6px; min-width: 0; font-size: 12px; }
 }
 
 /* Profile and settings */
@@ -149,8 +270,8 @@
 .account-content .profilehero { border: 1px solid var(--line); }
 .account-section { display: grid; gap: 7px; }
 .account-section h2 { margin: 0 0 2px; color: var(--dim); font-size: 13px; font-weight: 600; }
-.account-menu { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; min-height: 50px; padding: 9px 12px; border: 1px solid #2d2a38; }
-.account-menu .account-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 7px; background: #34213f; }
+.account-menu { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; min-height: 50px; padding: 9px 12px; border: 1px solid var(--line); }
+.account-menu .account-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 7px; background: var(--surface-accent); }
 .account-menu .account-icon svg { width: 17px; height: 17px; color: var(--purple); }
 .account-menu .account-label { overflow-wrap: anywhere; }
 .account-menu .account-label small { display: block; margin-top: 2px; color: var(--dim); font-weight: 400; }
@@ -164,9 +285,9 @@
 .search-controls .tabs{margin:0}
 .filter-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 12px;min-height:42px;border-radius:9px;background:var(--panel);border:1px solid var(--line);font-weight:bold}
 .filter-toggle svg{width:18px;height:18px;color:var(--purple)}
-.filter-count{display:grid;place-items:center;min-width:20px;height:20px;padding:0 4px;border-radius:6px;background:#34213f;color:var(--purple);font-size:11px}
+.filter-count{display:grid;place-items:center;min-width:20px;height:20px;padding:0 4px;border-radius:6px;background:var(--surface-accent);color:var(--purple);font-size:11px}
 .search-results .team{display:flex;flex-direction:column}
-.team .team-schedule{color:#d5d2df;margin-top:4px;font-size:12px}
+.team .team-schedule{color:var(--dim);margin-top:4px;font-size:12px}
 .team .cardfoot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:8px;margin-top:auto}
 .team .cardfoot button{padding-inline:8px}
 .schedule-fields,.recruit-roles{border:0;padding:0;margin:0;min-width:0}
@@ -182,7 +303,7 @@
   background:var(--card);border:1px solid var(--line);border-radius:8px;text-align:left;
 }
 .calendar-trigger[aria-expanded=true]{border-color:var(--purple)}
-.calendar-trigger[aria-invalid=true]{border-color:#f0a7b9}
+.calendar-trigger[aria-invalid=true]{border-color:var(--danger-text)}
 .calendar-trigger svg{width:18px;height:18px;color:var(--purple)}
 .calendar-value.is-empty{color:var(--dim)}
 .calendar-popup{
@@ -202,18 +323,18 @@
 .calendar-days th{padding:5px 0;color:var(--dim);font-size:11px;font-weight:normal}
 .calendar-days td{padding:0}
 .calendar-day{width:100%;min-height:34px;padding:0;border-radius:7px;background:transparent}
-.calendar-day:hover:not(:disabled),.calendar-text-button:hover:not(:disabled){background:#34213f}
+.calendar-day:hover:not(:disabled),.calendar-text-button:hover:not(:disabled){background:var(--surface-accent)}
 .calendar-day:disabled{opacity:.42}
-.calendar-day[aria-current=date]{color:var(--purple);box-shadow:inset 0 0 0 1px #795283}
+.calendar-day[aria-current=date]{color:var(--purple);box-shadow:inset 0 0 0 1px var(--line-strong)}
 .calendar-day[aria-pressed=true],.calendar-day[aria-pressed=true]:hover{
-  background:var(--purple);color:#1a0a20;box-shadow:none;font-weight:bold;
+  background:var(--purple);color:var(--accent-ink);box-shadow:none;font-weight:bold;
 }
 .calendar-popup button:focus-visible{outline-offset:-2px}
 .calendar-footer{margin-top:7px;padding-top:7px;border-top:1px solid var(--line)}
 .calendar-text-button{min-height:34px;padding:5px 8px;border-radius:7px;background:transparent;color:var(--purple);font-size:12px}
 .calendar-clear:disabled{opacity:.5}
-.field-label{display:block;font-size:12px;color:#c7c4d0;margin-bottom:7px}
-.schedule-period output,.lobby-format p{display:flex;align-items:center;min-height:44px;margin:0;padding:10px 12px;border-radius:8px;background:var(--panel);color:#d5d2df}
+.field-label{display:block;font-size:12px;color:var(--dim);margin-bottom:7px}
+.schedule-period output,.lobby-format p{display:flex;align-items:center;min-height:44px;margin:0;padding:10px 12px;border-radius:8px;background:var(--panel);color:var(--dim)}
 .schedule-repeat,.recruit-roles .chip{display:flex;align-items:center;gap:8px}
 .schedule-repeat{width:fit-content;margin-top:16px}
 .schedule-repeat input,.recruit-roles input{margin:0;accent-color:var(--purple)}
@@ -285,6 +406,375 @@
   .application-footer { flex-wrap: wrap; }
   .squad-actions { grid-template-columns: 1fr; }
 }
+/* Search, rosters and applications */
+.search-controls .tabs {
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+}
+.search-controls .chip {
+  border-color: transparent;
+  background: transparent;
+  color: var(--dim);
+}
+.search-controls .chip[aria-pressed="true"] {
+  border-color: var(--line);
+  background: var(--surface-hover);
+  color: inherit;
+}
+.search-controls .filter-toggle { border-radius: 8px; }
+.search-results .team {
+  border-radius: 11px;
+  background: var(--card);
+}
+.search-results .team[data-recruiting] {
+  border-top-color: color-mix(in srgb, var(--purple) 58%, var(--line));
+}
+.team .teamtop h3, .squad .teamtop h3, .application-card .teamtop h3,
+.candidate-card h3, .application-summary h3 {
+  font-family: var(--font-display);
+  font-size: clamp(14px, 1.5vw, 17px);
+  font-weight: 650;
+  letter-spacing: -.025em;
+}
+.team .teamtop { margin-bottom: 8px; }
+.team .gameicon, .squad .gameicon, .application-card .gameicon {
+  border-radius: 5px;
+  background: var(--surface-hover);
+  font-family: var(--font-display);
+  font-weight: 650;
+  letter-spacing: -.06em;
+}
+.team .team-game { margin-top: 0; }
+.team .team-schedule {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  color: inherit;
+  font-size: 13px;
+}
+.team-schedule svg {
+  width: 14px;
+  height: 14px;
+  color: var(--dim);
+}
+.team .team-metadata {
+  gap: 4px 9px;
+  margin: 9px 0 13px;
+  color: var(--dim);
+  font-size: 12px;
+}
+.team-metadata .team-membership { color: var(--green); }
+.team .cardfoot .secondary {
+  background: var(--panel);
+  border-color: var(--line);
+}
+.team .cardfoot [data-action="open-group-chat"],
+.team .cardfoot [data-screen="application"] {
+  background: var(--surface-hover);
+  border-color: transparent;
+  color: var(--purple);
+}
+.roster-meter {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 8px;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+}
+.roster-meter.is-compact {
+  display: grid;
+  flex: none;
+  justify-items: end;
+  gap: 4px;
+}
+.roster-numbers { font-weight: 650; white-space: nowrap; }
+.roster-segments { display: flex; gap: 2px; }
+.roster-segment {
+  width: 11px;
+  height: 5px;
+  border-radius: 1px;
+  background: var(--line-strong);
+}
+.roster-segment.is-filled { background: var(--purple); }
+.roster-meter.is-compact .roster-segment { width: 6px; height: 4px; }
+.squad .roster-availability { color: var(--dim); }
+.dashboard-aside .card { border-color: var(--line); background: var(--panel); }
+.squad .badge.good, .team-detail .banner .open {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  color: var(--green);
+}
+.squad .badge.good::before, .team-detail .banner .open::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: currentColor;
+}
+.dashboard-aside .attention, .squad .review-applications {
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: inherit;
+}
+.dashboard-aside .attention, .squad .review-applications[data-pending] {
+  border-color: color-mix(in srgb, var(--purple) 34%, var(--line));
+  background: var(--surface-hover);
+}
+.dashboard-aside .attention span, .squad .review-applications span { color: var(--purple); }
+.squad .review-applications span, .dashboard-aside .attention span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.review-applications svg, .attention svg { width: 14px; height: 14px; }
+.team-detail .banner {
+  border: 1px solid var(--line);
+  border-top-color: color-mix(in srgb, var(--purple) 48%, var(--line));
+  background: var(--panel);
+}
+.team-detail .monogram {
+  display: inline-grid;
+  min-width: 54px;
+  min-height: 54px;
+  padding: 6px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-hover);
+  color: var(--purple);
+  font: 700 27px/1 var(--font-display);
+  letter-spacing: -.05em;
+}
+.team-detail .roster-details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+}
+.team-detail .member, .application-summary, .candidate-card, .candidate-summary {
+  border: 1px solid var(--line);
+}
+.application-summary .note { font-variant-numeric: tabular-nums; }
+.application-card .application-message {
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+.candidate-card { position: relative; padding-inline-end: 40px; }
+.candidate-card .candidate-arrow {
+  position: absolute;
+  top: 18px;
+  right: 15px;
+  display: grid;
+  place-items: center;
+  color: var(--purple);
+}
+.candidate-arrow svg { width: 16px; height: 16px; }
+@media (max-width:540px) {
+  .team .cardfoot button { min-width: 0; overflow-wrap: anywhere; }
+  .team-detail .roster-details { gap: 4px 8px; }
+}
+
+/* Motion follows navigation and feedback, independently of data rendering. */
+@media (prefers-reduced-motion: no-preference) {
+  :root { --motion-ease: cubic-bezier(.2,.75,.25,1); }
+  #app button, .nav button {
+    transition: background-color 150ms var(--motion-ease), border-color 150ms var(--motion-ease),
+      color 150ms var(--motion-ease), filter 150ms var(--motion-ease), transform 80ms var(--motion-ease);
+  }
+  #app button:not(:disabled):not(.calendar-day):active { transform: translateY(1px); }
+  #app :is(input, select, textarea) {
+    transition: border-color 150ms var(--motion-ease), background-color 150ms var(--motion-ease);
+  }
+  .motion-enter { animation: wt-enter 210ms var(--motion-ease) var(--motion-delay, 0ms) backwards; }
+  .motion-row { animation: wt-enter 170ms var(--motion-ease); }
+  .calendar-popup[data-motion-side] {
+    --calendar-start-clip: inset(0 0 7% 0);
+    animation: wt-calendar-in 140ms var(--motion-ease);
+  }
+  .calendar-popup[data-motion-side="above"] { --calendar-start-clip: inset(7% 0 0 0); }
+  @keyframes wt-enter {
+    from { opacity: .55; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes wt-calendar-in {
+    from { opacity: .5; clip-path: var(--calendar-start-clip); }
+    to { opacity: 1; clip-path: inset(0); }
+  }
+}
+@media (hover: hover) {
+  #app :is(.secondary, .back, .filter-toggle):hover:not(:disabled) { border-color: var(--line-strong, var(--line)); }
+}
+
+/* Shared hierarchy and interaction states */
+body {
+  color: var(--text);
+  font: 400 14px/1.5 var(--font-ui);
+}
+h1, h2, h3 { font-family: var(--font-display); }
+h1 { font-size: 30px; line-height: 1.15; font-weight: 750; letter-spacing: -.045em; }
+h2 { font-size: 17px; line-height: 1.35; font-weight: 650; letter-spacing: -.025em; }
+h3 { font-weight: 650; letter-spacing: -.018em; }
+small, .muted, .hint { color: var(--dim); font-size: 12px; }
+svg { stroke-width: 1.75; }
+button { font-weight: 500; }
+button:hover:not(:disabled) { filter: none; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+.primary, .secondary, .danger, .back, .field :is(input, select, textarea) { border-radius: 7px; }
+.primary, .secondary, .danger { font-weight: 650; }
+.primary:not(:disabled):hover { background: color-mix(in srgb, var(--purple) 84%, var(--text)); }
+.secondary:not(:disabled):hover, .back:hover { background: var(--surface-hover); border-color: var(--line-strong); }
+.danger:not(:disabled):hover { background: color-mix(in srgb, var(--danger-bg) 82%, var(--danger-text)); border-color: var(--danger-text); }
+.back { border: 1px solid var(--line); }
+.chip { border-radius: 6px; font-weight: 550; }
+.tabs .chip[aria-pressed=true] {
+  background: var(--surface-hover);
+  color: var(--text);
+  border-color: var(--line-strong);
+}
+.chip:hover:not(:disabled) { border-color: var(--line-strong); }
+.badge { border-radius: 5px; font-weight: 650; }
+.symbol {
+  background: var(--surface-accent);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.symbol svg { stroke-width: 1.75; }
+.empty-inline { border-radius: var(--radius); background: var(--panel); }
+.toast { border-radius: 8px; }
+.error { color: var(--danger-text); }
+
+/* Navigation */
+.nav { background: var(--nav-surface); backdrop-filter: none; border-color: var(--line); }
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  font: 750 20px/1.15 var(--font-display);
+  letter-spacing: -.055em;
+}
+.brand-mark { display: flex; align-items: center; gap: 2px; color: var(--purple); flex: none; }
+.brand-mark i { width: 4px; height: 6px; border-radius: 1px; background: currentColor; transform: skewX(-12deg); }
+.brand-mark i:nth-child(2) { height: 10px; }
+.brand-mark i:nth-child(3) { height: 14px; background: transparent; box-shadow: inset 0 0 0 1px currentColor; }
+.nav-item {
+  position: relative;
+  min-width: 0;
+  gap: 7px;
+  font-weight: 550;
+}
+.nav-item svg { width: 19px; height: 19px; }
+.nav-item::after {
+  content: "";
+  position: absolute;
+  inset: auto 8px 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--purple);
+  transform: scaleX(0);
+  transition: transform 180ms cubic-bezier(.2,.75,.25,1);
+}
+.nav-item[aria-current=page]::after { transform: scaleX(1); }
+.nav-item:hover { color: var(--text); }
+.nav-item[aria-current=page] { color: var(--purple); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .motion-nav .nav-item[aria-current=page]::after { animation: wt-nav-in 180ms var(--motion-ease); }
+  .motion-panel { animation: wt-panel-in 200ms var(--motion-ease); }
+  @keyframes wt-nav-in { from { transform: scaleX(.35); opacity: .45; } }
+  @keyframes wt-panel-in { from { opacity: .68; } }
+}
+
+/* Forms, dates and settings */
+.field :is(label, legend), .field-label { color: var(--dim); font-weight: 550; }
+.field :is(input:not([type=checkbox],[type=hidden]), select, textarea) {
+  min-height: 44px;
+  color: var(--text);
+  border-color: var(--line-strong);
+  background-color: var(--panel);
+}
+.field textarea { min-height: 100px; }
+.field :is(input, textarea)::placeholder, .composer textarea::placeholder { color: var(--dim); opacity: .8; }
+.field :is(input, select, textarea)[aria-invalid=true] { border-color: var(--danger-text); }
+.field .calendar-trigger { border-radius: 7px; background: var(--panel); border-color: var(--line-strong); }
+.field .calendar-trigger[aria-expanded=true] { background: var(--surface-hover); border-color: var(--purple); }
+.field .calendar-trigger[aria-invalid=true] { border-color: var(--danger-text); }
+.calendar-popup, .calendar-month-button { border-radius: 9px; }
+.calendar-popup { border-color: var(--line-strong); }
+.calendar-month { font-family: var(--font-display); font-weight: 650; letter-spacing: -.025em; }
+.calendar-day[aria-current=date]:not([aria-pressed=true]) { box-shadow: inset 0 0 0 1px var(--purple); }
+.calendar-day[aria-pressed=true] { font-weight: 750; }
+.calendar-day:focus-visible { outline-offset: -2px; }
+.schedule-fields {
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+.schedule-fields>legend { color: var(--text); font-family: var(--font-display); font-weight: 650; }
+.schedule-period output, .lobby-format p { background: var(--card); border-radius: 7px; }
+.recruit-roles .chip:has(:checked) { background: var(--surface-hover); border-color: var(--purple); color: var(--text); }
+.stepper button { border-radius: 7px; }
+.stepper input { font-variant-numeric: tabular-nums; }
+.account-content .profilehero {
+  background: var(--card);
+  border-inline-start: 2px solid var(--purple);
+}
+.profilehero strong { font: 750 24px/1.25 var(--font-display); letter-spacing: -.04em; overflow-wrap: anywhere; }
+.profilehero .avatar { border-radius: 9px; background: var(--surface-accent); color: var(--purple); font-family: var(--font-display); }
+.profilehero small { margin-top: 4px; }
+.account-section h2 { font-family: var(--font-ui); font-weight: 650; letter-spacing: 0; }
+.account-menu { background: var(--panel); border-color: var(--line); border-radius: 9px; }
+.account-menu .account-icon { background: var(--surface-accent); border-radius: 6px; }
+.account-menu .account-label { font-weight: 650; }
+.account-menu:hover { background: var(--surface-hover); border-color: var(--line-strong); }
+.checkrow input {
+  appearance: none;
+  display: block;
+  width: 36px;
+  height: 22px;
+  padding: 3px;
+  border: 1px solid var(--line-strong);
+  border-radius: 20px;
+  background: var(--card);
+}
+.checkrow input::before {
+  content: "";
+  display: block;
+  width: 14px;
+  height: 14px;
+  background: var(--dim);
+  border-radius: 50%;
+  transition: transform 150ms cubic-bezier(.2,.75,.25,1);
+}
+.checkrow input:checked { background: var(--surface-accent); border-color: var(--purple); }
+.checkrow input:checked::before { background: var(--purple); transform: translateX(14px); }
+.pricing { border: 1px solid var(--line); }
+.pricing:has(>.note) { border-top-color: var(--purple); background: var(--card); }
+.pricing h2 { font-variant-numeric: tabular-nums; }
+.pricing li::before { color: var(--purple); }
+
+@media (max-width: 899px) {
+  .brand { display: none; }
+  .nav-item { gap: 4px; }
+  .nav-item::after { inset-inline: 25%; }
+  .field :is(input:not([type=checkbox],[type=hidden]), select, textarea) { font-size: 16px; }
+}
+
+@media (max-width: 540px) {
+  h1 { font-size: 24px; }
+  .profilehero strong { font-size: 21px; }
+  .account-menu { gap: 10px; }
+}
 </style>
 </head>
 <body>
@@ -295,24 +785,33 @@
 <script>'use strict';
 const STORAGE='withteam.local.v2';
 const CALL_SESSION='withteam.video-call.v1';
-const icons={search:'<circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/>',groups:'<circle cx="8" cy="7" r="3"/><path d="M2 20v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6m0 3a6 6 0 0 1 6 6"/>',messages:'<path d="M20 11a8 8 0 0 1-8 8H4l-2 2v-9a9 9 0 1 1 18-1Z"/>',profile:'<circle cx="12" cy="7" r="4"/><path d="M4 22v-2a8 8 0 0 1 16 0v2"/>',back:'<path d="m14 5-7 7 7 7"/>',next:'<path d="m9 5 7 7-7 7"/>',check:'<path d="m5 12 4 4L20 5"/>',star:'<path d="m12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z"/>',send:'<path d="m21 3-7 18-4-8-8-4 19-6ZM10 13 21 3"/>',phone:'<path d="M5 3h4l2 5-3 2a15 15 0 0 0 6 6l2-3 5 2v4a2 2 0 0 1-2 2A18 18 0 0 1 3 5a2 2 0 0 1 2-2Z"/>'};
+const icons = {
+  search: "<path d=\"m21 21-4.34-4.34\"/><circle cx=\"11\" cy=\"11\" r=\"8\"/>",
+  groups: "<path d=\"M18 21a8 8 0 0 0-16 0\"/><circle cx=\"10\" cy=\"8\" r=\"5\"/><path d=\"M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3\"/>",
+  messages: "<path d=\"M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z\"/><path d=\"M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1\"/>",
+  profile: "<circle cx=\"12\" cy=\"8\" r=\"5\"/><path d=\"M20 21a8 8 0 0 0-16 0\"/>",
+  back: "<path d=\"m15 18-6-6 6-6\"/>",
+  next: "<path d=\"m9 18 6-6-6-6\"/>",
+  check: "<path d=\"M20 6 9 17l-5-5\"/>",
+  star: "<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\"/>",
+  send: "<path d=\"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z\"/><path d=\"m21.854 2.147-10.94 10.939\"/>",
+  video: "<path d=\"m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5\"/><rect x=\"2\" y=\"6\" width=\"14\" height=\"12\" rx=\"2\"/>",
+  videoOff: "<path d=\"M10.66 6H14a2 2 0 0 1 2 2v2.5l5.248-3.062A.5.5 0 0 1 22 7.87v8.196\"/><path d=\"M16 16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2\"/><path d=\"m2 2 20 20\"/>",
+  mic: "<path d=\"M12 19v3\"/><path d=\"M19 10v2a7 7 0 0 1-14 0v-2\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\"/>",
+  micOff: "<path d=\"M12 19v3\"/><path d=\"M15 9.34V5a3 3 0 0 0-5.68-1.33\"/><path d=\"M16.95 16.95A7 7 0 0 1 5 12v-2\"/><path d=\"M18.89 13.23A7 7 0 0 0 19 12v-2\"/><path d=\"m2 2 20 20\"/><path d=\"M9 9v3a3 3 0 0 0 5.12 2.12\"/>",
+  hangup: "<path d=\"M10.1 13.9a14 14 0 0 0 3.732 2.668 1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2 18 18 0 0 1-12.728-5.272\"/><path d=\"M22 2 2 22\"/><path d=\"M4.76 13.582A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 .244.473\"/>",
+  minimize: "<path d=\"M5 12h14\"/>",
+  games: "<line x1=\"6\" x2=\"10\" y1=\"11\" y2=\"11\"/><line x1=\"8\" x2=\"8\" y1=\"9\" y2=\"13\"/><line x1=\"15\" x2=\"15.01\" y1=\"12\" y2=\"12\"/><line x1=\"18\" x2=\"18.01\" y1=\"10\" y2=\"10\"/><path d=\"M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z\"/>",
+  preferences: "<path d=\"M10 5H3\"/><path d=\"M12 19H3\"/><path d=\"M14 3v4\"/><path d=\"M16 17v4\"/><path d=\"M21 12h-9\"/><path d=\"M21 19h-5\"/><path d=\"M21 5h-7\"/><path d=\"M8 10v4\"/><path d=\"M8 12H3\"/>",
+  settings: "<path d=\"M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>",
+  bell: "<path d=\"M10.268 21a2 2 0 0 0 3.464 0\"/><path d=\"M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326\"/>",
+  lock: "<circle cx=\"12\" cy=\"16\" r=\"1\"/><rect x=\"3\" y=\"10\" width=\"18\" height=\"12\" rx=\"2\"/><path d=\"M7 10V7a5 5 0 0 1 10 0v3\"/>",
+  clock: "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 6v6h4\"/>",
+  calendar: "<path d=\"M8 2v3\"/><path d=\"M16 2v3\"/><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M3 9h18\"/><path d=\"M8 13h.01\"/><path d=\"M12 13h.01\"/><path d=\"M16 13h.01\"/><path d=\"M8 17h.01\"/><path d=\"M12 17h.01\"/><path d=\"M16 17h.01\"/>",
+  logout: "<path d=\"m16 17 5-5-5-5\"/><path d=\"M21 12H9\"/><path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\"/>",
+  filter: "<path d=\"M10 5H3\"/><path d=\"M12 19H3\"/><path d=\"M14 3v4\"/><path d=\"M16 17v4\"/><path d=\"M21 12h-9\"/><path d=\"M21 19h-5\"/><path d=\"M21 5h-7\"/><path d=\"M8 10v4\"/><path d=\"M8 12H3\"/>"
+};
 const svg=k=>`<svg viewBox="0 0 24 24" aria-hidden="true">${icons[k]||icons.search}</svg>`;
-Object.assign(icons, {
-  video: '<rect x="2" y="5" width="14" height="14" rx="3"/><path d="m16 9 5-3v12l-5-3"/>',
-  videoOff: '<path d="M16 11V8a3 3 0 0 0-3-3H8M3 7a3 3 0 0 0-1 2v7a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3m1-7 4-3v12l-2-1M2 2l20 20"/>',
-  mic: '<rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3m-3 0h6"/>',
-  micOff: '<path d="M9 9v3a3 3 0 0 0 5 2M9 5a3 3 0 0 1 6 0v5m4 0v2c0 1 .1 2-.5 3M5 10v2a7 7 0 0 0 12 5m-5 2v3m-3 0h6M2 2l20 20"/>',
-  hangup: '<path d="M3 15v-3a2 2 0 0 1 1-2 16 16 0 0 1 16 0 2 2 0 0 1 1 2v3l-5-1v-2a11 11 0 0 0-8 0v2l-5 1Z"/>',
-  minimize: '<path d="M19 12H5"/>',
-  games: '<path d="M7 7h10a4 4 0 0 1 4 3l1 5a3 3 0 0 1-5 3l-2-2H9l-2 2a3 3 0 0 1-5-3l1-5a4 4 0 0 1 4-3Zm0 3v5m-2.5-2.5h5m6.5.5h.01M18 11h.01"/>',
-  preferences: '<path d="M4 6h6m4 0h6M4 12h10m4 0h2M4 18h2m4 0h10"/><circle cx="12" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="8" cy="18" r="2"/>',
-  settings: '<circle cx="12" cy="12" r="3"/><path d="m10 2-.5 3-2 .8-2.5-1.5-2 2 1.5 2.6-.8 2L1 11v2l2.7.5.8 2L3 18l2 2 2.5-1.5 2 .8.5 2.7h3l.5-2.7 2-.8L18 20l2-2-1.5-2.5.8-2L22 13v-2l-2.7-.5-.8-2L20 6l-2-2-2.5 1.5-2-.8L13 2Z"/>',
-  bell: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9m-8 12a2 2 0 0 0 4 0"/>',
-  lock: '<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 4v3"/>',
-  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
-  calendar: '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 10h18m-14 5h2m3 0h2m3 0h1"/>',
-  logout: '<path d="M12 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h7m2-12 4 4-4 4m-6-4h13"/>'
-});
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const games={ 'Dota 2':{icon:'D2',teamSize:5,roles:['Керри','Мидер','Оффлейн','Поз. 4','Поз. 5'],ranks:['Herald','Guardian','Crusader','Archon','Legend','Ancient','Divine','Immortal']},'CS2':{icon:'CS',teamSize:5,roles:['Рифлер','Снайпер','Поддержка','Капитан'],ranks:['Серебро','Золото','Мастер','Глобал']},'Valorant':{icon:'V',teamSize:5,roles:['Дуэлянт','Инициатор','Контроллер','Страж'],ranks:['Железо','Бронза','Серебро','Золото','Платина','Алмаз','Мастер','Бессмертный','Радиант']},'LoL':{icon:'LoL',teamSize:5,roles:['Топ','Лес','Мид','Стрелок','Поддержка'],ranks:['Железо','Бронза','Серебро','Золото','Платина','Изумруд','Алмаз','Мастер','Грандмастер','Претендент']} };
 const newId=prefix=>prefix+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);
@@ -324,7 +823,7 @@ const anyGame='Любая игра';
 const defaultFilters=()=>({game:anyGame,role:[],rank:'Любой',language:[],period:[],date:''});
 const ui={searchType:'team',groupType:'team',messageType:'all',filters:defaultFilters(),draftFilters:null,newDraft:null,recruitDraft:null,applicationDraft:{},call:null};
 const app=document.getElementById('app'),nav=document.getElementById('nav');
-let route={screen:'search',id:''},lastRoute='';let toastTimer;
+let route={screen:'search',id:''},lastRoute=null;let toastTimer;
 function toast(text){document.getElementById('toast')?.remove();let el=document.createElement('div');el.id='toast';el.className='toast';el.role='status';el.textContent=text;document.body.append(el);clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.remove(),3800)}
 function href(screen,id=''){return '#'+screen+(id?'/'+encodeURIComponent(id):'')}
 function go(screen,id=''){const hash=href(screen,id);if(location.hash!==hash)history.pushState({withteam:true},'',hash);readRoute()}
@@ -415,14 +914,65 @@ function metadata(...items) {
 }
 
 function missing(text='Эта страница больше недоступна.'){return `<div class="center"><div class="symbol">${svg('search')}</div><h2>Ничего не найдено</h2><p>${text}</p><div class="actions">${button('Вернуться к поиску','go',{screen:'search'})}</div></div>`}
+function rosterMeter(g,compact=false){
+  const joined=g.members.length;
+  const seats=Number(g.capacity);
+  const hasSegments=Number.isInteger(seats)&&seats>0&&seats<=games[g.game].teamSize;
+  const segments=hasSegments?`<span class="roster-segments" aria-hidden="true">${Array.from({length:seats},(_,i)=>
+    `<span class="roster-segment${i<joined?' is-filled':''}"></span>`
+  ).join('')}</span>`:'';
+  const count=compact
+    ?`<span class="sr-only">Участники: ${joined} из ${esc(g.capacity)}</span><span class="roster-numbers" aria-hidden="true">${joined}/${esc(g.capacity)}</span>`
+    :`<span class="roster-numbers">${joined} из ${esc(g.capacity)}</span>`;
+  return `<span class="roster-meter${compact?' is-compact':''}">${count}${segments}</span>`;
+}
 function teamCard(g){
-  const mine=g.members.includes('me'), application=ownApplication(g);
-  const action=mine?button('Открыть чат','open-group-chat',{id:g.id}):application?button('Моя заявка','go',{screen:'application',id:application.id}):button(g.type==='team'?'Вступить в команду':'Вступить в лобби','go',{screen:'apply',id:g.id});
-  return `<article class="card team"><div class="teamtop"><span class="gameicon">${games[g.game].icon}</span><h3>${esc(g.name)}</h3><span class="count" aria-label="Участники: ${g.members.length} из ${g.capacity}">${g.members.length} / ${g.capacity}</span></div><p class="muted">${esc(g.game)}</p><p class="team-schedule">${esc(scheduleText(g))}</p><div class="tags"><span class="tag">${esc(g.rank)}</span><span class="tag">${esc(g.language)}</span><span class="tag">${esc(g.roles.join(', ')||'Состав собран')}</span>${mine?'<span class="tag note">Вы в составе</span>':''}</div><div class="cardfoot">${button('Подробнее','go',{screen:'team',id:g.id,secondary:true})}${action}</div></article>`;
+  const mine=g.members.includes('me');
+  const application=ownApplication(g);
+  const action=mine
+    ?button('Открыть чат','open-group-chat',{id:g.id,secondary:true})
+    :application
+      ?button('Моя заявка','go',{screen:'application',id:application.id,secondary:true})
+      :button(g.type==='team'?'Вступить в команду':'Вступить в лобби','go',{screen:'apply',id:g.id});
+  return `<article class="card team"${!mine&&!application?' data-recruiting':''}>
+    <div class="teamtop">
+      <span class="gameicon" aria-hidden="true">${games[g.game].icon}</span>
+      <h3>${esc(g.name)}</h3>
+      ${rosterMeter(g,true)}
+    </div>
+    <p class="muted team-game">${esc(g.game)}</p>
+    <p class="team-schedule">${svg('clock')} ${esc(scheduleText(g))}</p>
+    <div class="metadata team-metadata">
+      <span>${esc(g.rank)}</span><span>${esc(g.language)}</span><span>${esc(g.roles.join(', ')||'Состав собран')}</span>
+      ${mine?'<span class="team-membership">Вы в составе</span>':''}
+    </div>
+    <div class="cardfoot">
+      ${button('Подробнее','go',{screen:'team',id:g.id,secondary:true})}
+      ${action}
+    </div>
+  </article>`;
 }
 function summaryCard(g){
   const pending=db.applications.filter(a=>a.group===g.id&&a.status==='pending').length;
-  return `<article class="card squad"><div class="teamtop"><span class="gameicon">${games[g.game].icon}</span><div><h3>${esc(g.name)}</h3><small>${esc(g.game)}, ${g.owner==='me'?'организатор':'участник'}</small></div><span class="badge ${g.active?'good':'neutral'}">${g.active?'Набор открыт':'Состав собран'}</span></div><dl class="meta"><div><dt>Когда играем</dt><dd>${esc(scheduleText(g))}</dd></div><div><dt>Состав</dt><dd>${g.members.length} из ${g.capacity}, свободно ${capacity(g)}</dd></div></dl>${g.goal?`<p class="muted">${esc(g.goal)}</p>`:''}<div class="squad-actions">${button('Открыть чат','open-group-chat',{id:g.id,secondary:true})}${button('Посмотреть состав','go',{screen:'team',id:g.id,secondary:true})}</div>${g.owner==='me'?`<button class="review-applications" data-action="go" data-screen="incoming" data-id="${g.id}">${pending?'Ждут решения: '+pending:'Входящие заявки'} <span>Разобрать заявки →</span></button>`:''}</article>`;
+  return `<article class="card squad">
+    <div class="teamtop">
+      <span class="gameicon" aria-hidden="true">${games[g.game].icon}</span>
+      <div><h3>${esc(g.name)}</h3><small>${esc(g.game)}, ${g.owner==='me'?'организатор':'участник'}</small></div>
+      <span class="badge ${g.active?'good':'neutral'}">${g.active?'Набор открыт':'Состав собран'}</span>
+    </div>
+    <dl class="meta">
+      <div><dt>Когда играем</dt><dd>${esc(scheduleText(g))}</dd></div>
+      <div><dt>Состав</dt><dd>${rosterMeter(g)} <span class="roster-availability">Свободно ${capacity(g)}</span></dd></div>
+    </dl>
+    ${g.goal?`<p class="muted">${esc(g.goal)}</p>`:''}
+    <div class="squad-actions">
+      ${button('Открыть чат','open-group-chat',{id:g.id,secondary:true})}
+      ${button('Посмотреть состав','go',{screen:'team',id:g.id,secondary:true})}
+    </div>
+    ${g.owner==='me'?`<button class="review-applications" data-action="go" data-screen="incoming" data-id="${g.id}"${pending?' data-pending':''}>
+      ${pending?'Ждут решения: '+pending:'Входящие заявки'} <span>Разобрать заявки ${svg('next')}</span>
+    </button>`:''}
+  </article>`;
 }
 
 function searchResults(){
@@ -436,8 +986,7 @@ function searchResults(){
 function searchView(){
   const results=searchResults(), f=ui.filters;
   const activeCount=[f.game!==anyGame,f.role.length,f.language.length,f.period.length,f.rank!=='Любой',f.date].filter(Boolean).length;
-  const filterIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2" fill="var(--panel)"/><circle cx="15" cy="17" r="2" fill="var(--panel)"/></svg>';
-  return title('Найди свою команду')+`<div class="search-controls">${tabs([['team','Команды'],['lobby','Лобби']],ui.searchType,'search-tab')}<button class="filter-toggle" data-action="filters">${filterIcon}<span>Фильтры</span>${activeCount?`<span class="filter-count" aria-label="Активных фильтров: ${activeCount}">${activeCount}</span>`:''}</button></div>${results.length?`<p class="muted spacer">Найдено: ${results.length}</p><div class="grid search-results">${results.map(teamCard).join('')}</div>`:`<div class="center"><div class="symbol">${svg('search')}</div><h2>Нет подходящих ${ui.searchType==='team'?'команд':'лобби'}</h2><div class="actions">${button('Сбросить фильтры','reset-filters',{secondary:true})}</div></div>`}`;
+  return title('Найди свою команду')+`<div class="search-controls">${tabs([['team','Команды'],['lobby','Лобби']],ui.searchType,'search-tab')}<button class="filter-toggle" data-action="filters">${svg('filter')}<span>Фильтры</span>${activeCount?`<span class="filter-count" aria-label="Активных фильтров: ${activeCount}">${activeCount}</span>`:''}</button></div>${results.length?`<p class="muted spacer">Найдено: ${results.length}</p><div class="grid search-results">${results.map(teamCard).join('')}</div>`:`<div class="center"><div class="symbol">${svg('search')}</div><h2>Нет подходящих ${ui.searchType==='team'?'команд':'лобби'}</h2><div class="actions">${button('Сбросить фильтры','reset-filters',{secondary:true})}</div></div>`}`;
 }
 function filtersView(){
   const f=ui.draftFilters||{...ui.filters};
@@ -450,7 +999,7 @@ function teamView(){
   if(!g)return missing();
   const mine=g.members.includes('me'), isOwner=g.owner==='me', application=ownApplication(g), open=g.active&&capacity(g)>0;
   const action=isOwner?button('Входящие заявки','go',{screen:'incoming',id:g.id}):mine?button('Открыть чат','open-group-chat',{id:g.id}):application?button('Моя заявка','go',{screen:'application',id:application.id}):button(g.type==='team'?'Вступить в команду':'Вступить в лобби','go',{screen:'apply',id:g.id,disabled:!open});
-  return title(g.name,mine?'groups':'search')+`<div class="content"><div class="banner"><span class="monogram">${esc(initials(g.name))}</span><span class="${open?'open':'muted'}">${open?'Набор открыт':'Набор завершён'}</span></div><dl class="meta"><div><dt>Игра</dt><dd>${esc(g.game)}</dd></div><div><dt>Формат</dt><dd>${g.type==='team'?'Постоянная команда':'Лобби на одну игру'}</dd></div><div><dt>Ранг</dt><dd>${esc(g.rank)}</dd></div><div><dt>Язык общения</dt><dd>${esc(g.language)}</dd></div><div><dt>Расписание</dt><dd>${esc(scheduleText(g))}</dd></div></dl>${g.goal?`<div class="section"><h2>Цель</h2><p class="muted">${esc(g.goal)}</p></div>`:''}<div class="section"><h2>Состав</h2><p class="muted spacer">${g.members.length} из ${g.capacity} участников. Свободных мест: <strong class="note">${capacity(g)}</strong></p><div class="avatars">${g.members.map((id,i)=>`<button class="member" data-action="go" data-screen="player" data-id="${esc(id)}">${avatar(id,i)}<span>${esc(player(id)?.nick)}<small>${id===g.owner?'Капитан':id==='me'?'Вы':'Участник'}</small></span></button>`).join('')}</div></div>${open&&g.roles.length?`<div class="section"><h2>Открытые роли</h2><p class="note">${esc(g.roles.join(', '))}</p></div>`:''}${g.description||g.recruitText||g.parent?`<div class="section"><h2>О ${g.type==='team'?'команде':'лобби'}</h2>${g.description?'<p class="muted">'+esc(g.description)+'</p>':''}${g.recruitText?'<p class="muted">'+esc(g.recruitText)+'</p>':''}${g.parent?link('Команда: '+group(g.parent)?.name,'team',g.parent):''}</div>`:''}<div class="actions">${action}${isOwner?button('Открыть чат','open-group-chat',{id:g.id,secondary:true}):''}${link('Профиль капитана','player',g.owner)}</div></div>`;
+  return title(g.name,mine?'groups':'search')+`<div class="content team-detail"><div class="banner"><span class="monogram">${esc(initials(g.name))}</span><span class="${open?'open':'muted'}">${open?'Набор открыт':'Набор завершён'}</span></div><dl class="meta"><div><dt>Игра</dt><dd>${esc(g.game)}</dd></div><div><dt>Формат</dt><dd>${g.type==='team'?'Постоянная команда':'Лобби на одну игру'}</dd></div><div><dt>Ранг</dt><dd>${esc(g.rank)}</dd></div><div><dt>Язык общения</dt><dd>${esc(g.language)}</dd></div><div><dt>Расписание</dt><dd>${esc(scheduleText(g))}</dd></div></dl>${g.goal?`<div class="section"><h2>Цель</h2><p class="muted">${esc(g.goal)}</p></div>`:''}<div class="section"><h2>Состав</h2><div class="muted spacer roster-details">${rosterMeter(g)}<span>Свободных мест: <strong class="note">${capacity(g)}</strong></span></div><div class="avatars">${g.members.map((id,i)=>`<button class="member" data-action="go" data-screen="player" data-id="${esc(id)}">${avatar(id,i)}<span>${esc(player(id)?.nick)}<small>${id===g.owner?'Капитан':id==='me'?'Вы':'Участник'}</small></span></button>`).join('')}</div></div>${open&&g.roles.length?`<div class="section"><h2>Открытые роли</h2><p class="note">${esc(g.roles.join(', '))}</p></div>`:''}${g.description||g.recruitText||g.parent?`<div class="section"><h2>О ${g.type==='team'?'команде':'лобби'}</h2>${g.description?'<p class="muted">'+esc(g.description)+'</p>':''}${g.recruitText?'<p class="muted">'+esc(g.recruitText)+'</p>':''}${g.parent?link('Команда: '+group(g.parent)?.name,'team',g.parent):''}</div>`:''}<div class="actions">${action}${isOwner?button('Открыть чат','open-group-chat',{id:g.id,secondary:true}):''}${link('Профиль капитана','player',g.owner)}</div></div>`;
 }
 function playerView(){let p=player(route.id);if(!p)return missing();let isMe=p.id==='me',game=ui.playerGame||'Dota 2',profile=isMe?db.user.profiles.find(x=>x.game===game):game==='Dota 2'?p:null;return title(isMe?'Мой профиль игрока':'Профиль игрока','groups')+`<div class="narrow"><div class="person">${avatar(p.id)}<div><h2>${esc(p.nick)}</h2><small>${isMe?'Это вы':p.hours+' часов в игре'}</small></div></div><div class="section"><h2>${esc(game)}</h2><div class="tags"><span class="tag">${esc(profile?.rank||'Ранг не указан')}</span><span class="tag note">${esc(profile?.role||'Роль не указана')}</span></div></div><div class="section"><h2>Предпочтения</h2><p class="muted">${esc(isMe?db.user.language:'Русский')}<br>${esc(isMe?db.user.schedule:'Пн–Пт: 19:00–23:00')}<br>${esc(isMe?db.user.goal:'Рейтинговые матчи на результат').replace(/\s*·\s*/g, ', ')}</p></div><div class="card section"><h3>О себе</h3><p class="muted">${esc(p.about||'Ищу спокойную команду для регулярных матчей.')}</p></div><div class="actions">${isMe?button('Изменить профиль','go',{screen:'edit'}):button('Написать игроку','dm',{id:p.id})}</div></div>`}
 function applyView(){
@@ -462,10 +1011,10 @@ function applyView(){
   if(!g.active||!capacity(g))return title('Набор завершён','team/'+g.id)+missing('Свободных мест нет.');
   const roles=g.roles.length?g.roles:games[g.game].roles;
   const d=ui.applicationDraft[g.id]||{role:roles[0],text:''};
-  return title('Заявка '+(g.type==='team'?'в команду':'в лобби'),'team/'+g.id)+`<form id="apply-form" class="narrow fields" data-group="${esc(g.id)}"><div class="card"><h3>${esc(g.name)}</h3><p class="muted">${esc(g.game)}, ${esc(g.rank)}</p><p class="note">Свободных мест: ${capacity(g)}</p></div>${field('role','Ваша игровая роль',select('role',roles,d.role))}${field('text','Сообщение капитану (необязательно)',textarea('text',d.text,'maxlength="1000" placeholder="Например, когда вам удобно играть"'))}${submit('Отправить заявку')}</form>`;
+  return title('Заявка '+(g.type==='team'?'в команду':'в лобби'),'team/'+g.id)+`<form id="apply-form" class="narrow fields" data-group="${esc(g.id)}"><div class="card application-summary"><h3>${esc(g.name)}</h3><p class="muted">${esc(g.game)}, ${esc(g.rank)}</p><p class="note">Свободных мест: ${capacity(g)}</p></div>${field('role','Ваша игровая роль',select('role',roles,d.role))}${field('text','Сообщение капитану (необязательно)',textarea('text',d.text,'maxlength="1000" placeholder="Например, когда вам удобно играть"'))}${submit('Отправить заявку')}</form>`;
 }
-function applicationView(selected){let a=selected||db.applications.find(x=>x.id===route.id&&x.player==='me');if(!a)return missing();let g=group(a.group);return title(a.status==='pending'?'Заявка отправлена':'Моя заявка','applications')+`<div class="center"><div class="symbol round">${svg(a.status==='accepted'?'check':a.status==='pending'?'check':'messages')}</div><h2>${({pending:'Ждёт решения',accepted:'Вас приняли',rejected:'В этот раз не подошло',withdrawn:'Заявка отозвана'})[a.status]}</h2><p>${({pending:'Решение появится в разделе «Мои заявки».',accepted:'Вы добавлены в состав. Познакомьтесь с другими игроками в чате.',rejected:'Вы можете подобрать другую команду или лобби в поиске.',withdrawn:'Заявка больше не участвует в наборе.'})[a.status]}</p><div class="card"><h3>${esc(g?.name)}</h3><p class="muted">${metadata(g?.game, a.role, shortDate(a.created))}</p>${a.text?`<p>${esc(a.text)}</p>`:''}${link('Посмотреть состав','team',g.id)}</div><div class="actions">${a.status==='accepted'?button('Открыть чат','open-group-chat',{id:g.id}):button('Мои заявки','go',{screen:'applications'})}${a.status==='pending'?button('Отозвать заявку','withdraw',{id:a.id,secondary:true}):button('Вернуться к поиску','go',{screen:'search',secondary:true})}</div></div>`}
-function groupsView(){let all=db.groups.filter(g=>g.members.includes('me')),teams=all.filter(g=>g.type==='team'),lobbies=all.filter(g=>g.type==='lobby'),pending=db.applications.filter(a=>group(a.group)?.owner==='me'&&a.status==='pending'),outgoing=db.applications.filter(a=>a.player==='me'&&a.status==='pending');let list=ui.groupType==='team'?teams:lobbies;return `<div class="dashboard-head"><div>${title('Мои команды')}</div>${button('Создать команду или лобби','create-group')}</div><div class="dashboard-layout"><section><div class="toolbar">${tabs([['team','Команды ('+teams.length+')'],['lobby','Лобби ('+lobbies.length+')'],['applications','Мои заявки']],ui.groupType,'group-tab')}</div><div class="squads">${list.length?list.map(summaryCard).join(''):`<div class="empty-inline"><h3>Здесь пока пусто</h3><p>Найдите подходящий состав или создайте свой.</p>${link('Перейти к поиску','search')}</div>`}</div></section><aside class="dashboard-aside"><section class="card"><h2>Требует внимания</h2>${pending.length?`<p class="muted">${pending.length} заявки ждут решения.</p>${[...new Set(pending.map(a=>a.group))].map(id=>`<button class="attention" data-action="go" data-screen="incoming" data-id="${id}"><strong>${esc(group(id).name)}</strong><span>Рассмотреть (${pending.filter(a=>a.group===id).length}) →</span></button>`).join('')}`:'<p class="muted">Все заявки разобраны.</p>'}</section><section class="card"><h2>Ваши лобби</h2>${lobbies.length?lobbies.map(g=>`<div class="session"><strong>${esc(g.name)}</strong><p class="note">${esc(scheduleText(g))}</p><small>${metadata(g.game, `${g.members.length} из ${g.capacity} игроков`)}</small>${link('Перейти в чат','chat',ensureGroupChat(g).id)}</div>`).join(''):'<p class="muted">Присоединитесь к лобби, чтобы сыграть вместе сегодня.</p>'}</section><section class="card"><h2>Мои заявки</h2><p class="muted">${outgoing.length?'Ждут ответа: '+outgoing.length:'Все заявки рассмотрены.'}</p>${link('Посмотреть мои заявки','applications')}</section></aside></div>`}
+function applicationView(selected){let a=selected||db.applications.find(x=>x.id===route.id&&x.player==='me');if(!a)return missing();let g=group(a.group);return title(a.status==='pending'?'Заявка отправлена':'Моя заявка','applications')+`<div class="center"><div class="symbol round">${svg(a.status==='accepted'?'check':a.status==='pending'?'check':'messages')}</div><h2>${({pending:'Ждёт решения',accepted:'Вас приняли',rejected:'В этот раз не подошло',withdrawn:'Заявка отозвана'})[a.status]}</h2><p>${({pending:'Решение появится в разделе «Мои заявки».',accepted:'Вы добавлены в состав. Познакомьтесь с другими игроками в чате.',rejected:'Вы можете подобрать другую команду или лобби в поиске.',withdrawn:'Заявка больше не участвует в наборе.'})[a.status]}</p><div class="card application-summary"><h3>${esc(g?.name)}</h3><p class="muted">${metadata(g?.game, a.role, shortDate(a.created))}</p>${a.text?`<p>${esc(a.text)}</p>`:''}${link('Посмотреть состав','team',g.id)}</div><div class="actions">${a.status==='accepted'?button('Открыть чат','open-group-chat',{id:g.id}):button('Мои заявки','go',{screen:'applications'})}${a.status==='pending'?button('Отозвать заявку','withdraw',{id:a.id,secondary:true}):button('Вернуться к поиску','go',{screen:'search',secondary:true})}</div></div>`}
+function groupsView(){let all=db.groups.filter(g=>g.members.includes('me')),teams=all.filter(g=>g.type==='team'),lobbies=all.filter(g=>g.type==='lobby'),pending=db.applications.filter(a=>group(a.group)?.owner==='me'&&a.status==='pending'),outgoing=db.applications.filter(a=>a.player==='me'&&a.status==='pending');let list=ui.groupType==='team'?teams:lobbies;return `<div class="dashboard-head"><div>${title('Мои команды')}</div>${button('Создать команду или лобби','create-group')}</div><div class="dashboard-layout"><section><div class="toolbar">${tabs([['team','Команды ('+teams.length+')'],['lobby','Лобби ('+lobbies.length+')'],['applications','Мои заявки']],ui.groupType,'group-tab')}</div><div class="squads">${list.length?list.map(summaryCard).join(''):`<div class="empty-inline"><h3>Здесь пока пусто</h3><p>Найдите подходящий состав или создайте свой.</p>${link('Перейти к поиску','search')}</div>`}</div></section><aside class="dashboard-aside"><section class="card"><h2>Требует внимания</h2>${pending.length?`<p class="muted">${pending.length} заявки ждут решения.</p>${[...new Set(pending.map(a=>a.group))].map(id=>`<button class="attention" data-action="go" data-screen="incoming" data-id="${id}"><strong>${esc(group(id).name)}</strong><span>Рассмотреть (${pending.filter(a=>a.group===id).length}) ${svg('next')}</span></button>`).join('')}`:'<p class="muted">Все заявки разобраны.</p>'}</section><section class="card"><h2>Ваши лобби</h2>${lobbies.length?lobbies.map(g=>`<div class="session"><strong>${esc(g.name)}</strong><p class="note">${esc(scheduleText(g))}</p><small>${metadata(g.game, `${g.members.length} из ${g.capacity} игроков`)}</small>${link('Перейти в чат','chat',ensureGroupChat(g).id)}</div>`).join(''):'<p class="muted">Присоединитесь к лобби, чтобы сыграть вместе сегодня.</p>'}</section><section class="card"><h2>Мои заявки</h2><p class="muted">${outgoing.length?'Ждут ответа: '+outgoing.length:'Все заявки рассмотрены.'}</p>${link('Посмотреть мои заявки','applications')}</section></aside></div>`}
 
 function applicationsView(){let all=db.applications.filter(a=>a.player==='me').sort((a,b)=>b.created-a.created),filter=ui.applicationFilter||'all',as=all.filter(a=>filter==='all'||a.status===filter);return title('Мои заявки','groups')+`<div class="application-workspace"><section>${tabs([['all','Все ('+all.length+')'],['pending','Ждут решения'],['accepted','Приняты'],['rejected','Отклонены'],['withdrawn','Отозваны']],filter,'application-filter')}<div class="list">${as.length?as.map(a=>{let g=group(a.group);if(!g)return '';return `<article class="card application-card"><div class="teamtop"><span class="gameicon">${games[g.game].icon}</span><div><h3>${esc(g.name)}</h3><small>${metadata(g.game, g.type==='team'?'Команда':'Лобби')}</small></div>${badge(a.status)}</div><dl class="meta"><div><dt>Ваша роль</dt><dd>${esc(a.role)}</dd></div><div><dt>Отправлена</dt><dd>${shortDate(a.created)}</dd></div></dl>${a.text?`<h4>Ваше сообщение</h4><p class="application-message">${esc(a.text)}</p>`:''}<div class="squad-actions">${button('Посмотреть '+(g.type==='team'?'команду':'лобби'),'go',{screen:'team',id:g.id,secondary:true})}${a.status==='accepted'?button('Открыть чат','open-group-chat',{id:g.id}):button('Подробнее о заявке','go',{screen:'application',id:a.id,secondary:true})}</div>${a.status==='pending'?`<div class="application-footer"><button class="link" data-action="dm" data-id="${g.owner}">Написать капитану</button><button class="link" data-action="withdraw" data-id="${a.id}">Отозвать заявку</button></div>`:''}</article>`}).join(''):`<div class="empty-inline"><h3>${all.length?'Таких заявок пока нет':'Вы ещё не отправляли заявки'}</h3><p>${all.length?'Выберите другой статус, чтобы увидеть остальные отклики.':'Выберите команду или лобби в поиске.'}</p>${button(all.length?'Показать все заявки':'Найти команду',all.length?'application-filter':'go',all.length?{value:'all',secondary:true}:{screen:'search'})}</div>`}</div></section></div>`}
 
@@ -496,8 +1045,8 @@ function requirementsView(){
   return title('Условия набора','new')+`<form id="recruit-form" class="content fields"><fieldset class="recruit-roles"><legend>Кого ищем?</legend><div class="options">${game.roles.map(role=>`<label class="chip"><input type="checkbox" name="roles" value="${esc(role)}" ${r.roles.includes(role)?'checked':''}>${esc(role)}</label>`).join('')}</div></fieldset><div class="form-grid">${field('rank','Ранг от',select('rank',['Любой',...game.ranks],r.rank))}${field('capacity','Сколько игроков ищем?',`<div class="stepper"><button type="button" data-action="seats" data-delta="-1" aria-label="На одного игрока меньше" ${vacancies<=1?'disabled':''}>−</button><input type="number" id="capacity" name="capacity" value="${vacancies}" min="1" max="${maxVacancies}" step="1" aria-describedby="capacity-limit" required><button type="button" data-action="seats" data-delta="1" aria-label="На одного игрока больше" ${vacancies>=maxVacancies?'disabled':''}>+</button></div>`)}</div><p class="hint" id="capacity-limit">Всего с организатором: <span id="vacancies">${r.capacity}</span>. Максимум для ${esc(d.game)}: ${game.teamSize}.</p>${field('text','Текст объявления (необязательно)',textarea('text',r.text,'maxlength="1500" placeholder="Например, какие навыки важны для команды"'))}<p class="error" id="recruit-error" role="alert"></p>${submit('Открыть набор')}</form>`;
 }
 function publishedView(){let g=group(route.id);if(!g||g.owner!=='me')return missing();return title('Набор открыт')+`<div class="center"><div class="symbol round">${svg('check')}</div><h2>Можно знакомиться с игроками</h2><p>${metadata(g.name, g.game)}</p><div class="actions">${button(g.type==='team'?'Открыть мою команду':'Открыть моё лобби','go',{screen:'team',id:g.id,secondary:true})}${button('Перейти к заявкам','go',{screen:'incoming',id:g.id})}</div></div>`}
-function incomingView(){let g=group(route.id);if(!g||g.owner!=='me')return missing('Управлять заявками может только организатор команды или лобби.');let as=db.applications.filter(a=>a.group===g.id).sort((a,b)=>(a.status==='pending'?-1:1)-(b.status==='pending'?-1:1)||b.created-a.created);return title('Входящие заявки','team/'+g.id)+`<p class="subtitle">${metadata(g.name, `Свободных мест: ${capacity(g)}`)}</p><div class="grid">${as.length?as.map(a=>`<button class="card" data-action="go" data-screen="candidate" data-id="${a.id}"><h3>${esc(player(a.player)?.nick)}</h3><p class="muted">${metadata(player(a.player)?.rank, a.role, `${player(a.player)?.hours||0} часов`)}</p>${badge(a.status)}</button>`).join(''):'<div class="empty-inline">Пока нет заявок.</div>'}</div>`}
-function candidateView(){let a=db.applications.find(a=>a.id===route.id),g=a&&group(a.group),p=a&&player(a.player);if(!a||!g||g.owner!=='me'||!p)return missing();return title('Заявка от '+p.nick,'incoming/'+g.id)+`<div class="narrow"><div class="card"><div class="person">${avatar(p.id)}<h2>${esc(p.nick)}</h2></div><p class="muted">${metadata(g.game, p.rank, a.role)}</p><p class="muted">Русский язык, играет с 20:00</p>${a.text?`<p>${esc(a.text)}</p>`:''}${badge(a.status)}</div><div class="actions">${button('Написать','dm',{id:p.id,secondary:true})}${a.status==='pending'?button('Отклонить заявку','decide',{id:a.id,status:'rejected',secondary:true})+button(capacity(g)?'Принять в '+(g.type==='team'?'команду':'лобби'):'Состав собран','decide',{id:a.id,status:'accepted',disabled:!capacity(g)}):''}</div></div>`}
+function incomingView(){let g=group(route.id);if(!g||g.owner!=='me')return missing('Управлять заявками может только организатор команды или лобби.');let as=db.applications.filter(a=>a.group===g.id).sort((a,b)=>(a.status==='pending'?-1:1)-(b.status==='pending'?-1:1)||b.created-a.created);return title('Входящие заявки','team/'+g.id)+`<p class="subtitle">${metadata(g.name, `Свободных мест: ${capacity(g)}`)}</p><div class="grid">${as.length?as.map(a=>`<button class="card candidate-card" data-action="go" data-screen="candidate" data-id="${a.id}"><span class="candidate-arrow">${svg('next')}</span><h3>${esc(player(a.player)?.nick)}</h3><p class="muted">${metadata(player(a.player)?.rank, a.role, `${player(a.player)?.hours||0} часов`)}</p>${badge(a.status)}</button>`).join(''):'<div class="empty-inline">Пока нет заявок.</div>'}</div>`}
+function candidateView(){let a=db.applications.find(a=>a.id===route.id),g=a&&group(a.group),p=a&&player(a.player);if(!a||!g||g.owner!=='me'||!p)return missing();return title('Заявка от '+p.nick,'incoming/'+g.id)+`<div class="narrow"><div class="card candidate-summary"><div class="person">${avatar(p.id)}<h2>${esc(p.nick)}</h2></div><p class="muted">${metadata(g.game, p.rank, a.role)}</p><p class="muted">Русский язык, играет с 20:00</p>${a.text?`<p>${esc(a.text)}</p>`:''}${badge(a.status)}</div><div class="actions">${button('Написать','dm',{id:p.id,secondary:true})}${a.status==='pending'?button('Отклонить заявку','decide',{id:a.id,status:'rejected',secondary:true})+button(capacity(g)?'Принять в '+(g.type==='team'?'команду':'лобби'):'Состав собран','decide',{id:a.id,status:'accepted',disabled:!capacity(g)}):''}</div></div>`}
 const authorName = m => m.author === 'me' ? 'Вы' : player(m.author)?.nick || 'Участник';
 function callEventStatus(m) {
   if (m.ended) return 'Завершён';
@@ -513,7 +1062,7 @@ function chatEntry(m, chatId) {
     const tag = active ? 'button' : 'div';
     return `<${tag} class="call-event" ${active ? 'type="button" data-action="return-call" aria-label="Видеозвонок. Вернуться в звонок"' : ''}>${svg('video')}<span><strong>Видеозвонок</strong>
       <small><span>${callEventStatus(m)}</span><span>${shortDate(m.created)}, ${dateTime(m.created)}</span>${m.ended ? `<span>Длительность ${durationTime(m.ended - m.created)}</span>` : ''}</small>
-      ${active ? '<span class="call-event-link">Вернуться в звонок</span>' : ''}</span></${tag}>`;
+      ${active ? '<span class="call-event-link">Вернуться в звонок</span>' : ''}</span>${active ? `<span class="call-event-arrow">${svg('next')}</span>` : ''}</${tag}>`;
   }
   return `<div class="bubble ${m.author === 'me' ? 'mine' : ''}"><small>${esc(authorName(m))} <time>${dateTime(m.created)}</time></small>${esc(m.text)}</div>`;
 }
@@ -526,7 +1075,9 @@ function messagesView() {
     const preview = m?.kind === 'video-call' ? `Видеозвонок: ${callEventStatus(m).toLowerCase()}`
       : m ? `${authorName(m)}: ${m.text.slice(0, 85)}` : 'Начните общение';
     const type = c.group ? `<small>${group(c.group).type === 'team' ? 'Чат команды' : 'Чат лобби'}</small>` : '';
-    return `<button class="card" data-action="go" data-screen="chat" data-id="${esc(c.id)}"><h3>${esc(chatName(c))}</h3>${type}<p class="muted">${esc(preview)}</p></button>`;
+    return `<button class="card message-card" data-action="go" data-screen="chat" data-id="${esc(c.id)}">
+      <span class="message-card-icon">${svg(c.group ? 'groups' : 'profile')}</span><div><h3>${esc(chatName(c))}</h3>${type}<p class="muted">${esc(preview)}</p></div>${svg('next')}
+    </button>`;
   }).join('');
   return title('Сообщения') + tabs([['all','Все'],['personal','Личные'],['group','Команды и лобби']], ui.messageType, 'message-tab')
     + `<div class="grid">${cards || '<p class="empty-inline">В этой категории пока нет переписок.</p>'}</div>`;
@@ -546,7 +1097,7 @@ function videoTile(id, index, call) {
   return `<div class="video-tile ${local ? 'is-local' : ''}">
     ${avatar(id, index)}${local ? '<video id="local-video" autoplay muted playsinline hidden></video>' : ''}
     <div class="video-participant"><span>${esc(player(id)?.nick)}${local ? ' <small>Вы</small>' : ''}</span>
-      ${local ? `<i class="video-mic" aria-label="${call.microphone ? 'Микрофон включён' : 'Микрофон выключен'}" role="img">${svg(call.microphone ? 'mic' : 'micOff')}</i>` : ''}</div>
+      ${local ? `<i class="video-mic${call.microphone ? ' is-on' : ''}" aria-label="${call.microphone ? 'Микрофон включён' : 'Микрофон выключен'}" role="img">${svg(call.microphone ? 'mic' : 'micOff')}</i>` : ''}</div>
   </div>`;
 }
 function callView() {
@@ -600,7 +1151,7 @@ function signInView() {
   return `<div class="center"><div class="symbol">${svg('profile')}</div><h1 tabindex="-1">Вход в WithTeam</h1>
     <div class="actions">${button('Войти в демопрофиль', 'sign-in')}</div></div>`;
 }
-function settingsFormView(){let s=route.screen,u=db.user;let names={edit:'Изменить профиль',preferences:'Предпочтения',games:'Игровые профили',timezone:'Часовой пояс',notifications:'Уведомления',privacy:'Приватность'};let body='';let check=(name,text)=>`<label class="checkrow">${text}<input type="checkbox" name="${name}" ${db.settings[name]?'checked':''}></label>`;
+function settingsFormView(){let s=route.screen,u=db.user;let names={edit:'Изменить профиль',preferences:'Предпочтения',games:'Игровые профили',timezone:'Часовой пояс',notifications:'Уведомления',privacy:'Приватность'};let body='';let check=(name,text)=>`<label class="checkrow">${text}<input type="checkbox" role="switch" name="${name}" ${db.settings[name]?'checked':''}></label>`;
 if(s==='edit')body=field('nick','Ник',input('nick',u.nick,'required maxlength="32" autocomplete="nickname"'))+field('about','О себе',textarea('about',u.about,'maxlength="1000"'));
 if(s==='preferences')body=field('language','Язык общения',select('language',['Русский','English'],u.language))+field('schedule','Время игры',input('schedule',u.schedule,'maxlength="140"'))+field('goal','Игровые цели',input('goal',u.goal,'maxlength="140"'));
 if(s==='games'){let game=ui.profileGame||u.profiles[0]?.game||'Dota 2',p=u.profiles.find(p=>p.game===game)||{game,rank:games[game].ranks[0],role:games[game].roles[0]};body=u.profiles.map(p=>'<div class="card"><h3>'+esc(p.game)+'</h3><p class="muted">'+esc(p.rank)+', '+esc(p.role)+'</p></div>').join('')+field('game','Игра',select('game',Object.keys(games),p.game))+field('rank','Ранг',select('rank',games[p.game].ranks,p.rank))+field('role','Роль',select('role',games[p.game].roles,p.role));}
@@ -610,6 +1161,67 @@ if(s==='privacy')body=check('visible','Показывать игровой пр�
 return title(names[s],['preferences','games'].includes(s)?'profile':'settings')+`<form id="settings-form" class="narrow fields">${body}${submit('Сохранить')}</form>`}
 const views={search:searchView,filters:filtersView,team:teamView,player:playerView,apply:applyView,application:applicationView,groups:groupsView,applications:applicationsView,create:createView,new:newView,requirements:requirementsView,published:publishedView,incoming:incomingView,candidate:candidateView,messages:messagesView,chat:chatView,call:callView,profile:profileView,subscription:subscriptionView,settings:settingsView,edit:settingsFormView,preferences:settingsFormView,games:settingsFormView,timezone:settingsFormView,notifications:settingsFormView,privacy:settingsFormView,signin:signInView};
 const navRoutes = [ ['search','Поиск'], ['groups','Мои команды'], ['messages','Сообщения'], ['profile','Профиль'] ];
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const motionListSelectors = {
+  search: '.search-results > .team',
+  groups: '.squads > .squad',
+  messages: '.grid > .card',
+  incoming: '.grid > .card',
+  applications: '.application-workspace .list > .application-card',
+};
+let rowObserver;
+let revealedRow = false;
+
+function animateView(routeChanged, resultsChanged) {
+  rowObserver?.disconnect();
+  rowObserver = null;
+  if (routeChanged || resultsChanged) revealedRow = false;
+  nav.classList.toggle('motion-nav', routeChanged && !reducedMotion.matches);
+  if (reducedMotion.matches) return;
+
+  const selector = motionListSelectors[route.screen];
+  if (routeChanged) {
+    const heading = app.querySelector('.page-head, h1, .center > .symbol');
+    const panel = app.querySelector(':scope > :is(.content,.narrow,.center,.video-call), :scope > .chat .callbar');
+    heading?.classList.add('motion-enter');
+    if (!selector && panel && !panel.contains(heading)) panel.classList.add('motion-panel');
+  }
+  if (!selector) return;
+  const items = Array.from(app.querySelectorAll(selector));
+  if (items.length === 0) return;
+
+  const navTop = nav.getBoundingClientRect().top;
+  const viewportEnd = navTop > 0 ? Math.min(navTop, window.innerHeight) : window.innerHeight;
+  const positions = items.map(item => item.getBoundingClientRect().top);
+  if (routeChanged || resultsChanged) {
+    items.filter((_, index) => positions[index] < viewportEnd).slice(0, 3).forEach((item, index) => {
+      item.style.setProperty('--motion-delay', `${index * 25}ms`);
+      item.classList.add('motion-enter');
+    });
+  }
+
+  if (revealedRow || !('IntersectionObserver' in window)) return;
+  const first = positions.findIndex((top, index) => index > 0 && top >= viewportEnd);
+  if (first === -1) return;
+  const row = items.filter((_, index) => Math.abs(positions[index] - positions[first]) < 1);
+  const observer = new IntersectionObserver(entries => {
+    if (rowObserver !== observer || !entries.some(entry => entry.isIntersecting)) return;
+    if (!reducedMotion.matches) row.forEach(item => item.classList.add('motion-row'));
+    revealedRow = true;
+    observer.disconnect();
+    rowObserver = null;
+  }, { rootMargin: `0px 0px -${window.innerHeight - viewportEnd}px 0px`, threshold: .12 });
+  rowObserver = observer;
+  observer.observe(items[first]);
+}
+
+function renderListChange(trigger) {
+  const {action, value} = trigger.dataset;
+  render({resultsChanged: true});
+  const controls = Array.from(app.querySelectorAll(`[data-action="${action}"]`));
+  (controls.find(control => control.dataset.value === value) || app.querySelector('h1'))?.focus({preventScroll: true});
+}
+
 function activeNavSection(screen) {
   if (['groups','applications','create','new','requirements','published','incoming','candidate'].includes(screen)) return 'groups';
   if (['messages','chat','call'].includes(screen)) return 'messages';
@@ -622,16 +1234,18 @@ function callIndicator() {
     <button type="button" class="quick-hangup" data-action="end-call" aria-label="Завершить звонок" title="Завершить звонок">${svg('hangup')}</button>
   </div>`;
 }
-function render() {
+function render({resultsChanged=false} = {}) {
   const {screen, id} = route;
+  const routeKey = href(screen, id);
+  const routeChanged = lastRoute !== routeKey;
   const showIndicator = !!ui.call && !(screen === 'call' && id === ui.call.id);
   const navSection = activeNavSection(screen);
   app.dataset.screen = screen;
   app.classList.toggle('chat-screen', screen === 'chat');
   document.body.classList.toggle('has-call-indicator', showIndicator);
   document.body.classList.toggle('signed-out', !!db.signedOut);
-  nav.innerHTML = db.signedOut ? '<span class="brand">WithTeam</span>' : `
-    <button class="brand" data-action="go" data-screen="search" aria-label="WithTeam — Поиск">WithTeam</button>
+  nav.innerHTML = db.signedOut ? '<span class="brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>WithTeam</span>' : `
+    <button class="brand" data-action="go" data-screen="search" aria-label="WithTeam — Поиск"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>WithTeam</button>
     ${showIndicator ? callIndicator() : ''}
     ${navRoutes.map(([s, t]) => `<button class="nav-item" data-action="go" data-screen="${s}" ${navSection === s ? 'aria-current="page"' : ''}>${svg(s)}<span>${t}</span></button>`).join('')}`;
   closeCalendar();
@@ -639,11 +1253,12 @@ function render() {
   document.title = 'WithTeam — ' + (app.querySelector('h1')?.textContent || 'Поиск');
   const log = document.getElementById('chatlog');
   if (log) log.scrollTop = log.scrollHeight;
-  if (lastRoute !== location.hash) {
+  if (routeChanged) {
     window.scrollTo({top:0,behavior:'instant'});
     app.querySelector('h1')?.focus({preventScroll:true});
-    lastRoute = location.hash;
+    lastRoute = routeKey;
   }
+  animateView(routeChanged, resultsChanged);
   syncPreview();
   updateTimer();
 }
@@ -821,9 +1436,11 @@ function positionCalendar(){
   popup.style.maxHeight=`${Math.max(0,bottomLimit-topLimit)}px`;
   const height=popup.offsetHeight, width=popup.offsetWidth;
   const below=bottomLimit-target.bottom, above=target.top-topLimit;
-  const top=below>=height+space||below>=above?target.bottom+space:target.top-height-space;
+  const opensBelow=below>=height+space||below>=above;
+  const top=opensBelow?target.bottom+space:target.top-height-space;
   popup.style.top=`${Math.max(topLimit,Math.min(top,bottomLimit-height))}px`;
   popup.style.left=`${Math.max(gutter,Math.min(target.left,document.documentElement.clientWidth-width-gutter))}px`;
+  if(!popup.dataset.motionSide)popup.dataset.motionSide=opensBelow?'below':'above';
 }
 function renderCalendar(focusDay){
   const {popup,value,minimum,today,date}=activeCalendar;
@@ -867,6 +1484,7 @@ function closeCalendar(restoreFocus=false){
   const {popup,trigger}=activeCalendar;
   activeCalendar=null;
   popup.hidden=true;
+  delete popup.dataset.motionSide;
   trigger.setAttribute('aria-expanded','false');
   if(restoreFocus)trigger.focus({preventScroll:true});
 }
@@ -942,10 +1560,11 @@ function decide(id,status){let a=db.applications.find(a=>a.id===id),g=a&&group(a
 document.addEventListener('click',e=>{let b=e.target.closest('[data-action]');if(!b||b.disabled)return;let {action,screen,id,value,field:filterField,status}=b.dataset;
 if(action==='sign-in')return changeSignIn(false);
 if(db.signedOut)return;
-if(action==='application-filter'){ui.applicationFilter=value;render();return}if(action==='back'){if(history.state?.withteam)history.back();else go(screen,id);return}if(action==='seats'){let input=document.getElementById('capacity');input.value=Math.min(Number(input.max),Math.max(Number(input.min),Math.trunc(Number(input.value))+Number(b.dataset.delta)));input.dispatchEvent(new Event('input',{bubbles:true}));return}if(action==='go'){if(screen==='games')ui.profileGame=null;if(screen==='player'&&group(route.id))ui.playerGame=group(route.id).game;if(route.screen==='new'){let f=document.getElementById('new-form');if(f)captureNew(f)}go(screen,id);}
-if(action==='search-tab'){ui.searchType=value;render()}
-if(action==='group-tab'){if(value==='applications')go('applications');else{ui.groupType=value;render()}}
-if(action==='message-tab'){ui.messageType=value;render()}
+if(action==='application-filter'&&(ui.applicationFilter||'all')!==value){ui.applicationFilter=value;return renderListChange(b)}
+if(action==='back'){if(history.state?.withteam)history.back();else go(screen,id);return}if(action==='seats'){let input=document.getElementById('capacity');input.value=Math.min(Number(input.max),Math.max(Number(input.min),Math.trunc(Number(input.value))+Number(b.dataset.delta)));input.dispatchEvent(new Event('input',{bubbles:true}));return}if(action==='go'){if(screen==='games')ui.profileGame=null;if(screen==='player'&&group(route.id))ui.playerGame=group(route.id).game;if(route.screen==='new'){let f=document.getElementById('new-form');if(f)captureNew(f)}go(screen,id);}
+if(action==='search-tab'&&ui.searchType!==value){ui.searchType=value;renderListChange(b)}
+if(action==='group-tab'){if(value==='applications')go('applications');else if(ui.groupType!==value){ui.groupType=value;renderListChange(b)}}
+if(action==='message-tab'&&ui.messageType!==value){ui.messageType=value;renderListChange(b)}
 if(action==='filters'){ui.draftFilters={...ui.filters,type:ui.searchType==='team'?'Команда':'Лобби'};go('filters')}
 if(action==='filter-choice'){
   let f=ui.draftFilters, selected=f[filterField];
@@ -962,7 +1581,7 @@ if(action==='filter-choice'){
   Array.from(app.querySelectorAll(`[data-field="${filterField}"]`))
     .find(option=>option.dataset.value===value)?.focus({preventScroll:true});
 }
-if(action==='reset-filters'){ui.filters=defaultFilters();render()}
+if(action==='reset-filters'){ui.filters=defaultFilters();renderListChange(b)}
 if(action==='clear-filter-draft'){ui.draftFilters={...defaultFilters(),type:ui.searchType==='team'?'Команда':'Лобби'};render()}
 if(action==='create-group')go(db.plus?'new':'create');
 if(action==='activate-plus'){db.plus=true;persist();go('new');toast('Plus включён для демонстрации. Оплаты нет.')}
