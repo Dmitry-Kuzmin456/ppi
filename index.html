@@ -80,10 +80,13 @@
 .video-time::before, .call-indicator time::before {
   content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor;
 }
-.video-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.video-tiles {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;
+  max-height: min(62vh, 510px); overflow: auto; scrollbar-width: thin;
+}
 .video-tile {
   display: grid; place-items: center; position: relative; overflow: hidden;
-  min-height: 140px; aspect-ratio: 2 / 1; border: 1px solid #3b354c;
+  width: 100%; min-width: 0; min-height: 140px; aspect-ratio: 2 / 1; border: 1px solid #3b354c;
   border-radius: 12px; background: radial-gradient(ellipse at 50% 40%, #332747, #1d1b2b 70%);
 }
 .video-tile.is-local { border-color: #855296; }
@@ -427,7 +430,7 @@ function candidateView(){let a=db.applications.find(a=>a.id===route.id),g=a&&gro
 const authorName = m => m.author === 'me' ? 'Вы' : player(m.author)?.nick || 'Участник';
 function callEventStatus(m) {
   if (m.ended) return 'Завершён';
-  return m.id === ui.call?.eventId ? 'Идёт звонок' : 'Завершён';
+  return m.id === ui.call?.eventId ? 'Идёт звонок' : 'Начат';
 }
 function durationTime(milliseconds) {
   const seconds = Math.max(0, Math.floor(milliseconds / 1000));
@@ -574,7 +577,7 @@ function replaceRoute(screen) {
 }
 function readRoute() {
   let [screen, id = ''] = (location.hash.slice(1) || 'search').split('/');
-  if (screen === 'app' && lastRoute) { app.focus(); return; }
+  if (screen === 'app' && lastRoute && !db.signedOut) { app.focus(); return; }
   if (db.signedOut) {
     if (screen !== 'signin' || id) replaceRoute('signin');
     if (finishCall()) persist();
