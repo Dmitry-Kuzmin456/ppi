@@ -352,6 +352,56 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
 }
 .call-indicator time { display: inline-flex; align-items: center; gap: 5px; min-width: 5em; font-size: 11px; }
 .call-indicator .return-call { font-size: 12px; font-weight: 650; }
+.floating-call {
+  position: fixed; inset: 0 auto auto 0; z-index: 25;
+  width: 216px; padding: 5px; border: 1px solid var(--line-strong); border-radius: 10px;
+  background: var(--panel); box-shadow: 0 6px 24px rgba(0,0,0,.42);
+}
+.floating-call[hidden], .floating-call [hidden] { display: none; }
+.floating-call-grip {
+  display: flex; align-items: center; gap: 7px; width: 100%; min-height: 39px;
+  padding: 6px; border-radius: 5px; background: transparent;
+  color: var(--text); text-align: start; cursor: grab; touch-action: none; user-select: none;
+}
+.floating-call[data-dragging] .floating-call-grip { cursor: grabbing; }
+.floating-call-grip svg { flex: none; width: 16px; height: 16px; color: var(--dim); }
+.floating-call-name {
+  flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 12px; font-weight: 650;
+}
+.floating-call-grip time {
+  flex: none; color: var(--green); font-size: 11px; font-variant-numeric: tabular-nums;
+}
+.floating-call-preview {
+  position: relative; display: grid; place-items: center; min-height: 82px; overflow: hidden;
+  border-radius: 6px; background: var(--card);
+}
+.floating-call-camera-off {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px; padding: 6px;
+}
+.floating-call-camera-off .avatar { width: 28px; height: 28px; background: var(--surface-hover); color: var(--purple); }
+.floating-call-preview video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1);
+}
+.floating-call-actions { display: flex; gap: 5px; padding-top: 5px; }
+.floating-call-actions button {
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  min-height: 38px; padding: 4px 6px; border-radius: 5px; background: var(--card);
+  color: var(--purple); font-size: 12px;
+}
+.floating-call-actions [data-action="return-call"] { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.floating-call-actions [data-action="end-call"] { min-width: 40px; color: var(--danger-text); }
+.floating-call-actions svg { flex: none; width: 15px; height: 15px; }
+.floating-call.is-compact .floating-call-preview { display: none; }
+@media (hover: hover) {
+  .floating-call button:hover { background: var(--surface-hover); }
+}
+@media (max-width: 899px) {
+  .floating-call { width: 176px; }
+  .floating-call-grip, .floating-call-actions button { min-height: 44px; }
+  .floating-call-actions [data-action="end-call"] { min-width: 44px; }
+  .floating-call-preview { min-height: 69px; }
+}
 @media (hover: hover) {
   .chat .callbar:hover, .call-event[data-action="return-call"]:hover {
     border-color: var(--purple); background: var(--surface-hover, #292238);
@@ -941,6 +991,7 @@ body:has(.messenger-screen) .toast { top: 84px; bottom: auto; }
 <a class="skip" href="#app">Перейти к содержанию</a>
 <main class="shell" id="app" tabindex="-1" aria-label="WithTeam"></main>
 <nav class="nav" id="nav" aria-label="Основная навигация"></nav>
+<aside class="floating-call" id="floating-call" aria-label="Свёрнутый видеозвонок" hidden></aside>
 <noscript><p style="padding:30px">Для работы WithTeam включите JavaScript в браузере.</p></noscript>
 <script>'use strict';
 const STORAGE='withteam.local.v2';
@@ -969,6 +1020,7 @@ const icons = {
   clock: "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 6v6h4\"/>",
   calendar: "<path d=\"M8 2v3\"/><path d=\"M16 2v3\"/><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M3 9h18\"/><path d=\"M8 13h.01\"/><path d=\"M12 13h.01\"/><path d=\"M16 13h.01\"/><path d=\"M8 17h.01\"/><path d=\"M12 17h.01\"/><path d=\"M16 17h.01\"/>",
   logout: "<path d=\"m16 17 5-5-5-5\"/><path d=\"M21 12H9\"/><path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\"/>",
+  grip: "<circle cx=\"9\" cy=\"5\" r=\"1\"/><circle cx=\"9\" cy=\"12\" r=\"1\"/><circle cx=\"9\" cy=\"19\" r=\"1\"/><circle cx=\"15\" cy=\"5\" r=\"1\"/><circle cx=\"15\" cy=\"12\" r=\"1\"/><circle cx=\"15\" cy=\"19\" r=\"1\"/>",
   filter: "<path d=\"M10 5H3\"/><path d=\"M12 19H3\"/><path d=\"M14 3v4\"/><path d=\"M16 17v4\"/><path d=\"M21 12h-9\"/><path d=\"M21 19h-5\"/><path d=\"M21 5h-7\"/><path d=\"M8 10v4\"/><path d=\"M8 12H3\"/>"
 };
 const svg=k=>`<svg viewBox="0 0 24 24" aria-hidden="true">${icons[k]||icons.search}</svg>`;
@@ -1523,6 +1575,132 @@ function callIndicator() {
     <button type="button" class="quick-hangup" data-action="end-call" aria-label="Завершить звонок" title="Завершить звонок">${svg('hangup')}</button>
   </div>`;
 }
+const floatingCall = document.getElementById('floating-call');
+floatingCall.innerHTML = `
+  <button type="button" class="floating-call-grip" data-floating-drag aria-label="Переместить окно звонка" aria-describedby="floating-call-help">
+    ${svg('grip')} <span class="floating-call-name"></span><time data-call-timer aria-label="Длительность звонка"></time>
+  </button>
+  <span class="sr-only" id="floating-call-help">Перетащите окно или используйте клавиши со стрелками. Home возвращает окно в правый нижний угол.</span>
+  <div class="floating-call-preview">
+    <div class="floating-call-camera-off"><span class="avatar" aria-hidden="true"></span><small>Камера выключена</small></div>
+    <video id="floating-call-video" aria-label="Предпросмотр вашей камеры" autoplay muted playsinline hidden></video>
+  </div>
+  <div class="floating-call-actions">
+    <button type="button" data-action="return-call" aria-label="Вернуться в звонок" title="Вернуться в звонок">${svg('video')} Вернуться</button>
+    <button type="button" data-action="end-call" aria-label="Завершить звонок" title="Завершить звонок">${svg('hangup')}</button>
+  </div>`;
+const floatingGrip = floatingCall.querySelector('[data-floating-drag]');
+const floatingName = floatingCall.querySelector('.floating-call-name');
+const floatingVideo = floatingCall.querySelector('video');
+const floatingCameraOff = floatingCall.querySelector('.floating-call-camera-off');
+const floatingAvatar = floatingCameraOff.querySelector('.avatar');
+const floatingLayout = 'ResizeObserver' in window ? new ResizeObserver(positionFloatingCall) : null;
+let floatingDrag = null;
+
+function floatingBounds() {
+  const viewport = window.visualViewport;
+  const mobile = window.matchMedia('(max-width: 899px)').matches;
+  const gap = mobile ? 10 : 16;
+  const left = (viewport?.offsetLeft || 0) + gap;
+  const viewportTop = viewport?.offsetTop || 0;
+  const right = left + (viewport?.width || window.innerWidth) - 2 * gap;
+  const viewportBottom = viewportTop + (viewport?.height || window.innerHeight) - gap;
+  const navBox = nav.getBoundingClientRect();
+  const top = Math.max(viewportTop + gap, mobile ? 0 : navBox.bottom + gap);
+  const indicator = mobile && nav.querySelector('.call-indicator');
+  const navTop = indicator ? indicator.getBoundingClientRect().top : navBox.top;
+  const bottom = mobile ? Math.min(viewportBottom, navTop - gap) : viewportBottom;
+  const composer = document.getElementById('message-form');
+  const composerTop = composer?.getBoundingClientRect().top;
+  const aboveComposer = composerTop > top ? Math.min(bottom, composerTop - gap) : bottom;
+  floatingCall.style.maxWidth = `${Math.max(0, right - left)}px`;
+  floatingCall.classList.remove('is-compact');
+  floatingCall.classList.toggle('is-compact', floatingCall.offsetHeight > aboveComposer - top);
+  const height = floatingCall.offsetHeight;
+  return {
+    left, top,
+    right: Math.max(left, right - floatingCall.offsetWidth),
+    bottom: Math.max(top, (height <= aboveComposer - top ? aboveComposer : bottom) - height),
+  };
+}
+function placeFloatingCall(position, bounds) {
+  const x = Math.min(bounds.right, Math.max(bounds.left, position?.x ?? bounds.right));
+  const y = Math.min(bounds.bottom, Math.max(bounds.top, position?.y ?? bounds.bottom));
+  floatingCall.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+  return {x, y};
+}
+function positionFloatingCall() {
+  if (floatingCall.hidden || !ui.call) return;
+  const bounds = floatingBounds();
+  if (floatingDrag) floatingDrag.bounds = bounds;
+  placeFloatingCall(ui.call.floatingPosition, bounds);
+}
+function renderFloatingCall(visible) {
+  floatingLayout?.disconnect();
+  const hadFocus = floatingCall.contains(document.activeElement);
+  floatingCall.hidden = !visible;
+  const track = visible && ui.call.camera?.readyState === 'live' ? ui.call.camera : null;
+  if ((floatingVideo.srcObject?.getVideoTracks()[0] ?? null) !== track) {
+    floatingVideo.srcObject = track ? new MediaStream([track]) : null;
+  }
+  floatingVideo.hidden = !track;
+  floatingCameraOff.hidden = !!track;
+  if (!visible) {
+    floatingDrag = null;
+    floatingCall.removeAttribute('data-dragging');
+    if (hadFocus) (app.querySelector('h1') || app).focus({preventScroll:true});
+    return;
+  }
+  const chat = db.chats.find(c => c.id === ui.call.id);
+  const name = chat ? conversationTitle(chat) : 'Видеозвонок';
+  floatingName.textContent = name;
+  floatingName.title = name;
+  floatingAvatar.textContent = initials(db.user.nick);
+  positionFloatingCall();
+  floatingLayout?.observe(nav);
+  const composer = document.getElementById('message-form');
+  if (composer) floatingLayout?.observe(composer);
+}
+floatingGrip.addEventListener('pointerdown', event => {
+  if (!event.isPrimary || event.button !== 0) return;
+  const bounds = floatingBounds(), box = floatingCall.getBoundingClientRect();
+  floatingDrag = {id:event.pointerId, x:event.clientX-box.left, y:event.clientY-box.top, bounds};
+  floatingGrip.setPointerCapture(event.pointerId);
+  floatingCall.setAttribute('data-dragging','');
+});
+floatingGrip.addEventListener('pointermove', event => {
+  if (!ui.call || floatingDrag?.id !== event.pointerId) return;
+  const {x, y, bounds} = floatingDrag;
+  ui.call.floatingPosition = placeFloatingCall({x:event.clientX-x, y:event.clientY-y}, bounds);
+});
+function finishFloatingDrag(event) {
+  if (floatingDrag?.id !== event.pointerId) return;
+  floatingDrag = null;
+  floatingCall.removeAttribute('data-dragging');
+  rememberCall();
+}
+for (const event of ['pointerup','pointercancel','lostpointercapture']) {
+  floatingGrip.addEventListener(event, finishFloatingDrag);
+}
+const floatingDirections = {ArrowLeft:[-1,0], ArrowRight:[1,0], ArrowUp:[0,-1], ArrowDown:[0,1]};
+floatingGrip.addEventListener('keydown', event => {
+  const direction = floatingDirections[event.key];
+  if (!ui.call || (!direction && event.key !== 'Home')) return;
+  event.preventDefault();
+  const bounds = floatingBounds();
+  if (event.key === 'Home') {
+    ui.call.floatingPosition = null;
+    placeFloatingCall(null, bounds);
+  } else {
+    const box = floatingCall.getBoundingClientRect(), step = event.shiftKey ? 48 : 16;
+    ui.call.floatingPosition = placeFloatingCall({x:box.left+direction[0]*step, y:box.top+direction[1]*step}, bounds);
+  }
+  rememberCall();
+});
+window.addEventListener('resize', positionFloatingCall);
+window.visualViewport?.addEventListener('resize', positionFloatingCall);
+window.visualViewport?.addEventListener('scroll', positionFloatingCall);
+
 function render({resultsChanged=false, scrollChatToEnd=false} = {}) {
   const {screen, id} = route;
   const previousList = document.getElementById('conversation-list');
@@ -1581,6 +1759,7 @@ function render({resultsChanged=false, scrollChatToEnd=false} = {}) {
   }
   animateView(routeChanged, resultsChanged);
   syncPreview();
+  renderFloatingCall(showIndicator);
   updateTimer();
 }
 function replaceRoute(screen) {
@@ -1612,19 +1791,23 @@ function readRoute() {
   render();
 }
 const callEvent = call => db.chats.find(c => c.id === call.id)?.messages.find(m => m.id === call.eventId);
-const callState = (id, eventId, started) => ({id, eventId, started, camera:null, microphone:null, pending:new Set()});
+const callState = (id, eventId, started, floatingPosition=null) => ({id, eventId, started, floatingPosition, camera:null, microphone:null, pending:new Set()});
 function restoreCall() {
   try {
     const saved = JSON.parse(sessionStorage.getItem(CALL_SESSION));
-    if (saved?.id && saved.eventId && Number.isFinite(saved.started)) return callState(saved.id, saved.eventId, saved.started);
+    if (saved?.id && saved.eventId && Number.isFinite(saved.started)) {
+      const position = saved.floatingPosition;
+      const floatingPosition = Number.isFinite(position?.x) && Number.isFinite(position?.y) ? position : null;
+      return callState(saved.id, saved.eventId, saved.started, floatingPosition);
+    }
   } catch {}
   return null;
 }
 function rememberCall() {
   try {
     if (ui.call) {
-      const {id, eventId, started} = ui.call;
-      sessionStorage.setItem(CALL_SESSION, JSON.stringify({id, eventId, started}));
+      const {id, eventId, started, floatingPosition} = ui.call;
+      sessionStorage.setItem(CALL_SESSION, JSON.stringify({id, eventId, started, floatingPosition}));
     } else sessionStorage.removeItem(CALL_SESSION);
   } catch {}
 }
@@ -1669,7 +1852,9 @@ async function toggleCallMedia(kind) {
   const call = ui.call;
   if (!call || !['camera','microphone'].includes(kind) || call.pending.has(kind)) return;
   const updateControls = () => {
-    if (ui.call === call && route.screen === 'call' && route.id === call.id) render();
+    if (ui.call !== call) return;
+    if (route.screen === 'call' && route.id === call.id) render();
+    else renderFloatingCall(true);
   };
   if (call[kind]) {
     call[kind].stop();
