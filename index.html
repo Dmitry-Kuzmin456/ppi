@@ -280,12 +280,8 @@
   gap: 12px; margin-bottom: 12px;
 }
 .video-stage-head h2 { overflow-wrap: anywhere; font-size: 15px; }
-.video-time, .call-indicator time { font-variant-numeric: tabular-nums; }
 .video-time {
-  flex: none; color: var(--green); font-size: 13px; font-weight: 650;
-}
-.call-indicator time::before {
-  content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor;
+  flex: none; color: var(--green); font-size: 13px; font-weight: 650; font-variant-numeric: tabular-nums;
 }
 .video-tiles {
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px;
@@ -339,19 +335,6 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
   border-color: color-mix(in srgb, var(--danger-text, #F293A6) 37%, var(--line));
 }
 .video-stage .hint { margin-top: 10px; text-align: center; }
-.call-indicator {
-  display: inline-flex; flex: none; align-items: center; gap: 2px; padding: 2px;
-  border: 1px solid color-mix(in srgb, var(--green) 32%, var(--line)); border-radius: 8px;
-  background: color-mix(in srgb, var(--green) 8%, var(--panel)); color: var(--green);
-}
-.call-indicator button { display: flex; align-items: center; gap: 6px; min-height: 35px; padding: 5px 7px; border-radius: 5px; background: transparent; white-space: nowrap; }
-.call-indicator button svg { width: 15px; height: 15px; }
-.call-indicator .quick-hangup {
-  color: var(--danger-text, #F293A6);
-  background: color-mix(in srgb, var(--danger-text, #F293A6) 12%, var(--panel));
-}
-.call-indicator time { display: inline-flex; align-items: center; gap: 5px; min-width: 5em; font-size: 11px; }
-.call-indicator .return-call { font-size: 12px; font-weight: 650; }
 .floating-call {
   position: fixed; inset: 0 auto auto 0; z-index: 25;
   width: 216px; padding: 5px; border: 1px solid var(--line-strong); border-radius: 10px;
@@ -392,7 +375,11 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
 .floating-call-actions [data-action="return-call"] { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .floating-call-actions [data-action="end-call"] { min-width: 40px; color: var(--danger-text); }
 .floating-call-actions svg { flex: none; width: 15px; height: 15px; }
-.floating-call.is-compact .floating-call-preview { display: none; }
+.floating-call.is-compact:not([hidden]) { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+.floating-call.is-compact .floating-call-grip { padding-inline: 4px; }
+.floating-call.is-compact :is(.floating-call-preview, .floating-call-name, .floating-call-actions button span) { display: none; }
+.floating-call.is-compact .floating-call-actions { padding-top: 0; gap: 3px; }
+.floating-call.is-compact .floating-call-actions button { min-width: 36px; }
 @media (hover: hover) {
   .floating-call button:hover { background: var(--surface-hover); }
 }
@@ -401,6 +388,7 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
   .floating-call-grip, .floating-call-actions button { min-height: 44px; }
   .floating-call-actions [data-action="end-call"] { min-width: 44px; }
   .floating-call-preview { min-height: 69px; }
+  .floating-call.is-compact .floating-call-actions button { min-width: 44px; }
 }
 @media (hover: hover) {
   .chat .callbar:hover, .call-event[data-action="return-call"]:hover {
@@ -411,19 +399,10 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
     border-color: var(--danger-text, #F293A6);
     background: color-mix(in srgb, var(--danger-text, #F293A6) 19%, var(--card));
   }
-  .call-indicator .return-call:hover { background: color-mix(in srgb, var(--green) 13%, var(--panel)); }
-  .call-indicator .quick-hangup:hover { background: color-mix(in srgb, var(--danger-text, #F293A6) 22%, var(--panel)); }
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .call-event-arrow { transition: transform 145ms cubic-bezier(.2, .75, .25, 1); }
   .call-event[data-action="return-call"]:hover .call-event-arrow { transform: translateX(2px); }
-}
-@media (max-width: 899px) {
-  .call-indicator { position: absolute; right: 12px; bottom: calc(100% + 8px); }
-  .call-indicator button { min-height: 44px; }
-  .call-indicator .quick-hangup { min-width: 44px; justify-content: center; }
-  .has-call-indicator .shell, .has-call-indicator .shell.messenger-screen { padding-bottom: calc(140px + env(safe-area-inset-bottom)); }
-  .has-call-indicator .toast { bottom: calc(137px + env(safe-area-inset-bottom)); }
 }
 @media (max-width: 540px) {
   .video-stage { padding: 11px; }
@@ -438,6 +417,8 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
 
 /* Profile and settings */
 .account-content { display: grid; gap: 18px; }
+.profilehero > div, .player-profile .person > div { min-width: 0; }
+.player-profile .person h2, .player-profile .section { overflow-wrap: anywhere; }
 .account-content .profilehero { border: 1px solid var(--line); }
 .account-section { display: grid; gap: 7px; }
 .account-section h2 { margin: 0 0 2px; color: var(--dim); font-size: 13px; font-weight: 600; }
@@ -954,7 +935,6 @@ button:focus-visible, a:focus-visible, input[type=checkbox]:focus-visible {
 html { scroll-behavior: auto; scroll-padding-block: 86px 16px; }
 @media (max-width: 899px) {
   html { scroll-padding-block: 8px calc(84px + env(safe-area-inset-bottom)); }
-  html:has(body.has-call-indicator) { scroll-padding-bottom: calc(142px + env(safe-area-inset-bottom)); }
 }
 
 .toast {
@@ -962,9 +942,9 @@ html { scroll-behavior: auto; scroll-padding-block: 86px 16px; }
   overflow-wrap: anywhere;
   pointer-events: none;
 }
-body:has(.messenger-screen) .toast { top: 84px; bottom: auto; }
+body:has(.messenger-screen, .floating-call:not([hidden])) .toast { top: 84px; bottom: auto; }
 @media (max-width: 899px) {
-  body:has(.messenger-screen) .toast { top: max(12px, env(safe-area-inset-top)); }
+  body:has(.messenger-screen, .floating-call:not([hidden])) .toast { top: max(12px, env(safe-area-inset-top)); }
 }
 
 .chat-day {
@@ -985,6 +965,50 @@ body:has(.messenger-screen) .toast { top: 84px; bottom: auto; }
     border-color: var(--line-strong);
   }
 }
+.shell { overflow-wrap: anywhere; }
+
+@media (max-height: 520px), (max-width: 540px) and (max-height: 600px) {
+  .shell > .center { margin-top: 16px; }
+  .center .symbol { width: 64px; height: 64px; margin-bottom: 14px; }
+  .center .symbol svg { width: 28px; height: 28px; }
+  .center :is(.card, .actions) { margin-top: 16px; }
+}
+@media (max-height: 520px) {
+  .calendar-popup { padding: 8px; }
+  .calendar-header { margin-bottom: 4px; }
+  .calendar-month-button { width: 32px; height: 32px; }
+  .calendar-days { border-spacing: 2px; }
+  .calendar-days th { padding-block: 3px; }
+  .calendar-day, .calendar-text-button { min-height: 32px; }
+  .calendar-footer { margin-top: 4px; padding-top: 4px; }
+}
+@media (max-height: 440px) {
+  .shell:has(> .center) > .page-head { margin-bottom: 10px; }
+  .shell > .center { margin-top: 0; }
+  .center .symbol { width: 50px; height: 50px; margin-bottom: 12px; }
+  .calendar-popup { padding: 6px; }
+  .calendar-days { border-spacing: 2px 1px; }
+  .calendar-days th { padding-block: 1px; }
+  .calendar-day { min-height: 30px; }
+}
+@media (max-height: 600px) {
+  .video-tiles {
+    --video-tiles-height: max(80px, calc(100dvh - 286px));
+    max-height: min(510px, 62dvh, var(--video-tiles-height));
+  }
+  .video-tile { min-height: min(106px, var(--video-tiles-height)); max-height: var(--video-tiles-height); }
+  .video-stage-head h2 { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}
+@media (max-width: 899px) and (max-height: 600px) {
+  .video-tiles { --video-tiles-height: max(80px, calc(100dvh - 273px - env(safe-area-inset-bottom))); }
+}
+@media (max-width: 600px) and (max-height: 600px) {
+  .video-tiles { --video-tiles-height: max(76px, calc(100dvh - 312px - env(safe-area-inset-bottom))); }
+  .video-stage-head { margin-bottom: 8px; }
+  .video-controls { margin-top: 8px; }
+  .video-controls button { padding-block: 6px; }
+}
+
 </style>
 </head>
 <body>
@@ -1033,7 +1057,7 @@ function persist(){try{localStorage.setItem(STORAGE,JSON.stringify(db));return t
 const periods=['Утро','День','Вечер','Ночь'];
 const anyGame='Любая игра';
 const defaultFilters=()=>({game:anyGame,role:[],rank:'Любой',language:[],period:[],date:''});
-const ui={searchType:'team',groupType:'team',messageType:'all',filters:defaultFilters(),draftFilters:null,newDraft:null,recruitDraft:null,applicationDraft:{},call:null};
+const ui={searchType:'team',groupType:'team',messageType:'all',lastChatId:null,filters:defaultFilters(),draftFilters:null,newDraft:null,recruitDraft:null,applicationDraft:{},call:null};
 const app=document.getElementById('app'),nav=document.getElementById('nav');
 const messageDrafts = new Map();
 const chatScroll = new Map();
@@ -1048,28 +1072,50 @@ function rememberChatScroll(log) {
 let route={screen:'search',id:''},lastRoute=null;let toastTimer;
 function toast(text){document.getElementById('toast')?.remove();let el=document.createElement('div');el.id='toast';el.className='toast';el.role='status';el.textContent=text;document.body.append(el);clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.remove(),3800)}
 function href(screen,id=''){return '#'+screen+(id?'/'+encodeURIComponent(id):'')}
-function go(screen,id=''){const hash=href(screen,id);if(location.hash!==hash)history.pushState({withteam:true,fromSection:activeNavSection(route.screen,route.id)},'',hash);readRoute()}
+function go(screen,id=''){
+  const hash=href(screen,id);
+  if(location.hash!==hash) {
+    history.pushState({withteam:true,fromSection:activeNavSection(route.screen,route.id),fromHash:location.hash},'',hash);
+  }
+  readRoute();
+}
 const player=id=>id==='me'?{...db.user,rank:db.user.profiles[0]?.rank||'Любой',role:db.user.profiles[0]?.role||'Любая',hours:2400}:db.players.find(p=>p.id===id);
 const group=id=>db.groups.find(g=>g.id===id);
 const initials=name=>{let words=String(name).trim().split(/[\s_-]+/);return (words.length===1?words[0].slice(0,2):words.map(w=>w[0]||'').slice(0,2).join('')).toUpperCase()};
 const capacity=g=>Math.max(0,g.capacity-g.members.length);
 const ownApplication=g=>db.applications.find(a=>a.group===g.id&&a.player==='me'&&a.status==='pending');
-const scheduleText=g=>String(g.schedule??'').replace(/\s*·\s*/g, ', ');
-const todayDate=(now=new Date())=>new Intl.DateTimeFormat('sv-SE',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:db.user.timezone}).format(now);
+const scheduleZoneNames={'Europe/Kaliningrad':'Калининград','Europe/Moscow':'Москва','Asia/Yekaterinburg':'Екатеринбург','Asia/Novosibirsk':'Новосибирск','Asia/Vladivostok':'Владивосток'};
+function scheduleText(g){
+  const schedule=String(g.schedule??'').replace(/\s*·\s*/g, ', ');
+  const zone=g.scheduleTimeZone;
+  return schedule&&zone&&zone!==db.user.timezone?`${schedule} (${scheduleZoneNames[zone]||zone})`:schedule;
+}
+const todayDate=(now=new Date(),timeZone=db.user.timezone)=>new Intl.DateTimeFormat('sv-SE',{year:'numeric',month:'2-digit',day:'2-digit',timeZone}).format(now);
 const validDate=value=>/^\d{4}-\d{2}-\d{2}$/.test(value)&&!isNaN(Date.parse(value))&&new Date(value).toISOString().slice(0,10)===value;
 const validTime=value=>/^([01]\d|2[0-3]):[0-5]\d$/.test(value);
+const dayMilliseconds=86400000;
+const spansMidnight=g=>validTime(g.startsAt)&&validTime(g.endsAt)&&g.endsAt<g.startsAt;
+function changeTimezone(timeZone){
+  const previous=db.user.timezone;
+  if(timeZone===previous)return;
+  for(const g of db.groups){
+    if(g.type==='lobby'&&validDate(g.startsOn)&&!g.scheduleTimeZone)g.scheduleTimeZone=previous;
+  }
+  db.user.timezone=timeZone;
+}
 function lobbyEnded(g,now=new Date()){
   if(g.type!=='lobby'||!validDate(g.startsOn))return false;
+  const timeZone=g.scheduleTimeZone||db.user.timezone;
   const endTime=validTime(g.endsAt)?g.endsAt:'';
-  const overnight=endTime&&validTime(g.startsAt)&&endTime<g.startsAt;
-  const endDay=Date.parse(g.startsOn)+(overnight?86400000:0);
-  const today=Date.parse(todayDate(now));
+  const endDay=Date.parse(g.startsOn)+(spansMidnight(g)?dayMilliseconds:0);
+  const today=Date.parse(todayDate(now,timeZone));
   if(today!==endDay)return today>endDay;
   return !!endTime&&new Intl.DateTimeFormat('sv-SE',{
-    hour:'2-digit',minute:'2-digit',hourCycle:'h23',timeZone:db.user.timezone
+    hour:'2-digit',minute:'2-digit',hourCycle:'h23',timeZone
   }).format(now)>=endTime;
 }
 const recruitmentOpen=(g,now)=>g.active&&capacity(g)>0&&!lobbyEnded(g,now);
+const outboundStatus=(a,g,now)=>a.status==='pending'&&lobbyEnded(g,now)?'expired':a.status;
 function timePeriod(value){
   const hour=Number(value.slice(0,2));
   return hour<6||hour>=23?'Ночь':hour<12?'Утро':hour<18?'День':'Вечер';
@@ -1077,8 +1123,10 @@ function timePeriod(value){
 function matchesScheduleDate(g,date){
   if(!date)return true;
   if(g.startsOn){
-    const days=(Date.parse(date)-Date.parse(g.startsOn))/86400000;
-    return days===0||(g.repeatsWeekly&&days>0&&days%7===0);
+    const days=(Date.parse(date)-Date.parse(g.startsOn))/dayMilliseconds;
+    const startsOnDay=days===0||(g.repeatsWeekly&&days>0&&days%7===0);
+    const startedPreviousDay=days===1||(g.repeatsWeekly&&days>1&&days%7===1);
+    return startsOnDay||(startedPreviousDay&&spansMidnight(g)&&g.endsAt!=='00:00');
   }
   const legacySchedule=scheduleText(g);
   if(legacySchedule.startsWith('Каждый день'))return true;
@@ -1141,7 +1189,7 @@ function calendarInput(name,label,value,required=false){
 function select(name,values,value){return `<select id="${name}" name="${name}">${values.map(v=>{let [id,t]=Array.isArray(v)?v:[v,v];return `<option value="${esc(id)}" ${id===value?'selected':''}>${esc(t)}</option>`}).join('')}</select>`}
 function textarea(name,value,extra=''){return `<textarea id="${name}" name="${name}" ${extra}>${esc(value)}</textarea>`}
 const submit=text=>`<button type="submit" class="primary">${text}</button>`;
-const badge=s=>`<span class="badge ${s==='accepted'?'good':s==='rejected'?'bad':s==='withdrawn'?'neutral':''}">${({pending:'Ждёт решения',accepted:'Принята',rejected:'Отклонена',withdrawn:'Отозвана'})[s]||esc(s)}</span>`;
+const badge=s=>`<span class="badge ${s==='accepted'?'good':s==='rejected'?'bad':['withdrawn','expired'].includes(s)?'neutral':''}">${({pending:'Ждёт решения',accepted:'Принята',rejected:'Отклонена',withdrawn:'Отозвана',expired:'Лобби завершилось'})[s]||esc(s)}</span>`;
 function avatar(id,i=0){let p=player(id);return `<span class="avatar tint-${i%4}" aria-hidden="true">${esc(initials(p?.nick||'?'))}</span>`}
 function metadata(...items) {
   return `<span class="metadata">${items.filter(Boolean).map(item => `<span>${esc(item)}</span>`).join(' ')}</span>`;
@@ -1187,8 +1235,8 @@ function teamCard(g){
   </article>`;
 }
 function summaryCard(g){
-  const pending=db.applications.filter(a=>a.group===g.id&&a.status==='pending').length;
   const open=recruitmentOpen(g);
+  const pending=db.applications.filter(a=>a.group===g.id&&a.status==='pending').length;
   return `<article class="card squad">
     <div class="teamtop">
       <span class="gameicon" aria-hidden="true">${games[g.game].icon}</span>
@@ -1221,7 +1269,8 @@ function searchResults(){
 function searchView(){
   const results=searchResults(), f=ui.filters;
   const activeCount=[f.game!==anyGame,f.role.length,f.language.length,f.period.length,f.rank!=='Любой',f.date].filter(Boolean).length;
-  return title('Найди свою команду')+`<div class="search-controls">${tabs([['team','Команды'],['lobby','Лобби']],ui.searchType,'search-tab')}<button class="filter-toggle" data-action="filters">${svg('filter')}<span>Фильтры</span>${activeCount?`<span class="filter-count" aria-label="Активных фильтров: ${activeCount}">${activeCount}</span>`:''}</button></div>${results.length?`<p class="muted spacer">Найдено: ${results.length}</p><div class="grid search-results">${results.map(teamCard).join('')}</div>`:`<div class="center"><div class="symbol">${svg('search')}</div><h2>Нет подходящих ${ui.searchType==='team'?'команд':'лобби'}</h2><div class="actions">${button('Сбросить фильтры','reset-filters',{secondary:true})}</div></div>`}`;
+  const emptyAction=activeCount?button('Сбросить фильтры','reset-filters',{secondary:true}):button('Создать команду или лобби','create-group',{secondary:true});
+  return title('Найди свою команду')+`<div class="search-controls">${tabs([['team','Команды'],['lobby','Лобби']],ui.searchType,'search-tab')}<button class="filter-toggle" data-action="filters">${svg('filter')}<span>Фильтры</span>${activeCount?`<span class="filter-count" aria-label="Активных фильтров: ${activeCount}">${activeCount}</span>`:''}</button></div>${results.length?`<p class="muted spacer">Найдено: ${results.length}</p><div class="grid search-results">${results.map(teamCard).join('')}</div>`:`<div class="center"><div class="symbol">${svg('search')}</div><h2>Нет подходящих ${ui.searchType==='team'?'команд':'лобби'}</h2><div class="actions">${emptyAction}</div></div>`}`;
 }
 function filtersView(){
   const f=ui.draftFilters||{...ui.filters};
@@ -1234,33 +1283,102 @@ function teamView(){
   if(!g)return missing();
   const mine=g.members.includes('me'), isOwner=g.owner==='me', application=ownApplication(g), open=recruitmentOpen(g);
   const action=isOwner?button('Входящие заявки','go',{screen:'incoming',id:g.id}):mine?button('Открыть чат','open-group-chat',{id:g.id}):application?button('Моя заявка','go',{screen:'application',id:application.id}):button(g.type==='team'?'Вступить в команду':'Вступить в лобби','go',{screen:'apply',id:g.id,disabled:!open});
-  return title(g.name,mine?'groups':'search')+`<div class="content team-detail"><div class="banner"><span class="monogram">${esc(initials(g.name))}</span><span class="${open?'open':'muted'}">${open?'Набор открыт':'Набор завершён'}</span></div><dl class="meta"><div><dt>Игра</dt><dd>${esc(g.game)}</dd></div><div><dt>Формат</dt><dd>${g.type==='team'?'Постоянная команда':'Лобби на одну игру'}</dd></div><div><dt>Ранг</dt><dd>${esc(g.rank)}</dd></div><div><dt>Язык общения</dt><dd>${esc(g.language)}</dd></div><div><dt>Расписание</dt><dd>${esc(scheduleText(g))}</dd></div></dl>${g.goal?`<div class="section"><h2>Цель</h2><p class="muted">${esc(g.goal)}</p></div>`:''}<div class="section"><h2>Состав</h2><div class="muted spacer roster-details">${rosterMeter(g)}<span>Свободных мест: <strong class="note">${capacity(g)}</strong></span></div><div class="avatars">${g.members.map((id,i)=>`<button class="member" data-action="go" data-screen="player" data-id="${esc(id)}">${avatar(id,i)}<span>${esc(player(id)?.nick)}<small>${id===g.owner?'Капитан':id==='me'?'Вы':'Участник'}</small></span></button>`).join('')}</div></div>${open&&g.roles.length?`<div class="section"><h2>Открытые роли</h2><p class="note">${esc(g.roles.join(', '))}</p></div>`:''}${g.description||g.recruitText||g.parent?`<div class="section"><h2>О ${g.type==='team'?'команде':'лобби'}</h2>${g.description?'<p class="muted">'+esc(g.description)+'</p>':''}${g.recruitText?'<p class="muted">'+esc(g.recruitText)+'</p>':''}${g.parent?link('Команда: '+group(g.parent)?.name,'team',g.parent):''}</div>`:''}<div class="actions">${action}${isOwner?button('Открыть чат','open-group-chat',{id:g.id,secondary:true}):''}${link('Профиль капитана','player',g.owner)}</div></div>`;
+  return title(g.name,mine?'groups':'search')+`<div class="content team-detail"><div class="banner"><span class="monogram">${esc(initials(g.name))}</span><span class="${open?'open':'muted'}">${open?'Набор открыт':'Набор завершён'}</span></div><dl class="meta"><div><dt>Игра</dt><dd>${esc(g.game)}</dd></div><div><dt>Формат</dt><dd>${g.type==='team'?'Постоянная команда':'Лобби на одну игру'}</dd></div><div><dt>Ранг</dt><dd>${esc(g.rank)}</dd></div><div><dt>Язык общения</dt><dd>${esc(g.language)}</dd></div><div><dt>Расписание</dt><dd>${esc(scheduleText(g))}</dd></div></dl>${g.goal?`<div class="section"><h2>Цель</h2><p class="muted">${esc(g.goal)}</p></div>`:''}<div class="section"><h2>Состав</h2><div class="muted spacer roster-details">${rosterMeter(g)}<span>Свободных мест: <strong class="note">${capacity(g)}</strong></span></div><div class="avatars">${g.members.map((id,i)=>`<button class="member" data-action="go" data-screen="player" data-id="${esc(id)}">${avatar(id,i)}<span>${esc(player(id)?.nick)}<small>${id===g.owner?'Капитан':id==='me'?'Вы':'Участник'}</small></span></button>`).join('')}</div></div>${open&&g.roles.length?`<div class="section"><h2>Открытые роли</h2><p class="note">${esc(g.roles.join(', '))}</p></div>`:''}${g.description||g.recruitText||g.parent?`<div class="section"><h2>О ${g.type==='team'?'команде':'лобби'}</h2>${g.description?'<p class="muted">'+esc(g.description)+'</p>':''}${g.recruitText?'<p class="muted">'+esc(g.recruitText)+'</p>':''}${g.parent?link('Команда: '+group(g.parent)?.name,'team',g.parent):''}</div>`:''}<div class="actions">${action}${isOwner?button('Открыть чат','open-group-chat',{id:g.id,secondary:true}):''}${g.members.includes(g.owner)?'':link('Профиль капитана','player',g.owner)}</div></div>`;
 }
-function playerView(){let p=player(route.id);if(!p)return missing();let isMe=p.id==='me',game=ui.playerGame||'Dota 2',profile=isMe?db.user.profiles.find(x=>x.game===game):game==='Dota 2'?p:null;return title(isMe?'Мой профиль игрока':'Профиль игрока','groups')+`<div class="narrow"><div class="person">${avatar(p.id)}<div><h2>${esc(p.nick)}</h2><small>${isMe?'Это вы':p.hours+' часов в игре'}</small></div></div><div class="section"><h2>${esc(game)}</h2><div class="tags"><span class="tag">${esc(profile?.rank||'Ранг не указан')}</span><span class="tag note">${esc(profile?.role||'Роль не указана')}</span></div></div><div class="section"><h2>Предпочтения</h2><p class="muted">${esc(isMe?db.user.language:'Русский')}<br>${esc(isMe?db.user.schedule:'Пн–Пт: 19:00–23:00')}<br>${esc(isMe?db.user.goal:'Рейтинговые матчи на результат').replace(/\s*·\s*/g, ', ')}</p></div><div class="card section"><h3>О себе</h3><p class="muted">${esc(p.about||'Ищу спокойную команду для регулярных матчей.')}</p></div><div class="actions">${isMe?button('Изменить профиль','go',{screen:'edit'}):button('Написать игроку','dm',{id:p.id})}</div></div>`}
+function playerView() {
+  const p = player(route.id);
+  if (!p) return missing();
+  const isMe = p.id === 'me';
+  const game = ui.playerGame || history.state?.playerGame || (isMe && db.user.profiles[0]?.game) || 'Dota 2';
+  const profile = isMe ? db.user.profiles.find(entry => entry.game === game) : game === 'Dota 2' ? p : null;
+  const summary = isMe ? 'Это вы' : profile && p.hours ? `${p.hours} часов в игре` : '';
+  const preferences = [p.language, p.schedule, p.goal].filter(Boolean).map(esc).join('<br>');
+  return title(isMe ? 'Мой профиль игрока' : 'Профиль игрока', isMe ? 'profile' : 'search') + `<div class="narrow player-profile">
+    <div class="person">${avatar(p.id)}<div><h2>${esc(p.nick)}</h2>${summary ? `<small>${summary}</small>` : ''}</div></div>
+    <section class="section"><h2>${esc(game)}</h2>
+      ${profile ? `<div class="tags"><span class="tag">${esc(profile.rank)}</span><span class="tag note">${esc(profile.role)}</span></div>` : '<p class="muted">Профиль для этой игры пока пуст.</p>'}
+    </section>
+    ${preferences ? `<section class="section"><h2>Предпочтения</h2><p class="muted">${preferences}</p></section>` : ''}
+    ${p.about ? `<section class="card section"><h3>О себе</h3><p class="muted">${esc(p.about)}</p></section>` : ''}
+    <div class="actions">${isMe ? button('Изменить профиль','go',{screen:'edit'}) : button('Написать игроку','dm',{id:p.id})}</div>
+  </div>`;
+}
 function applyView(){
   const g=group(route.id);
   if(!g)return missing();
-  if(g.members.includes('me'))return title('Вы уже в составе','team/'+g.id)+missing('Откройте команду или лобби в разделе «Мои команды».');
+  if(g.members.includes('me'))return title('Вы уже в составе','team/'+g.id)+`<div class="narrow empty-inline"><p>${esc(g.name)}</p>${button('Открыть чат','open-group-chat',{id:g.id})}</div>`;
   const application=ownApplication(g);
   if(application)return applicationView(application);
-  if(lobbyEnded(g))return title('Лобби завершилось','team/'+g.id)+missing('Запланированная игра уже завершилась.');
-  if(!recruitmentOpen(g))return title('Набор завершён','team/'+g.id)+missing('Свободных мест нет.');
+  if(!recruitmentOpen(g)){
+    const heading=lobbyEnded(g)?'Лобби завершилось':'Набор завершён';
+    return title(heading,'team/'+g.id)+`<div class="narrow empty-inline"><p>${esc(g.name)}</p>${button('Вернуться к поиску','go',{screen:'search'})}</div>`;
+  }
   const roles=g.roles.length?g.roles:games[g.game].roles;
   const d=ui.applicationDraft[g.id]||{role:roles[0],text:''};
   return title('Заявка '+(g.type==='team'?'в команду':'в лобби'),'team/'+g.id)+`<form id="apply-form" class="narrow fields" data-group="${esc(g.id)}"><div class="card application-summary"><h3>${esc(g.name)}</h3><p class="muted">${esc(g.game)}, ${esc(g.rank)}</p><p class="note">Свободных мест: ${capacity(g)}</p></div>${field('role','Ваша игровая роль',select('role',roles,d.role))}${field('text','Сообщение капитану (необязательно)',textarea('text',d.text,'maxlength="1000" placeholder="Например, когда вам удобно играть"'))}${submit('Отправить заявку')}</form>`;
 }
-function applicationView(selected){let a=selected||db.applications.find(x=>x.id===route.id&&x.player==='me');if(!a)return missing();let g=group(a.group);return title(a.status==='pending'?'Заявка отправлена':'Моя заявка','applications')+`<div class="center"><div class="symbol round">${svg(a.status==='accepted'?'check':a.status==='pending'?'check':'messages')}</div><h2>${({pending:'Ждёт решения',accepted:'Вас приняли',rejected:'В этот раз не подошло',withdrawn:'Заявка отозвана'})[a.status]}</h2><p>${({pending:'Решение появится в разделе «Мои заявки».',accepted:'Вы добавлены в состав. Познакомьтесь с другими игроками в чате.',rejected:'Вы можете подобрать другую команду или лобби в поиске.',withdrawn:'Заявка больше не участвует в наборе.'})[a.status]}</p><div class="card application-summary"><h3>${esc(g?.name)}</h3><p class="muted">${metadata(g?.game, a.role, shortDate(a.created))}</p>${a.text?`<p>${esc(a.text)}</p>`:''}${link('Посмотреть состав','team',g.id)}</div><div class="actions">${a.status==='accepted'?button('Открыть чат','open-group-chat',{id:g.id}):button('Мои заявки','go',{screen:'applications'})}${a.status==='pending'?button('Отозвать заявку','withdraw',{id:a.id,secondary:true}):button('Вернуться к поиску','go',{screen:'search',secondary:true})}</div></div>`}
-function groupsView(){let all=db.groups.filter(g=>g.members.includes('me')),teams=all.filter(g=>g.type==='team'),lobbies=all.filter(g=>g.type==='lobby'),pending=db.applications.filter(a=>group(a.group)?.owner==='me'&&a.status==='pending'),outgoing=db.applications.filter(a=>a.player==='me'&&a.status==='pending');let list=ui.groupType==='team'?teams:lobbies;return `<div class="dashboard-head"><div>${title('Мои команды')}</div>${button('Создать команду или лобби','create-group')}</div><div class="dashboard-layout"><section><div class="toolbar">${tabs([['team','Команды ('+teams.length+')'],['lobby','Лобби ('+lobbies.length+')'],['applications','Мои заявки']],ui.groupType,'group-tab')}</div><div class="squads">${list.length?list.map(summaryCard).join(''):`<div class="empty-inline"><h3>Здесь пока пусто</h3><p>Найдите подходящий состав или создайте свой.</p>${link('Перейти к поиску','search')}</div>`}</div></section><aside class="dashboard-aside"><section class="card"><h2>Требует внимания</h2>${pending.length?`<p class="muted">Ждут решения: ${pending.length}</p>${[...new Set(pending.map(a=>a.group))].map(id=>`<button class="attention" data-action="go" data-screen="incoming" data-id="${id}"><strong>${esc(group(id).name)}</strong><span>Рассмотреть (${pending.filter(a=>a.group===id).length}) ${svg('next')}</span></button>`).join('')}`:'<p class="muted">Все заявки разобраны.</p>'}</section><section class="card"><h2>Ваши лобби</h2>${lobbies.length?lobbies.map(g=>`<div class="session"><strong>${esc(g.name)}</strong><p class="note">${esc(scheduleText(g))}</p><small>${metadata(g.game, `${g.members.length} из ${g.capacity} игроков`)}</small>${link('Перейти в чат','chat',ensureGroupChat(g).id)}</div>`).join(''):'<p class="muted">Присоединитесь к лобби, чтобы сыграть вместе сегодня.</p>'}</section><section class="card"><h2>Мои заявки</h2><p class="muted">${outgoing.length?'Ждут ответа: '+outgoing.length:'Все заявки рассмотрены.'}</p>${link('Посмотреть мои заявки','applications')}</section></aside></div>`}
+function applicationView(selected){
+  const a=selected||db.applications.find(x=>x.id===route.id&&x.player==='me');
+  if(!a)return missing();
+  const g=group(a.group);
+  if(!g)return missing('Команда или лобби уже недоступны.');
+  const status=outboundStatus(a,g);
+  const states={
+    pending:['check','Ждёт решения','Решение появится в разделе «Мои заявки».'],
+    accepted:['check','Вас приняли','Вы добавлены в состав. Познакомьтесь с другими игроками в чате.'],
+    rejected:['messages','В этот раз не подошло','Вы можете подобрать другую команду или лобби в поиске.'],
+    withdrawn:['messages','Заявка отозвана','Заявка больше не участвует в наборе.'],
+    expired:['clock','Лобби завершилось','Заявка осталась без решения.']
+  };
+  const [icon,heading,description]=states[status]||['messages','Моя заявка',''];
+  return title(status==='pending'?'Заявка отправлена':'Моя заявка','applications')+`<div class="center"><div class="symbol round">${svg(icon)}</div><h2>${heading}</h2><p>${description}</p><div class="card application-summary"><h3>${esc(g.name)}</h3><p class="muted">${metadata(g.game, a.role, shortDate(a.created))}</p>${a.text?`<p>${esc(a.text)}</p>`:''}${link('Посмотреть состав','team',g.id)}</div><div class="actions">${status==='accepted'?button('Открыть чат','open-group-chat',{id:g.id}):button('Мои заявки','go',{screen:'applications'})}${status==='pending'?button('Отозвать заявку','withdraw',{id:a.id,secondary:true}):button('Вернуться к поиску','go',{screen:'search',secondary:true})}</div></div>`;
+}
+function groupsView(){
+  const all=db.groups.filter(g=>g.members.includes('me'));
+  const teams=all.filter(g=>g.type==='team'), lobbies=all.filter(g=>g.type==='lobby');
+  const now=new Date();
+  const waiting=db.applications.filter(a=>a.status==='pending'&&group(a.group));
+  const pending=waiting.filter(a=>group(a.group).owner==='me');
+  const outgoing=waiting.filter(a=>a.player==='me'&&outboundStatus(a,group(a.group),now)==='pending');
+  const list=ui.groupType==='team'?teams:lobbies;
+  return `<div class="dashboard-head"><div>${title('Мои команды')}</div>${button('Создать команду или лобби','create-group')}</div>
+    <div class="dashboard-layout"><section>
+      <div class="toolbar">${tabs([['team','Команды ('+teams.length+')'],['lobby','Лобби ('+lobbies.length+')'],['applications','Мои заявки']],ui.groupType,'group-tab')}</div>
+      <div class="squads">${list.length?list.map(summaryCard).join(''):`<div class="empty-inline"><h3>Здесь пока пусто</h3><p>Найдите подходящий состав или создайте свой.</p>${link('Перейти к поиску','search')}</div>`}</div>
+    </section><aside class="dashboard-aside">
+      <section class="card"><h2>Требует внимания</h2>${pending.length?`<p class="muted">Ждут решения: ${pending.length}</p>${[...new Set(pending.map(a=>a.group))].map(id=>`<button class="attention" data-action="go" data-screen="incoming" data-id="${esc(id)}"><strong>${esc(group(id).name)}</strong><span>Рассмотреть (${pending.filter(a=>a.group===id).length}) ${svg('next')}</span></button>`).join('')}`:'<p class="muted">Нет заявок, требующих решения.</p>'}</section>
+      ${ui.groupType==='team'&&lobbies.length?`<section class="card"><h2>Ваши лобби</h2>${lobbies.map(g=>`<div class="session"><strong>${esc(g.name)}</strong><p class="note">${esc(scheduleText(g))}</p><small>${metadata(g.game, `${g.members.length} из ${g.capacity} игроков`)}</small><button type="button" class="link" data-action="open-group-chat" data-id="${esc(g.id)}">Перейти в чат</button></div>`).join('')}</section>`:''}
+      <section class="card"><h2>Мои заявки</h2><p class="muted">${outgoing.length?'Ждут ответа: '+outgoing.length:'Нет заявок, ожидающих ответа.'}</p>${link('Посмотреть мои заявки','applications')}</section>
+    </aside></div>`;
+}
 
-function applicationsView(){let all=db.applications.filter(a=>a.player==='me').sort((a,b)=>b.created-a.created),filter=ui.applicationFilter||'all',as=all.filter(a=>filter==='all'||a.status===filter);return title('Мои заявки','groups')+`<div class="application-workspace"><section>${tabs([['all','Все ('+all.length+')'],['pending','Ждут решения'],['accepted','Приняты'],['rejected','Отклонены'],['withdrawn','Отозваны']],filter,'application-filter')}<div class="list">${as.length?as.map(a=>{let g=group(a.group);if(!g)return '';return `<article class="card application-card"><div class="teamtop"><span class="gameicon">${games[g.game].icon}</span><div><h3>${esc(g.name)}</h3><small>${metadata(g.game, g.type==='team'?'Команда':'Лобби')}</small></div>${badge(a.status)}</div><dl class="meta"><div><dt>Ваша роль</dt><dd>${esc(a.role)}</dd></div><div><dt>Отправлена</dt><dd>${shortDate(a.created)}</dd></div></dl>${a.text?`<h4>Ваше сообщение</h4><p class="application-message">${esc(a.text)}</p>`:''}<div class="squad-actions">${button('Посмотреть '+(g.type==='team'?'команду':'лобби'),'go',{screen:'team',id:g.id,secondary:true})}${a.status==='accepted'?button('Открыть чат','open-group-chat',{id:g.id}):button('Подробнее о заявке','go',{screen:'application',id:a.id,secondary:true})}</div>${a.status==='pending'?`<div class="application-footer"><button class="link" data-action="dm" data-id="${g.owner}">Написать капитану</button><button class="link" data-action="withdraw" data-id="${a.id}">Отозвать заявку</button></div>`:''}</article>`}).join(''):`<div class="empty-inline"><h3>${all.length?'Таких заявок пока нет':'Вы ещё не отправляли заявки'}</h3><p>${all.length?'Выберите другой статус, чтобы увидеть остальные отклики.':'Выберите команду или лобби в поиске.'}</p>${button(all.length?'Показать все заявки':'Найти команду',all.length?'application-filter':'go',all.length?{value:'all',secondary:true}:{screen:'search'})}</div>`}</div></section></div>`}
+function applicationsView(){
+  const now=new Date(), filter=ui.applicationFilter||'all';
+  const all=db.applications.filter(a=>a.player==='me')
+    .map(a=>({a,g:group(a.group)})).filter(({g})=>g)
+    .sort((x,y)=>y.a.created-x.a.created);
+  const entries=all.map(({a,g})=>({a,g,status:outboundStatus(a,g,now)}))
+    .filter(({status})=>filter==='all'||status===filter);
+  return title('Мои заявки','groups')+`<div class="application-workspace"><section>
+    ${tabs([['all','Все ('+all.length+')'],['pending','Ждут решения'],['accepted','Приняты'],['rejected','Отклонены'],['withdrawn','Отозваны']],filter,'application-filter')}
+    <div class="list">${entries.length?entries.map(({a,g,status})=>`<article class="card application-card">
+      <div class="teamtop"><span class="gameicon">${games[g.game].icon}</span><div><h3>${esc(g.name)}</h3><small>${metadata(g.game, g.type==='team'?'Команда':'Лобби')}</small></div>${badge(status)}</div>
+      <dl class="meta"><div><dt>Ваша роль</dt><dd>${esc(a.role)}</dd></div><div><dt>Отправлена</dt><dd>${shortDate(a.created)}</dd></div></dl>
+      ${a.text?`<h4>Ваше сообщение</h4><p class="application-message">${esc(a.text)}</p>`:''}
+      <div class="squad-actions">${button('Посмотреть '+(g.type==='team'?'команду':'лобби'),'go',{screen:'team',id:g.id,secondary:true})}${status==='accepted'?button('Открыть чат','open-group-chat',{id:g.id}):button('Подробнее о заявке','go',{screen:'application',id:a.id,secondary:true})}</div>
+      ${status==='pending'?`<div class="application-footer"><button class="link" data-action="dm" data-id="${g.owner}">Написать капитану</button><button class="link" data-action="withdraw" data-id="${a.id}">Отозвать заявку</button></div>`:''}
+    </article>`).join(''):`<div class="empty-inline"><h3>${all.length?'Таких заявок пока нет':'Вы ещё не отправляли заявки'}</h3><p>${all.length?'Выберите другой статус, чтобы увидеть остальные отклики.':'Выберите команду или лобби в поиске.'}</p>${button(all.length?'Показать все заявки':'Найти команду',all.length?'application-filter':'go',all.length?{value:'all',secondary:true}:{screen:'search'})}</div>`}</div>
+  </section></div>`;
+}
 
 function createView(){return title('Создать команду или лобби','groups')+`<div class="center"><div class="symbol">${svg('star')}</div><h2>Нужна подписка</h2><p>WithTeam Plus позволяет создавать постоянные команды и временные лобби.</p><div class="actions">${button('Посмотреть тарифы','go',{screen:'subscription'})}${button('Вернуться к моим командам','go',{screen:'groups',secondary:true})}</div></div>`}
 function draft(){
   return ui.newDraft||(ui.newDraft={type:'team',name:'',game:'Dota 2',goal:'Регулярные рейтинговые матчи',language:'Русский',startsOn:'',startsAt:'20:00',endsAt:'',repeatsWeekly:false,description:'',parent:''});
 }
 function validGroupDraft(d){
-  return d.name.trim()&&validDate(d.startsOn)&&d.startsOn>=todayDate()&&validTime(d.startsAt)
-    &&(!d.endsAt||(validTime(d.endsAt)&&d.endsAt!==d.startsAt));
+  const now=new Date();
+  return d.name.trim()&&validDate(d.startsOn)&&d.startsOn>=todayDate(now)&&validTime(d.startsAt)
+    &&(!d.endsAt||(validTime(d.endsAt)&&d.endsAt!==d.startsAt))&&!lobbyEnded(d,now);
 }
 function lobbyParentField(d){
   const teams=db.groups.filter(g=>g.type==='team'&&g.owner==='me'&&g.game===d.game).map(g=>[g.id,g.name]);
@@ -1280,7 +1398,13 @@ function requirementsView(){
   const vacancies=r.capacity-1;
   return title('Условия набора','new')+`<form id="recruit-form" class="content fields"><fieldset class="recruit-roles"><legend>Кого ищем?</legend><div class="options">${game.roles.map(role=>`<label class="chip"><input type="checkbox" name="roles" value="${esc(role)}" ${r.roles.includes(role)?'checked':''}>${esc(role)}</label>`).join('')}</div></fieldset><div class="form-grid">${field('rank','Ранг от',select('rank',['Любой',...game.ranks],r.rank))}${field('capacity','Сколько игроков ищем?',`<div class="stepper"><button type="button" data-action="seats" data-delta="-1" aria-label="На одного игрока меньше" ${vacancies<=1?'disabled':''}>−</button><input type="number" id="capacity" name="capacity" value="${vacancies}" min="1" max="${maxVacancies}" step="1" aria-describedby="capacity-limit" required><button type="button" data-action="seats" data-delta="1" aria-label="На одного игрока больше" ${vacancies>=maxVacancies?'disabled':''}>+</button></div>`)}</div><p class="hint" id="capacity-limit">Всего с организатором: <span id="vacancies">${r.capacity}</span>. Максимум для ${esc(d.game)}: ${game.teamSize}.</p>${field('text','Текст объявления (необязательно)',textarea('text',r.text,'maxlength="1500" placeholder="Например, какие навыки важны для команды"'))}<p class="error" id="recruit-error" role="alert"></p>${submit('Открыть набор')}</form>`;
 }
-function publishedView(){let g=group(route.id);if(!g||g.owner!=='me')return missing();return title('Набор открыт')+`<div class="center"><div class="symbol round">${svg('check')}</div><h2>Можно знакомиться с игроками</h2><p>${metadata(g.name, g.game)}</p><div class="actions">${button(g.type==='team'?'Открыть мою команду':'Открыть моё лобби','go',{screen:'team',id:g.id,secondary:true})}${button('Перейти к заявкам','go',{screen:'incoming',id:g.id})}</div></div>`}
+function publishedView(){
+  const g=group(route.id);
+  if(!g||g.owner!=='me')return missing();
+  const open=recruitmentOpen(g);
+  const heading=open?'Набор открыт':lobbyEnded(g)?'Лобби завершилось':'Набор завершён';
+  return title(heading)+`<div class="center"><div class="symbol round">${svg(open?'check':'clock')}</div><h2>${esc(g.name)}</h2><p>${esc(g.game)}</p><div class="actions">${button(g.type==='team'?'Открыть мою команду':'Открыть моё лобби','go',{screen:'team',id:g.id,secondary:true})}${button('Перейти к заявкам','go',{screen:'incoming',id:g.id})}</div></div>`;
+}
 function incomingView(){let g=group(route.id);if(!g||g.owner!=='me')return missing('Управлять заявками может только организатор команды или лобби.');let as=db.applications.filter(a=>a.group===g.id).sort((a,b)=>(a.status==='pending'?-1:1)-(b.status==='pending'?-1:1)||b.created-a.created);return title('Входящие заявки','team/'+g.id)+`<p class="subtitle">${metadata(g.name, `Свободных мест: ${capacity(g)}`)}</p><div class="grid">${as.length?as.map(a=>`<button class="card candidate-card" data-action="go" data-screen="candidate" data-id="${a.id}"><span class="candidate-arrow">${svg('next')}</span><h3>${esc(player(a.player)?.nick)}</h3><p class="muted">${metadata(player(a.player)?.rank, a.role, `${player(a.player)?.hours||0} часов`)}</p>${badge(a.status)}</button>`).join(''):'<div class="empty-inline">Пока нет заявок.</div>'}</div>`}
 function candidateView(){let a=db.applications.find(a=>a.id===route.id),g=a&&group(a.group),p=a&&player(a.player);if(!a||!g||g.owner!=='me'||!p)return missing();const ended=lobbyEnded(g);return title('Заявка от '+p.nick,'incoming/'+g.id)+`<div class="narrow"><div class="card candidate-summary"><div class="person">${avatar(p.id)}<h2>${esc(p.nick)}</h2></div><p class="muted">${metadata(g.game, p.rank, a.role)}</p>${a.text?`<p>${esc(a.text)}</p>`:''}${badge(a.status)}</div><div class="actions">${button('Написать','dm',{id:p.id,secondary:true})}${a.status==='pending'?button('Отклонить заявку','decide',{id:a.id,status:'rejected',secondary:true})+button(ended?'Лобби завершилось':capacity(g)?'Принять в '+(g.type==='team'?'команду':'лобби'):'Состав собран','decide',{id:a.id,status:'accepted',disabled:ended||!capacity(g)}):''}</div></div>`}
 const authorName = m => m.author === 'me' ? 'Вы' : player(m.author)?.nick || 'Участник';
@@ -1452,11 +1576,11 @@ function callView() {
   const ids = ['me', ...others];
   return heading + `<div class="video-call"><section class="video-stage" aria-label="Демонстрация видеозвонка">
     <div class="video-stage-head"><h2>${esc(chatName(c))}</h2><time class="video-time" data-call-timer aria-label="Длительность звонка"></time></div>
-    <div class="video-tiles">${ids.map((id, index) => videoTile(id, index, call)).join('')}</div>
+    <div class="video-tiles" role="group" aria-label="Участники звонка" tabindex="0">${ids.map((id, index) => videoTile(id, index, call)).join('')}</div>
     <div class="video-controls" aria-label="Управление звонком">
       <button type="button" data-action="toggle-call-media" data-value="microphone" aria-pressed="${!!call.microphone}" ${call.pending.has('microphone') ? 'disabled' : ''}>${svg(call.microphone ? 'mic' : 'micOff')} Микрофон</button>
       <button type="button" data-action="toggle-call-media" data-value="camera" aria-pressed="${!!call.camera}" ${call.pending.has('camera') ? 'disabled' : ''}>${svg(call.camera ? 'video' : 'videoOff')} Камера</button>
-      <button type="button" data-action="go" data-screen="chat" data-id="${esc(c.id)}">${svg('minimize')} Свернуть</button>
+      <button type="button" data-action="minimize-call" data-id="${esc(c.id)}">${svg('minimize')} Свернуть</button>
       <button type="button" data-action="end-call">${svg('hangup')} Завершить звонок</button>
     </div><p class="hint">Демозвонок. Аудио и видео другим участникам не передаются.</p>
   </section></div>`;
@@ -1494,10 +1618,13 @@ function settingsFormView(){let s=route.screen,u=db.user;let names={edit:'Изм
 if(s==='edit')body=field('nick','Ник',input('nick',u.nick,'required maxlength="32" autocomplete="nickname"'))+field('about','О себе',textarea('about',u.about,'maxlength="1000"'));
 if(s==='preferences')body=field('language','Язык общения',select('language',['Русский','English'],u.language))+field('schedule','Время игры',input('schedule',u.schedule,'maxlength="140"'))+field('goal','Игровые цели',input('goal',u.goal,'maxlength="140"'));
 if(s==='games'){let game=ui.profileGame||u.profiles[0]?.game||'Dota 2',p=u.profiles.find(p=>p.game===game)||{game,rank:games[game].ranks[0],role:games[game].roles[0]};body=u.profiles.map(p=>'<div class="card"><h3>'+esc(p.game)+'</h3><p class="muted">'+esc(p.rank)+', '+esc(p.role)+'</p></div>').join('')+field('game','Игра',select('game',Object.keys(games),p.game))+field('rank','Ранг',select('rank',games[p.game].ranks,p.rank))+field('role','Роль',select('role',games[p.game].roles,p.role));}
-if(s==='timezone')body=field('timezone','Часовой пояс',select('timezone',[['Europe/Kaliningrad','Калининград (UTC+2)'],['Europe/Moscow','Москва (UTC+3)'],['Asia/Yekaterinburg','Екатеринбург (UTC+5)'],['Asia/Novosibirsk','Новосибирск (UTC+7)'],['Asia/Vladivostok','Владивосток (UTC+10)']],u.timezone))+'<p class="hint">Часовой пояс используется для времени сообщений и заявок.</p>';
+if(s==='timezone')body=field('timezone','Часовой пояс',select('timezone',[['Europe/Kaliningrad','Калининград (UTC+2)'],['Europe/Moscow','Москва (UTC+3)'],['Asia/Yekaterinburg','Екатеринбург (UTC+5)'],['Asia/Novosibirsk','Новосибирск (UTC+7)'],['Asia/Vladivostok','Владивосток (UTC+10)']],u.timezone))+'<p class="hint">В выбранном поясе отображается время сообщений и заявок. Опубликованные лобби сохраняют свой часовой пояс.</p>';
 if(s==='notifications')body=check('applications','Обновления по заявкам')+check('messages','Новые сообщения')+'<p class="hint">В демоверсии системные уведомления отключены.</p>';
-if(s==='privacy')body=check('visible','Показывать игровой профиль')+check('allowDM','Разрешить личные сообщения')+'<p class="hint">Параметры действуют в этом браузере.</p>';
-return title(names[s],['preferences','games'].includes(s)?'profile':'settings')+`<form id="settings-form" class="narrow fields">${body}${submit('Сохранить')}</form>`}
+if(s==='privacy')body=check('visible','Показывать игровой профиль')+check('allowDM','Разрешить личные сообщения')+'<p class="hint">Настройки сохраняются для демонстрации в этом браузере.</p>';
+return title(names[s],settingsParent(s))+`<form id="settings-form" class="narrow fields">${body}${submit('Сохранить')}</form>`}
+function settingsParent(screen) {
+  return ['preferences','games'].includes(screen) ? 'profile' : 'settings';
+}
 const views={search:searchView,filters:filtersView,team:teamView,player:playerView,apply:applyView,application:applicationView,groups:groupsView,applications:applicationsView,create:createView,new:newView,requirements:requirementsView,published:publishedView,incoming:incomingView,candidate:candidateView,messages:messagesView,chat:chatView,call:callView,profile:profileView,subscription:subscriptionView,settings:settingsView,edit:settingsFormView,preferences:settingsFormView,games:settingsFormView,timezone:settingsFormView,notifications:settingsFormView,privacy:settingsFormView,signin:signInView};
 const navRoutes = [ ['search','Поиск'], ['groups','Мои команды'], ['messages','Сообщения'], ['profile','Профиль'] ];
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -1569,12 +1696,6 @@ function activeNavSection(screen, id) {
   if (['profile','subscription','settings','edit','preferences','games','timezone','notifications','privacy'].includes(screen)) return 'profile';
   return 'search';
 }
-function callIndicator() {
-  return `<div class="call-indicator" aria-label="Активный видеозвонок">
-    <button type="button" class="return-call" data-action="return-call" aria-label="В звонке. Вернуться в звонок">${svg('video')} <span class="call-status-label">В звонке</span><time data-call-timer></time></button>
-    <button type="button" class="quick-hangup" data-action="end-call" aria-label="Завершить звонок" title="Завершить звонок">${svg('hangup')}</button>
-  </div>`;
-}
 const floatingCall = document.getElementById('floating-call');
 floatingCall.innerHTML = `
   <button type="button" class="floating-call-grip" data-floating-drag aria-label="Переместить окно звонка" aria-describedby="floating-call-help">
@@ -1586,7 +1707,7 @@ floatingCall.innerHTML = `
     <video id="floating-call-video" aria-label="Предпросмотр вашей камеры" autoplay muted playsinline hidden></video>
   </div>
   <div class="floating-call-actions">
-    <button type="button" data-action="return-call" aria-label="Вернуться в звонок" title="Вернуться в звонок">${svg('video')} Вернуться</button>
+    <button type="button" data-action="return-call" aria-label="Вернуться в звонок" title="Вернуться в звонок">${svg('video')} <span>Вернуться</span></button>
     <button type="button" data-action="end-call" aria-label="Завершить звонок" title="Завершить звонок">${svg('hangup')}</button>
   </div>`;
 const floatingGrip = floatingCall.querySelector('[data-floating-drag]');
@@ -1604,19 +1725,21 @@ function floatingBounds() {
   const left = (viewport?.offsetLeft || 0) + gap;
   const viewportTop = viewport?.offsetTop || 0;
   const right = left + (viewport?.width || window.innerWidth) - 2 * gap;
-  const viewportBottom = viewportTop + (viewport?.height || window.innerHeight) - gap;
+  const viewportHeight = viewport?.height || window.innerHeight;
+  const viewportBottom = viewportTop + viewportHeight - gap;
   const navBox = nav.getBoundingClientRect();
-  const top = Math.max(viewportTop + gap, mobile ? 0 : navBox.bottom + gap);
-  const indicator = mobile && nav.querySelector('.call-indicator');
-  const navTop = indicator ? indicator.getBoundingClientRect().top : navBox.top;
-  const bottom = mobile ? Math.min(viewportBottom, navTop - gap) : viewportBottom;
+  const pageTop = Math.max(viewportTop + gap, mobile ? 0 : navBox.bottom + gap);
+  const bottom = mobile ? Math.min(viewportBottom, navBox.top - gap) : viewportBottom;
   const composer = document.getElementById('message-form');
   const composerTop = composer?.getBoundingClientRect().top;
-  const aboveComposer = composerTop > top ? Math.min(bottom, composerTop - gap) : bottom;
+  const aboveComposer = composerTop > pageTop ? Math.min(bottom, composerTop - gap) : bottom;
+  const threadHeader = mobile && composer && composer.closest('.chat')?.querySelector('.thread-header');
+  const belowHeader = threadHeader ? Math.max(pageTop, threadHeader.getBoundingClientRect().bottom + gap) : pageTop;
   floatingCall.style.maxWidth = `${Math.max(0, right - left)}px`;
   floatingCall.classList.remove('is-compact');
-  floatingCall.classList.toggle('is-compact', floatingCall.offsetHeight > aboveComposer - top);
+  floatingCall.classList.toggle('is-compact', (mobile && viewportHeight <= 460) || floatingCall.offsetHeight > aboveComposer - belowHeader);
   const height = floatingCall.offsetHeight;
+  const top = height <= aboveComposer - belowHeader ? belowHeader : pageTop;
   return {
     left, top,
     right: Math.max(left, right - floatingCall.offsetWidth),
@@ -1653,6 +1776,7 @@ function renderFloatingCall(visible) {
   }
   const chat = db.chats.find(c => c.id === ui.call.id);
   const name = chat ? conversationTitle(chat) : 'Видеозвонок';
+  floatingGrip.setAttribute('aria-label', 'Переместить окно звонка «' + name + '»');
   floatingName.textContent = name;
   floatingName.title = name;
   floatingAvatar.textContent = initials(db.user.nick);
@@ -1701,12 +1825,15 @@ window.addEventListener('resize', positionFloatingCall);
 window.visualViewport?.addEventListener('resize', positionFloatingCall);
 window.visualViewport?.addEventListener('scroll', positionFloatingCall);
 
-function render({resultsChanged=false, scrollChatToEnd=false} = {}) {
+function render({resultsChanged=false, scrollChatToEnd=false, preserveSettingsDraft=false} = {}) {
   const {screen, id} = route;
   const previousList = document.getElementById('conversation-list');
   if (previousList?.clientHeight) ui.conversationListScroll = previousList.scrollTop;
   const routeKey = href(screen, id);
   const routeChanged = lastRoute !== routeKey;
+  const settingsDraft = preserveSettingsDraft && !routeChanged
+    ? app.querySelector('#settings-form[data-dirty]') : null;
+  const settingsFocus = settingsDraft?.contains(document.activeElement) ? document.activeElement : null;
   const previousLog = document.getElementById('chatlog');
   const previousComposer = document.getElementById('message');
   const caret = !routeChanged && previousComposer && document.activeElement === previousComposer
@@ -1714,21 +1841,24 @@ function render({resultsChanged=false, scrollChatToEnd=false} = {}) {
     : null;
   if (previousLog?.dataset.chatId) rememberChatScroll(previousLog);
   chatViewport?.disconnect();
-  const showIndicator = !!ui.call && !(screen === 'call' && id === ui.call.id);
+  const showFloatingCall = !!ui.call && !(screen === 'call' && id === ui.call.id);
   const navSection = activeNavSection(screen, id);
   app.dataset.screen = screen;
   app.classList.toggle('messenger-screen', screen === 'messages' || screen === 'chat');
-  document.body.classList.toggle('has-call-indicator', showIndicator);
   document.body.classList.toggle('signed-out', !!db.signedOut);
   nav.innerHTML = db.signedOut ? '<span class="brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>WithTeam</span>' : `
     <button class="brand" data-action="go" data-screen="search" aria-label="WithTeam — Поиск"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>WithTeam</button>
-    ${showIndicator ? callIndicator() : ''}
     ${navRoutes.map(([s, t]) => `<button class="nav-item" data-action="go" data-screen="${s}" ${navSection === s ? 'aria-current="page"' : ''}>${svg(s)}<span>${t}</span></button>`).join('')}`;
   closeCalendar();
   app.innerHTML = (views[screen] || (() => missing()))();
+  if (settingsDraft) {
+    app.querySelector('#settings-form')?.replaceWith(settingsDraft);
+    settingsFocus?.focus({preventScroll:true});
+  }
   document.title = 'WithTeam — ' + (app.querySelector('h1')?.textContent || 'Поиск');
   const log = document.getElementById('chatlog');
   if (log) {
+    ui.lastChatId = id;
     log.dataset.chatId = id;
     const composer = document.getElementById('message');
     composer.value = messageDrafts.get(id) || '';
@@ -1759,13 +1889,13 @@ function render({resultsChanged=false, scrollChatToEnd=false} = {}) {
   }
   animateView(routeChanged, resultsChanged);
   syncPreview();
-  renderFloatingCall(showIndicator);
+  renderFloatingCall(showFloatingCall);
   updateTimer();
 }
 function replaceRoute(screen) {
   history.replaceState({withteam:true}, '', href(screen));
 }
-function readRoute() {
+function readRoute({preserveSettingsDraft=false} = {}) {
   let [screen, id = ''] = (location.hash.slice(1) || 'search').split('/');
   if (screen === 'app') { screen = 'search'; id = ''; replaceRoute(screen); }
   if (db.signedOut) {
@@ -1773,6 +1903,7 @@ function readRoute() {
     chatScroll.clear();
     ui.messageType = 'all';
     ui.messageQuery = '';
+    ui.lastChatId = null;
     if (screen !== 'signin' || id) replaceRoute('signin');
     if (finishCall()) persist();
     screen = 'signin';
@@ -1788,7 +1919,7 @@ function readRoute() {
   if (ui.call && (!hasChatAccess(db.chats.find(c => c.id === ui.call.id)) || !event || event.ended)) {
     if (finishCall()) persist();
   }
-  render();
+  render({preserveSettingsDraft});
 }
 const callEvent = call => db.chats.find(c => c.id === call.id)?.messages.find(m => m.id === call.eventId);
 const callState = (id, eventId, started, floatingPosition=null) => ({id, eventId, started, floatingPosition, camera:null, microphone:null, pending:new Set()});
@@ -1839,8 +1970,17 @@ function endCall() {
   const id = finishCall();
   if (!id) return;
   persist();
-  if (route.screen === 'call' && route.id === id) go('chat', id);
+  if (route.screen === 'call' && route.id === id) leaveCallScreen(id);
   else render();
+}
+function leaveCallScreen(id) {
+  const chatHash = href('chat',id);
+  if (history.state?.fromHash === chatHash) {
+    history.back();
+    return;
+  }
+  history.replaceState({withteam:true,fromSection:'messages'}, '',chatHash);
+  readRoute();
 }
 function syncPreview() {
   const video = document.getElementById('local-video');
@@ -2074,8 +2214,22 @@ function decide(id,status){let a=db.applications.find(a=>a.id===id),g=a&&group(a
 document.addEventListener('click',e=>{let b=e.target.closest('[data-action]');if(!b||b.disabled)return;let {action,screen,id,value,field:filterField,status}=b.dataset;
 if(action==='sign-in')return changeSignIn(false);
 if(db.signedOut)return;
+if(action==='go'&&screen==='messages'&&b.classList.contains('nav-item')&&window.matchMedia('(min-width: 900px)').matches){
+  const last=db.chats.find(chat=>chat.id===ui.lastChatId);
+  if(hasChatAccess(last)){
+    if(route.screen!=='chat'||route.id!==last.id)go('chat',last.id);
+    return;
+  }
+}
 if(action==='application-filter'&&(ui.applicationFilter||'all')!==value){ui.applicationFilter=value;return renderListChange(b)}
-if(action==='back'){if(history.state?.withteam)history.back();else go(screen,id);return}if(action==='seats'){let input=document.getElementById('capacity');input.value=Math.min(Number(input.max),Math.max(Number(input.min),Math.trunc(Number(input.value))+Number(b.dataset.delta)));input.dispatchEvent(new Event('input',{bubbles:true}));return}if(action==='go'){if(b.matches('.nav-item,.brand,.conversation-row')&&screen===route.screen&&(id||'')===route.id)return;if(screen==='games')ui.profileGame=null;if(screen==='player'&&group(route.id))ui.playerGame=group(route.id).game;if(route.screen==='new'){let f=document.getElementById('new-form');if(f)captureNew(f)}go(screen,id);}
+if(action==='back'){if(history.state?.withteam)history.back();else go(screen,id);return}if(action==='seats'){let input=document.getElementById('capacity');input.value=Math.min(Number(input.max),Math.max(Number(input.min),Math.trunc(Number(input.value))+Number(b.dataset.delta)));input.dispatchEvent(new Event('input',{bubbles:true}));return}if(action==='go'){if(b.matches('.nav-item,.brand,.conversation-row')&&screen===route.screen&&(id||'')===route.id)return;if(screen==='games')ui.profileGame=null;if(route.screen==='new'){let f=document.getElementById('new-form');if(f)captureNew(f)}
+  if(screen==='player'){
+    ui.playerGame=group(route.id)?.game;
+    go(screen,id);
+    if(ui.playerGame)history.replaceState({...history.state,playerGame:ui.playerGame},'');
+    ui.playerGame=null;
+  }else go(screen,id);
+}
 if(action==='search-tab'&&ui.searchType!==value){ui.searchType=value;renderListChange(b)}
 if(action==='group-tab'){if(value==='applications')go('applications');else if(ui.groupType!==value){ui.groupType=value;renderListChange(b)}}
 if(action==='message-tab'&&ui.messageType!==value){
@@ -2111,6 +2265,10 @@ if(action==='dm'){if(id==='me')return go('profile');if(!player(id))return;let c=
 if(action==='decide')decide(id,status);
 if(action==='start-call')startCall(id);
 if(action==='return-call'&&ui.call)go('call',ui.call.id);
+if(action==='minimize-call'&&ui.call?.id===id){
+  b.disabled=true;
+  leaveCallScreen(id);
+}
 if(action==='toggle-call-media')toggleCallMedia(value);
 if(action==='end-call')endCall();
 if(action==='sign-out')changeSignIn(true);
@@ -2123,6 +2281,7 @@ document.addEventListener('input',e=>{
 document.addEventListener('input',e=>{
   const form=e.target.closest('form');
   if(!form)return;
+  if(form.id==='settings-form')form.setAttribute('data-dirty','');
   if(form.id==='message-form'&&e.target.name==='message'){
     if(e.target.value)messageDrafts.set(route.id,e.target.value);
     else messageDrafts.delete(route.id);
@@ -2147,13 +2306,14 @@ if(f.id==='new-form'){
   if(!validGroupDraft(d)){
     const error=document.getElementById('schedule-error');
     const invalidDate=!validDate(d.startsOn)||d.startsOn<todayDate();
-    error.textContent=invalidDate?'Выберите дату игры, начиная с сегодняшнего дня.':d.startsAt===d.endsAt?'Укажите разное время начала и окончания.':'Проверьте время игры.';
+    const ended=lobbyEnded(d);
+    error.textContent=invalidDate?'Выберите дату игры, начиная с сегодняшнего дня.':d.startsAt===d.endsAt?'Укажите разное время начала и окончания.':ended?'Это лобби уже завершилось. Выберите другое время или дату.':'Проверьте время игры.';
     error.hidden=false;
     if(invalidDate){
       const trigger=document.getElementById('startsOn-trigger');
       trigger.setAttribute('aria-invalid','true');
       trigger.focus();
-    }
+    } else if(ended) f.elements.endsAt.focus();
     return;
   }
   go('requirements');
@@ -2161,12 +2321,17 @@ if(f.id==='new-form'){
 if(f.id==='recruit-form'){
   if(!db.plus)return go('subscription');
   const d=draft();
-  if(!validGroupDraft(d))return go('new');
+  if(!validGroupDraft(d)){
+    go('new');
+    if(lobbyEnded(d))toast('Лобби уже завершилось. Выберите другое время или дату.');
+    return;
+  }
   const game=games[d.game], roles=data.getAll('roles').filter(role=>game.roles.includes(role));
   const capacity=Number(v.capacity)+1, error=document.getElementById('recruit-error');
   if(!roles.length){error.textContent='Выберите хотя бы одну игровую роль.';return;}
   if(!Number.isInteger(capacity)||capacity<2||capacity>game.teamSize){error.textContent='Укажите от 1 до '+(game.teamSize-1)+' игроков.';return;}
   const g={id:newId('group'),...d,name:d.name.trim(),goal:d.goal.trim(),description:d.description.trim(),owner:'me',members:['me'],capacity,rank:v.rank,roles,active:true,recruitText:v.text.trim(),schedule:scheduleLabel(d),period:timePeriod(d.startsAt)};
+  if(g.type==='lobby')g.scheduleTimeZone=db.user.timezone;
   db.groups.push(g);
   ensureGroupChat(g);
   ui.newDraft=null;
@@ -2182,7 +2347,46 @@ if(f.id==='message-form'){
   render({scrollChatToEnd:true});
   document.getElementById('message')?.focus({preventScroll:true});
 }
-if(f.id==='settings-form'){let s=route.screen;if(s==='edit'){if(!v.nick.trim())return toast('Введите ник.');db.user.nick=v.nick.trim();db.user.about=v.about.trim()}if(s==='preferences'){db.user.language=v.language;db.user.schedule=v.schedule.trim();db.user.goal=v.goal.trim()}if(s==='games'){let p={game:v.game,rank:v.rank,role:v.role},index=db.user.profiles.findIndex(p=>p.game===v.game);if(index<0)db.user.profiles.push(p);else db.user.profiles[index]=p;ui.profileGame=v.game;}if(s==='timezone')db.user.timezone=v.timezone;if(s==='notifications'){db.settings.applications=data.has('applications');db.settings.messages=data.has('messages')}if(s==='privacy'){db.settings.visible=data.has('visible');db.settings.allowDM=data.has('allowDM')}persist();go(['preferences','games'].includes(s)?'profile':'settings');toast('Изменения сохранены')}
+if(f.id==='settings-form'){
+  const screen=route.screen;
+  if(screen==='edit'){
+    const nick=v.nick.trim();
+    if(!nick){
+      f.elements.nick.value='';
+      f.elements.nick.reportValidity();
+      return;
+    }
+    db.user.nick=nick;
+    db.user.about=v.about.trim();
+  }
+  if(screen==='preferences'){
+    db.user.language=v.language;
+    db.user.schedule=v.schedule.trim();
+    db.user.goal=v.goal.trim();
+  }
+  if(screen==='games'){
+    const profile={game:v.game,rank:v.rank,role:v.role};
+    const index=db.user.profiles.findIndex(entry=>entry.game===v.game);
+    if(index<0)db.user.profiles.push(profile);
+    else db.user.profiles[index]=profile;
+    ui.profileGame=v.game;
+  }
+  if(screen==='timezone')changeTimezone(v.timezone);
+  if(screen==='notifications'){
+    db.settings.applications=data.has('applications');
+    db.settings.messages=data.has('messages');
+  }
+  if(screen==='privacy'){
+    db.settings.visible=data.has('visible');
+    db.settings.allowDM=data.has('allowDM');
+  }
+  if(persist())toast('Изменения сохранены');
+  if(history.state?.withteam)history.back();
+  else {
+    replaceRoute(settingsParent(screen));
+    readRoute();
+  }
+}
 });
 function updateTimer() {
   if (!ui.call) return;
@@ -2200,7 +2404,16 @@ document.querySelector('.skip').addEventListener('click', event => {
 document.addEventListener('scroll', event => {
   if (event.target.id === 'chatlog') rememberChatScroll(event.target);
 }, {capture:true, passive:true});
-window.addEventListener('storage',e=>{if(e.key!==STORAGE)return;try{let value=JSON.parse(e.newValue);if(value?.version===2&&value.groups&&value.user){db=value;readRoute()}}catch{}});
+window.addEventListener('storage', event => {
+  if (event.key !== STORAGE) return;
+  try {
+    const value = JSON.parse(event.newValue);
+    if (value?.version === 2 && value.groups && value.user) {
+      db = value;
+      readRoute({preserveSettingsDraft:true});
+    }
+  } catch {}
+});
 ui.call = restoreCall();
 setInterval(updateTimer,1000);
 readRoute();
