@@ -96,32 +96,151 @@
 .application-help li{padding-left:4px}
 @media(max-width:760px){.application-workspace>section>.list{grid-column:1;grid-row:2}.application-workspace>.application-help{grid-column:1;grid-row:3}.application-card,.application-help{padding:16px}}
 
-/* Chat uses the available viewport; only the message history scrolls. */
-.shell.chat-screen{height:100dvh;min-height:0;display:flex;flex-direction:column;padding-bottom:24px;overflow:hidden}
-.chat-screen>.page-head{flex-shrink:0}
-.chat-screen>.chat{display:flex;flex-direction:column;flex:1;min-height:0;width:100%;margin-top:0;margin-bottom:0}
-.chat-screen .callbar{flex-shrink:0}
-.chat-screen .chatlog{flex:1;min-height:0;max-height:none;overflow-y:auto;padding:20px 0}
-.chat-screen .composer{flex-shrink:0;padding-top:12px;border-top:1px solid var(--line)}
-.chat-screen .composer textarea{margin:0}
-@media(max-width:899px){.shell.chat-screen{padding-bottom:calc(90px + env(safe-area-inset-bottom))}.chat-screen .composer textarea{font-size:16px}}
+/* Conversation list and thread scroll independently. */
+.shell.messenger-screen {
+  height: 100dvh; min-height: 0; padding-bottom: 24px;
+  display: flex; flex-direction: column;
+}
+.messenger-workspace {
+  display: grid; grid-template-columns: minmax(280px, 31%) minmax(0, 1fr);
+  flex: 1; min-height: 0; border: 1px solid var(--line);
+  border-radius: var(--radius); overflow: hidden;
+}
+.conversation-sidebar {
+  min-width: 0; min-height: 0; display: flex; flex-direction: column;
+  background: var(--panel); border-inline-end: 1px solid var(--line);
+}
+.conversation-sidebar-head {
+  padding: 18px 14px 12px; border-bottom: 1px solid var(--line);
+}
+.conversation-sidebar-head :is(h1, h2) {
+  margin: 0 0 12px; font-size: 21px; line-height: 1.22;
+}
+.conversation-sidebar-head h1:focus { outline: none; }
+.conversation-search { position: relative; display: block; }
+.conversation-search > svg {
+  position: absolute; inset-inline-start: 11px; top: 50%; transform: translateY(-50%);
+  width: 16px; height: 16px; color: var(--dim); pointer-events: none;
+}
+.conversation-search input {
+  display: block; width: 100%; min-width: 0; min-height: 44px;
+  padding: 8px 34px 8px 35px; border: 1px solid var(--line-strong);
+  border-radius: 7px; background: var(--bg); color: var(--text);
+}
+.conversation-search input::placeholder { color: var(--dim); }
+.conversation-sidebar .tabs { margin: 10px 0 0; gap: 5px; }
+.conversation-sidebar .chip { padding-inline: 8px; }
+.conversation-list {
+  flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin;
+  list-style: none; margin: 0; padding: 6px 7px;
+}
+.conversation-item + .conversation-item { margin-top: 2px; }
+.conversation-row {
+  position: relative; display: grid; grid-template-columns: auto minmax(0,1fr);
+  align-items: center; gap: 10px; width: 100%; min-height: 68px;
+  padding: 9px; text-align: start; border: 1px solid transparent; border-radius: 7px;
+  background: transparent; color: var(--text);
+}
+.conversation-row[aria-current=true] {
+  background: var(--surface-hover); border-color: var(--line);
+}
+.conversation-row[aria-current=true]::before {
+  content: ""; position: absolute; inset: 9px auto 9px 0; width: 2px;
+  border-radius: 2px; background: var(--purple);
+}
+.conversation-row:focus-visible { outline-offset: -1px; }
+.conversation-avatar {
+  display: grid; place-items: center; flex: none; width: 38px; height: 38px;
+  border-radius: 8px; background: var(--surface-accent); color: var(--purple);
+  font-size: 12px; font-weight: 650; letter-spacing: .025em;
+}
+.conversation-avatar.is-lobby { background: var(--card); }
+.conversation-avatar.is-lobby svg { width: 18px; height: 18px; }
+.conversation-row > .avatar { width: 38px; height: 38px; }
+.conversation-copy, .conversation-copy-head { min-width: 0; display: block; }
+.conversation-copy-head { display: flex; align-items: baseline; gap: 6px; justify-content: space-between; }
+.conversation-name, .conversation-preview {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.conversation-name { font-size: 14px; font-weight: 650; }
+.conversation-copy time {
+  color: var(--dim); white-space: nowrap; font-size: 11px; font-variant-numeric: tabular-nums; flex: none;
+}
+.conversation-preview { display: block; margin-top: 3px; color: var(--dim); font-size: 12px; }
+.conversation-preview.is-live { color: var(--green); }
+.conversation-empty { padding: 17px 9px; color: var(--dim); font-size: 13px; }
+.messenger-thread, .messenger-thread > .chat { min-width: 0; min-height: 0; }
+.messenger-thread { display: flex; flex-direction: column; }
+.messenger-thread > .chat {
+  display: flex; flex-direction: column; flex: 1; width: 100%; max-width: none; margin: 0;
+  padding-inline: clamp(14px, 2vw, 26px);
+}
+.thread-header {
+  flex: none; display: flex; align-items: center; gap: 10px; min-height: 72px;
+  padding-block: 8px; border-bottom: 1px solid var(--line); margin: 0;
+}
+.thread-identity { flex: 1; min-width: 0; }
+.thread-identity h1 {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 21px; line-height: 1.25;
+}
+.thread-identity small { display: block; margin-top: 3px; }
+.thread-header .thread-back { display: none; width: 44px; height: 44px; }
+.thread-header .callbar { flex: none; }
+.messenger-thread .chatlog {
+  flex: 1; min-height: 0; max-height: none; overflow-y: auto; padding: 18px 0;
+}
+.messenger-thread .chatlog > :first-child { margin-block-start: auto; }
+.messenger-thread .composer {
+  flex: none; padding: 12px 0; border-top: 1px solid var(--line);
+}
+.messenger-thread .composer textarea { margin: 0; }
+.thread-placeholder {
+  display: grid; justify-items: center; align-content: center; gap: 8px;
+  flex: 1; padding: 20px; text-align: center; color: var(--dim);
+}
+.thread-placeholder > svg { width: 28px; height: 28px; color: var(--purple); }
+.thread-placeholder :is(h1, h2) { color: var(--text); font-size: 17px; }
+.thread-unavailable { padding: 0 18px; }
+@media (hover: hover) {
+  .conversation-row:hover { background: var(--card); }
+  .conversation-row[aria-current=true]:hover { background: var(--surface-hover); }
+}
+@media (max-width: 899px) {
+  .shell.messenger-screen { padding-bottom: calc(90px + env(safe-area-inset-bottom)); }
+  .messenger-workspace {
+    grid-template-columns: minmax(0, 1fr); border: 0; border-radius: 0;
+  }
+  .messenger-workspace.has-thread > .conversation-sidebar,
+  .messenger-workspace:not(.has-thread) > .messenger-thread { display: none; }
+  .conversation-sidebar { background: transparent; border: 0; }
+  .conversation-sidebar-head { padding: 0 0 12px; }
+  .conversation-sidebar-head h1 { font-size: 25px; }
+  .conversation-search input { font-size: 16px; }
+  .conversation-list { padding-inline: 0; }
+  .conversation-row { padding-inline: 9px; }
+  .messenger-thread > .chat { padding-inline: 0; }
+  .thread-header { min-height: 58px; padding-top: 0; }
+  .thread-header .thread-back { display: grid; }
+  .thread-unavailable { padding-inline: 0; }
+  .messenger-thread .composer { padding-bottom: 0; }
+  .messenger-thread .composer textarea { font-size: 16px; }
+}
+@media (max-width: 540px) {
+  .thread-header { gap: 7px; }
+  .thread-header .callbar {
+    justify-content: center; width: 44px; padding-inline: 0;
+  }
+  .thread-header .callbar > span { display: none; }
+  .thread-header > :is(.avatar, .conversation-avatar) { display: none; }
+  .thread-identity h1 { font-size: 17px; }
+}
+@media (max-height: 500px) {
+  .thread-header { min-height: 50px; }
+  .messenger-thread .composer textarea { min-height: 46px; }
+}
 
-/* Messages, chat and video call */
-.message-card {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; gap: 11px;
-  border: 1px solid var(--line); background: var(--card);
-}
-.message-card-icon {
-  display: grid; place-items: center; width: 32px; height: 32px;
-  border-radius: 7px; background: var(--surface-hover, #292238); color: var(--purple);
-}
-.message-card-icon svg { width: 16px; height: 16px; }
-.message-card h3 {
-  margin: 0; font-family: var(--font-display, inherit); font-size: 16px; font-weight: 650; line-height: 1.3;
-}
-.message-card small { display: block; margin-top: 2px; }
-.message-card p { margin-top: 7px; line-height: 1.45; }
-.message-card > svg { align-self: center; width: 15px; height: 15px; color: var(--dim); }
+/* Chat and video call */
 .chat .callbar {
   width: fit-content; min-height: 44px; gap: 7px; padding-inline: 12px;
   border: 1px solid var(--line); border-radius: 7px;
@@ -232,7 +351,7 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
 .call-indicator time { display: inline-flex; align-items: center; gap: 5px; min-width: 5em; font-size: 11px; }
 .call-indicator .return-call { font-size: 12px; font-weight: 650; }
 @media (hover: hover) {
-  .message-card:hover, .chat .callbar:hover, .call-event[data-action="return-call"]:hover {
+  .chat .callbar:hover, .call-event[data-action="return-call"]:hover {
     border-color: var(--purple); background: var(--surface-hover, #292238);
   }
   .video-controls button:hover:not(:disabled) { border-color: var(--purple); background: var(--surface-hover, #292238); }
@@ -251,7 +370,7 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
   .call-indicator { position: absolute; right: 12px; bottom: calc(100% + 8px); }
   .call-indicator button { min-height: 44px; }
   .call-indicator .quick-hangup { min-width: 44px; justify-content: center; }
-  .has-call-indicator .shell, .has-call-indicator .shell.chat-screen { padding-bottom: calc(140px + env(safe-area-inset-bottom)); }
+  .has-call-indicator .shell, .has-call-indicator .shell.messenger-screen { padding-bottom: calc(140px + env(safe-area-inset-bottom)); }
   .has-call-indicator .toast { bottom: calc(137px + env(safe-area-inset-bottom)); }
 }
 @media (max-width: 540px) {
@@ -355,7 +474,7 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
 }
 .content, .chat { width: 100%; max-width: var(--content-width); }
 .narrow { width: 100%; max-width: var(--narrow-width); }
-.shell:is([data-screen="team"], [data-screen="new"], [data-screen="requirements"], [data-screen="subscription"], [data-screen="chat"]) > .page-head {
+.shell:is([data-screen="team"], [data-screen="new"], [data-screen="requirements"], [data-screen="subscription"]) > .page-head {
   width: min(100%, var(--content-width));
   margin-inline: auto;
 }
@@ -775,6 +894,41 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .profilehero strong { font-size: 21px; }
   .account-menu { gap: 10px; }
 }
+/* Keep keyboard focus above the fixed navigation, including short viewports. */
+html { scroll-behavior: auto; scroll-padding-block: 86px 16px; }
+@media (max-width: 899px) {
+  html { scroll-padding-block: 8px calc(84px + env(safe-area-inset-bottom)); }
+  html:has(body.has-call-indicator) { scroll-padding-bottom: calc(142px + env(safe-area-inset-bottom)); }
+}
+
+.toast {
+  width: max-content;
+  overflow-wrap: anywhere;
+  pointer-events: none;
+}
+body:has(.messenger-screen) .toast { top: 84px; bottom: auto; }
+@media (max-width: 899px) {
+  body:has(.messenger-screen) .toast { top: max(12px, env(safe-area-inset-top)); }
+}
+
+.chat-day {
+  align-self: center;
+  padding: 4px 9px;
+  border-radius: 5px;
+  background: var(--surface-hover);
+  color: var(--dim);
+  font-size: 11px;
+  line-height: 1.35;
+}
+.chatlog:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.empty-inline > :is(.primary, .secondary, .link) { margin-top: 12px; }
+
+@media (hover: hover) {
+  :is(.candidate-card, .member, .attention, .review-applications):hover:not(:disabled) {
+    background: var(--surface-hover);
+    border-color: var(--line-strong);
+  }
+}
 </style>
 </head>
 <body>
@@ -823,19 +977,41 @@ const anyGame='Любая игра';
 const defaultFilters=()=>({game:anyGame,role:[],rank:'Любой',language:[],period:[],date:''});
 const ui={searchType:'team',groupType:'team',messageType:'all',filters:defaultFilters(),draftFilters:null,newDraft:null,recruitDraft:null,applicationDraft:{},call:null};
 const app=document.getElementById('app'),nav=document.getElementById('nav');
+const messageDrafts = new Map();
+const chatScroll = new Map();
+const chatViewport = 'ResizeObserver' in window ? new ResizeObserver(([entry]) => {
+  const log = entry.target;
+  if (chatScroll.get(log.dataset.chatId)?.atEnd) log.scrollTop = log.scrollHeight;
+}) : null;
+function rememberChatScroll(log) {
+  const {scrollTop, scrollHeight, clientHeight} = log;
+  chatScroll.set(log.dataset.chatId, {scrollTop, atEnd: scrollHeight - scrollTop - clientHeight < 32});
+}
 let route={screen:'search',id:''},lastRoute=null;let toastTimer;
 function toast(text){document.getElementById('toast')?.remove();let el=document.createElement('div');el.id='toast';el.className='toast';el.role='status';el.textContent=text;document.body.append(el);clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.remove(),3800)}
 function href(screen,id=''){return '#'+screen+(id?'/'+encodeURIComponent(id):'')}
-function go(screen,id=''){const hash=href(screen,id);if(location.hash!==hash)history.pushState({withteam:true},'',hash);readRoute()}
+function go(screen,id=''){const hash=href(screen,id);if(location.hash!==hash)history.pushState({withteam:true,fromSection:activeNavSection(route.screen,route.id)},'',hash);readRoute()}
 const player=id=>id==='me'?{...db.user,rank:db.user.profiles[0]?.rank||'Любой',role:db.user.profiles[0]?.role||'Любая',hours:2400}:db.players.find(p=>p.id===id);
 const group=id=>db.groups.find(g=>g.id===id);
 const initials=name=>{let words=String(name).trim().split(/[\s_-]+/);return (words.length===1?words[0].slice(0,2):words.map(w=>w[0]||'').slice(0,2).join('')).toUpperCase()};
 const capacity=g=>Math.max(0,g.capacity-g.members.length);
 const ownApplication=g=>db.applications.find(a=>a.group===g.id&&a.player==='me'&&a.status==='pending');
 const scheduleText=g=>String(g.schedule??'').replace(/\s*·\s*/g, ', ');
-const todayDate=()=>new Intl.DateTimeFormat('sv-SE',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:db.user.timezone}).format(new Date());
+const todayDate=(now=new Date())=>new Intl.DateTimeFormat('sv-SE',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:db.user.timezone}).format(now);
 const validDate=value=>/^\d{4}-\d{2}-\d{2}$/.test(value)&&!isNaN(Date.parse(value))&&new Date(value).toISOString().slice(0,10)===value;
 const validTime=value=>/^([01]\d|2[0-3]):[0-5]\d$/.test(value);
+function lobbyEnded(g,now=new Date()){
+  if(g.type!=='lobby'||!validDate(g.startsOn))return false;
+  const endTime=validTime(g.endsAt)?g.endsAt:'';
+  const overnight=endTime&&validTime(g.startsAt)&&endTime<g.startsAt;
+  const endDay=Date.parse(g.startsOn)+(overnight?86400000:0);
+  const today=Date.parse(todayDate(now));
+  if(today!==endDay)return today>endDay;
+  return !!endTime&&new Intl.DateTimeFormat('sv-SE',{
+    hour:'2-digit',minute:'2-digit',hourCycle:'h23',timeZone:db.user.timezone
+  }).format(now)>=endTime;
+}
+const recruitmentOpen=(g,now)=>g.active&&capacity(g)>0&&!lobbyEnded(g,now);
 function timePeriod(value){
   const hour=Number(value.slice(0,2));
   return hour<6||hour>=23?'Ночь':hour<12?'Утро':hour<18?'День':'Вечер';
@@ -954,11 +1130,12 @@ function teamCard(g){
 }
 function summaryCard(g){
   const pending=db.applications.filter(a=>a.group===g.id&&a.status==='pending').length;
+  const open=recruitmentOpen(g);
   return `<article class="card squad">
     <div class="teamtop">
       <span class="gameicon" aria-hidden="true">${games[g.game].icon}</span>
       <div><h3>${esc(g.name)}</h3><small>${esc(g.game)}, ${g.owner==='me'?'организатор':'участник'}</small></div>
-      <span class="badge ${g.active?'good':'neutral'}">${g.active?'Набор открыт':'Состав собран'}</span>
+      <span class="badge ${open?'good':'neutral'}">${open?'Набор открыт':lobbyEnded(g)?'Лобби завершилось':'Состав собран'}</span>
     </div>
     <dl class="meta">
       <div><dt>Когда играем</dt><dd>${esc(scheduleText(g))}</dd></div>
@@ -976,8 +1153,8 @@ function summaryCard(g){
 }
 
 function searchResults(){
-  const f=ui.filters;
-  return db.groups.filter(g=>g.active&&capacity(g)>0&&g.type===ui.searchType&&(f.game===anyGame||g.game===f.game)
+  const f=ui.filters, now=new Date();
+  return db.groups.filter(g=>g.type===ui.searchType&&(f.game===anyGame||g.game===f.game)&&recruitmentOpen(g,now)
     &&(!f.role.length||g.roles.some(role=>f.role.includes(role)))
     &&(f.rank==='Любой'||g.rank==='Любой'||games[g.game].ranks.indexOf(g.rank)>=games[g.game].ranks.indexOf(f.rank))
     &&(!f.language.length||f.language.includes(g.language))
@@ -997,7 +1174,7 @@ function filtersView(){
 function teamView(){
   const g=group(route.id);
   if(!g)return missing();
-  const mine=g.members.includes('me'), isOwner=g.owner==='me', application=ownApplication(g), open=g.active&&capacity(g)>0;
+  const mine=g.members.includes('me'), isOwner=g.owner==='me', application=ownApplication(g), open=recruitmentOpen(g);
   const action=isOwner?button('Входящие заявки','go',{screen:'incoming',id:g.id}):mine?button('Открыть чат','open-group-chat',{id:g.id}):application?button('Моя заявка','go',{screen:'application',id:application.id}):button(g.type==='team'?'Вступить в команду':'Вступить в лобби','go',{screen:'apply',id:g.id,disabled:!open});
   return title(g.name,mine?'groups':'search')+`<div class="content team-detail"><div class="banner"><span class="monogram">${esc(initials(g.name))}</span><span class="${open?'open':'muted'}">${open?'Набор открыт':'Набор завершён'}</span></div><dl class="meta"><div><dt>Игра</dt><dd>${esc(g.game)}</dd></div><div><dt>Формат</dt><dd>${g.type==='team'?'Постоянная команда':'Лобби на одну игру'}</dd></div><div><dt>Ранг</dt><dd>${esc(g.rank)}</dd></div><div><dt>Язык общения</dt><dd>${esc(g.language)}</dd></div><div><dt>Расписание</dt><dd>${esc(scheduleText(g))}</dd></div></dl>${g.goal?`<div class="section"><h2>Цель</h2><p class="muted">${esc(g.goal)}</p></div>`:''}<div class="section"><h2>Состав</h2><div class="muted spacer roster-details">${rosterMeter(g)}<span>Свободных мест: <strong class="note">${capacity(g)}</strong></span></div><div class="avatars">${g.members.map((id,i)=>`<button class="member" data-action="go" data-screen="player" data-id="${esc(id)}">${avatar(id,i)}<span>${esc(player(id)?.nick)}<small>${id===g.owner?'Капитан':id==='me'?'Вы':'Участник'}</small></span></button>`).join('')}</div></div>${open&&g.roles.length?`<div class="section"><h2>Открытые роли</h2><p class="note">${esc(g.roles.join(', '))}</p></div>`:''}${g.description||g.recruitText||g.parent?`<div class="section"><h2>О ${g.type==='team'?'команде':'лобби'}</h2>${g.description?'<p class="muted">'+esc(g.description)+'</p>':''}${g.recruitText?'<p class="muted">'+esc(g.recruitText)+'</p>':''}${g.parent?link('Команда: '+group(g.parent)?.name,'team',g.parent):''}</div>`:''}<div class="actions">${action}${isOwner?button('Открыть чат','open-group-chat',{id:g.id,secondary:true}):''}${link('Профиль капитана','player',g.owner)}</div></div>`;
 }
@@ -1008,13 +1185,14 @@ function applyView(){
   if(g.members.includes('me'))return title('Вы уже в составе','team/'+g.id)+missing('Откройте команду или лобби в разделе «Мои команды».');
   const application=ownApplication(g);
   if(application)return applicationView(application);
-  if(!g.active||!capacity(g))return title('Набор завершён','team/'+g.id)+missing('Свободных мест нет.');
+  if(lobbyEnded(g))return title('Лобби завершилось','team/'+g.id)+missing('Запланированная игра уже завершилась.');
+  if(!recruitmentOpen(g))return title('Набор завершён','team/'+g.id)+missing('Свободных мест нет.');
   const roles=g.roles.length?g.roles:games[g.game].roles;
   const d=ui.applicationDraft[g.id]||{role:roles[0],text:''};
   return title('Заявка '+(g.type==='team'?'в команду':'в лобби'),'team/'+g.id)+`<form id="apply-form" class="narrow fields" data-group="${esc(g.id)}"><div class="card application-summary"><h3>${esc(g.name)}</h3><p class="muted">${esc(g.game)}, ${esc(g.rank)}</p><p class="note">Свободных мест: ${capacity(g)}</p></div>${field('role','Ваша игровая роль',select('role',roles,d.role))}${field('text','Сообщение капитану (необязательно)',textarea('text',d.text,'maxlength="1000" placeholder="Например, когда вам удобно играть"'))}${submit('Отправить заявку')}</form>`;
 }
 function applicationView(selected){let a=selected||db.applications.find(x=>x.id===route.id&&x.player==='me');if(!a)return missing();let g=group(a.group);return title(a.status==='pending'?'Заявка отправлена':'Моя заявка','applications')+`<div class="center"><div class="symbol round">${svg(a.status==='accepted'?'check':a.status==='pending'?'check':'messages')}</div><h2>${({pending:'Ждёт решения',accepted:'Вас приняли',rejected:'В этот раз не подошло',withdrawn:'Заявка отозвана'})[a.status]}</h2><p>${({pending:'Решение появится в разделе «Мои заявки».',accepted:'Вы добавлены в состав. Познакомьтесь с другими игроками в чате.',rejected:'Вы можете подобрать другую команду или лобби в поиске.',withdrawn:'Заявка больше не участвует в наборе.'})[a.status]}</p><div class="card application-summary"><h3>${esc(g?.name)}</h3><p class="muted">${metadata(g?.game, a.role, shortDate(a.created))}</p>${a.text?`<p>${esc(a.text)}</p>`:''}${link('Посмотреть состав','team',g.id)}</div><div class="actions">${a.status==='accepted'?button('Открыть чат','open-group-chat',{id:g.id}):button('Мои заявки','go',{screen:'applications'})}${a.status==='pending'?button('Отозвать заявку','withdraw',{id:a.id,secondary:true}):button('Вернуться к поиску','go',{screen:'search',secondary:true})}</div></div>`}
-function groupsView(){let all=db.groups.filter(g=>g.members.includes('me')),teams=all.filter(g=>g.type==='team'),lobbies=all.filter(g=>g.type==='lobby'),pending=db.applications.filter(a=>group(a.group)?.owner==='me'&&a.status==='pending'),outgoing=db.applications.filter(a=>a.player==='me'&&a.status==='pending');let list=ui.groupType==='team'?teams:lobbies;return `<div class="dashboard-head"><div>${title('Мои команды')}</div>${button('Создать команду или лобби','create-group')}</div><div class="dashboard-layout"><section><div class="toolbar">${tabs([['team','Команды ('+teams.length+')'],['lobby','Лобби ('+lobbies.length+')'],['applications','Мои заявки']],ui.groupType,'group-tab')}</div><div class="squads">${list.length?list.map(summaryCard).join(''):`<div class="empty-inline"><h3>Здесь пока пусто</h3><p>Найдите подходящий состав или создайте свой.</p>${link('Перейти к поиску','search')}</div>`}</div></section><aside class="dashboard-aside"><section class="card"><h2>Требует внимания</h2>${pending.length?`<p class="muted">${pending.length} заявки ждут решения.</p>${[...new Set(pending.map(a=>a.group))].map(id=>`<button class="attention" data-action="go" data-screen="incoming" data-id="${id}"><strong>${esc(group(id).name)}</strong><span>Рассмотреть (${pending.filter(a=>a.group===id).length}) ${svg('next')}</span></button>`).join('')}`:'<p class="muted">Все заявки разобраны.</p>'}</section><section class="card"><h2>Ваши лобби</h2>${lobbies.length?lobbies.map(g=>`<div class="session"><strong>${esc(g.name)}</strong><p class="note">${esc(scheduleText(g))}</p><small>${metadata(g.game, `${g.members.length} из ${g.capacity} игроков`)}</small>${link('Перейти в чат','chat',ensureGroupChat(g).id)}</div>`).join(''):'<p class="muted">Присоединитесь к лобби, чтобы сыграть вместе сегодня.</p>'}</section><section class="card"><h2>Мои заявки</h2><p class="muted">${outgoing.length?'Ждут ответа: '+outgoing.length:'Все заявки рассмотрены.'}</p>${link('Посмотреть мои заявки','applications')}</section></aside></div>`}
+function groupsView(){let all=db.groups.filter(g=>g.members.includes('me')),teams=all.filter(g=>g.type==='team'),lobbies=all.filter(g=>g.type==='lobby'),pending=db.applications.filter(a=>group(a.group)?.owner==='me'&&a.status==='pending'),outgoing=db.applications.filter(a=>a.player==='me'&&a.status==='pending');let list=ui.groupType==='team'?teams:lobbies;return `<div class="dashboard-head"><div>${title('Мои команды')}</div>${button('Создать команду или лобби','create-group')}</div><div class="dashboard-layout"><section><div class="toolbar">${tabs([['team','Команды ('+teams.length+')'],['lobby','Лобби ('+lobbies.length+')'],['applications','Мои заявки']],ui.groupType,'group-tab')}</div><div class="squads">${list.length?list.map(summaryCard).join(''):`<div class="empty-inline"><h3>Здесь пока пусто</h3><p>Найдите подходящий состав или создайте свой.</p>${link('Перейти к поиску','search')}</div>`}</div></section><aside class="dashboard-aside"><section class="card"><h2>Требует внимания</h2>${pending.length?`<p class="muted">Ждут решения: ${pending.length}</p>${[...new Set(pending.map(a=>a.group))].map(id=>`<button class="attention" data-action="go" data-screen="incoming" data-id="${id}"><strong>${esc(group(id).name)}</strong><span>Рассмотреть (${pending.filter(a=>a.group===id).length}) ${svg('next')}</span></button>`).join('')}`:'<p class="muted">Все заявки разобраны.</p>'}</section><section class="card"><h2>Ваши лобби</h2>${lobbies.length?lobbies.map(g=>`<div class="session"><strong>${esc(g.name)}</strong><p class="note">${esc(scheduleText(g))}</p><small>${metadata(g.game, `${g.members.length} из ${g.capacity} игроков`)}</small>${link('Перейти в чат','chat',ensureGroupChat(g).id)}</div>`).join(''):'<p class="muted">Присоединитесь к лобби, чтобы сыграть вместе сегодня.</p>'}</section><section class="card"><h2>Мои заявки</h2><p class="muted">${outgoing.length?'Ждут ответа: '+outgoing.length:'Все заявки рассмотрены.'}</p>${link('Посмотреть мои заявки','applications')}</section></aside></div>`}
 
 function applicationsView(){let all=db.applications.filter(a=>a.player==='me').sort((a,b)=>b.created-a.created),filter=ui.applicationFilter||'all',as=all.filter(a=>filter==='all'||a.status===filter);return title('Мои заявки','groups')+`<div class="application-workspace"><section>${tabs([['all','Все ('+all.length+')'],['pending','Ждут решения'],['accepted','Приняты'],['rejected','Отклонены'],['withdrawn','Отозваны']],filter,'application-filter')}<div class="list">${as.length?as.map(a=>{let g=group(a.group);if(!g)return '';return `<article class="card application-card"><div class="teamtop"><span class="gameicon">${games[g.game].icon}</span><div><h3>${esc(g.name)}</h3><small>${metadata(g.game, g.type==='team'?'Команда':'Лобби')}</small></div>${badge(a.status)}</div><dl class="meta"><div><dt>Ваша роль</dt><dd>${esc(a.role)}</dd></div><div><dt>Отправлена</dt><dd>${shortDate(a.created)}</dd></div></dl>${a.text?`<h4>Ваше сообщение</h4><p class="application-message">${esc(a.text)}</p>`:''}<div class="squad-actions">${button('Посмотреть '+(g.type==='team'?'команду':'лобби'),'go',{screen:'team',id:g.id,secondary:true})}${a.status==='accepted'?button('Открыть чат','open-group-chat',{id:g.id}):button('Подробнее о заявке','go',{screen:'application',id:a.id,secondary:true})}</div>${a.status==='pending'?`<div class="application-footer"><button class="link" data-action="dm" data-id="${g.owner}">Написать капитану</button><button class="link" data-action="withdraw" data-id="${a.id}">Отозвать заявку</button></div>`:''}</article>`}).join(''):`<div class="empty-inline"><h3>${all.length?'Таких заявок пока нет':'Вы ещё не отправляли заявки'}</h3><p>${all.length?'Выберите другой статус, чтобы увидеть остальные отклики.':'Выберите команду или лобби в поиске.'}</p>${button(all.length?'Показать все заявки':'Найти команду',all.length?'application-filter':'go',all.length?{value:'all',secondary:true}:{screen:'search'})}</div>`}</div></section></div>`}
 
@@ -1046,7 +1224,7 @@ function requirementsView(){
 }
 function publishedView(){let g=group(route.id);if(!g||g.owner!=='me')return missing();return title('Набор открыт')+`<div class="center"><div class="symbol round">${svg('check')}</div><h2>Можно знакомиться с игроками</h2><p>${metadata(g.name, g.game)}</p><div class="actions">${button(g.type==='team'?'Открыть мою команду':'Открыть моё лобби','go',{screen:'team',id:g.id,secondary:true})}${button('Перейти к заявкам','go',{screen:'incoming',id:g.id})}</div></div>`}
 function incomingView(){let g=group(route.id);if(!g||g.owner!=='me')return missing('Управлять заявками может только организатор команды или лобби.');let as=db.applications.filter(a=>a.group===g.id).sort((a,b)=>(a.status==='pending'?-1:1)-(b.status==='pending'?-1:1)||b.created-a.created);return title('Входящие заявки','team/'+g.id)+`<p class="subtitle">${metadata(g.name, `Свободных мест: ${capacity(g)}`)}</p><div class="grid">${as.length?as.map(a=>`<button class="card candidate-card" data-action="go" data-screen="candidate" data-id="${a.id}"><span class="candidate-arrow">${svg('next')}</span><h3>${esc(player(a.player)?.nick)}</h3><p class="muted">${metadata(player(a.player)?.rank, a.role, `${player(a.player)?.hours||0} часов`)}</p>${badge(a.status)}</button>`).join(''):'<div class="empty-inline">Пока нет заявок.</div>'}</div>`}
-function candidateView(){let a=db.applications.find(a=>a.id===route.id),g=a&&group(a.group),p=a&&player(a.player);if(!a||!g||g.owner!=='me'||!p)return missing();return title('Заявка от '+p.nick,'incoming/'+g.id)+`<div class="narrow"><div class="card candidate-summary"><div class="person">${avatar(p.id)}<h2>${esc(p.nick)}</h2></div><p class="muted">${metadata(g.game, p.rank, a.role)}</p><p class="muted">Русский язык, играет с 20:00</p>${a.text?`<p>${esc(a.text)}</p>`:''}${badge(a.status)}</div><div class="actions">${button('Написать','dm',{id:p.id,secondary:true})}${a.status==='pending'?button('Отклонить заявку','decide',{id:a.id,status:'rejected',secondary:true})+button(capacity(g)?'Принять в '+(g.type==='team'?'команду':'лобби'):'Состав собран','decide',{id:a.id,status:'accepted',disabled:!capacity(g)}):''}</div></div>`}
+function candidateView(){let a=db.applications.find(a=>a.id===route.id),g=a&&group(a.group),p=a&&player(a.player);if(!a||!g||g.owner!=='me'||!p)return missing();const ended=lobbyEnded(g);return title('Заявка от '+p.nick,'incoming/'+g.id)+`<div class="narrow"><div class="card candidate-summary"><div class="person">${avatar(p.id)}<h2>${esc(p.nick)}</h2></div><p class="muted">${metadata(g.game, p.rank, a.role)}</p>${a.text?`<p>${esc(a.text)}</p>`:''}${badge(a.status)}</div><div class="actions">${button('Написать','dm',{id:p.id,secondary:true})}${a.status==='pending'?button('Отклонить заявку','decide',{id:a.id,status:'rejected',secondary:true})+button(ended?'Лобби завершилось':capacity(g)?'Принять в '+(g.type==='team'?'команду':'лобби'):'Состав собран','decide',{id:a.id,status:'accepted',disabled:ended||!capacity(g)}):''}</div></div>`}
 const authorName = m => m.author === 'me' ? 'Вы' : player(m.author)?.nick || 'Участник';
 function callEventStatus(m) {
   if (m.ended) return 'Завершён';
@@ -1055,6 +1233,26 @@ function callEventStatus(m) {
 function durationTime(milliseconds) {
   const seconds = Math.max(0, Math.floor(milliseconds / 1000));
   return [Math.floor(seconds / 60), seconds % 60].map(n => String(n).padStart(2, '0')).join(':');
+}
+function chatHistory(chat) {
+  if (!chat.messages.length) return '<p class="muted">Напишите первое сообщение.</p>';
+  const timeZone = db.user.timezone;
+  const dateKey = new Intl.DateTimeFormat('sv-SE', {dateStyle:'short', timeZone});
+  const dateLabel = new Intl.DateTimeFormat('ru-RU', {dateStyle:'long', timeZone});
+  const today = todayDate();
+  const yesterday = new Date(Date.parse(today) - 86400000).toISOString().slice(0,10);
+  let day = '';
+  return chat.messages.map(message => {
+    const date = new Date(message.created);
+    const key = dateKey.format(date);
+    let separator = '';
+    if (key !== day) {
+      day = key;
+      const label = key === today ? 'Сегодня' : key === yesterday ? 'Вчера' : dateLabel.format(date);
+      separator = `<div class="chat-day"><time datetime="${key}">${label}</time></div>`;
+    }
+    return separator + chatEntry(message, chat.id);
+  }).join('');
 }
 function chatEntry(m, chatId) {
   if (m.kind === 'video-call') {
@@ -1066,31 +1264,114 @@ function chatEntry(m, chatId) {
   }
   return `<div class="bubble ${m.author === 'me' ? 'mine' : ''}"><small>${esc(authorName(m))} <time>${dateTime(m.created)}</time></small>${esc(m.text)}</div>`;
 }
-function messagesView() {
-  const chats = db.chats.filter(hasChatAccess)
-    .filter(c => ui.messageType === 'all' || (ui.messageType === 'personal' ? !c.group : !!c.group))
-    .sort((a, b) => (b.messages.at(-1)?.created || 0) - (a.messages.at(-1)?.created || 0));
-  const cards = chats.map(c => {
-    const m = c.messages.at(-1);
-    const preview = m?.kind === 'video-call' ? `Видеозвонок: ${callEventStatus(m).toLowerCase()}`
-      : m ? `${authorName(m)}: ${m.text.slice(0, 85)}` : 'Начните общение';
-    const type = c.group ? `<small>${group(c.group).type === 'team' ? 'Чат команды' : 'Чат лобби'}</small>` : '';
-    return `<button class="card message-card" data-action="go" data-screen="chat" data-id="${esc(c.id)}">
-      <span class="message-card-icon">${svg(c.group ? 'groups' : 'profile')}</span><div><h3>${esc(chatName(c))}</h3>${type}<p class="muted">${esc(preview)}</p></div>${svg('next')}
-    </button>`;
+const messageCategories = [['all','Все'], ['personal','Личные'], ['group','Команды и лобби']];
+const conversationKind = chat => chat.group ? (group(chat.group)?.type === 'lobby' ? 'Чат лобби' : 'Чат команды') : 'Личный чат';
+const conversationTitle = chat => chatName(chat) || conversationKind(chat);
+
+function conversationAvatar(chat) {
+  if (!chat.group) return avatar(chat.peer);
+  const lobby = group(chat.group)?.type === 'lobby';
+  return `<span class="conversation-avatar${lobby ? ' is-lobby' : ''}" aria-hidden="true">${lobby ? svg('games') : esc(initials(conversationTitle(chat)))}</span>`;
+}
+function conversationPreview(message) {
+  if (!message) return 'Начните общение';
+  if (message.kind === 'video-call') return `Видеозвонок: ${callEventStatus(message).toLowerCase()}`;
+  return `${authorName(message)}: ${message.text ?? ''}`;
+}
+function visibleConversations() {
+  const query = (ui.messageQuery || '').trim().toLocaleLowerCase('ru');
+  return db.chats.filter(hasChatAccess)
+    .filter(chat => ui.messageType === 'all' || (ui.messageType === 'personal' ? !chat.group : !!chat.group))
+    .map(chat => {
+      const last = chat.messages.at(-1);
+      const live = ui.call?.id === chat.id;
+      return {chat, last, live, name: conversationTitle(chat), preview: live ? 'Идёт видеозвонок' : conversationPreview(last)};
+    })
+    .filter(({name, preview}) => !query || `${name} ${preview}`.toLocaleLowerCase('ru').includes(query))
+    .sort((a, b) => (b.last?.created || 0) - (a.last?.created || 0));
+}
+function conversationTimestamp(created, today) {
+  const date = new Date(created);
+  if (!Number.isFinite(date.getTime())) return '';
+  const sameDay = date.toLocaleDateString('sv-SE', {timeZone: db.user.timezone}) === today;
+  return `<time datetime="${date.toISOString()}" title="${esc(shortDate(created) + ', ' + dateTime(created))}">${esc(sameDay ? dateTime(created) : shortDate(created))}</time>`;
+}
+function conversationRows(entries) {
+  if (!entries.length) {
+    const empty = ui.messageQuery?.trim() ? 'Чаты не найдены'
+      : ui.messageType === 'all' ? 'Переписок пока нет' : 'В этой категории пока нет переписок';
+    return `<li class="conversation-empty">${empty}</li>`;
+  }
+  const today = todayDate();
+  return entries.map(({chat, last, live, name, preview}) => {
+    const active = route.screen === 'chat' && route.id === chat.id;
+    return `<li class="conversation-item">
+      <button type="button" class="conversation-row" data-action="go" data-screen="chat" data-id="${esc(chat.id)}" ${active ? 'aria-current="true"' : ''}>
+        ${conversationAvatar(chat)}
+        <span class="conversation-copy">
+          <span class="conversation-copy-head"><strong class="conversation-name">${esc(name)}</strong>${conversationTimestamp(last?.created, today)}</span>
+          <span class="sr-only">${conversationKind(chat)}</span>
+          <span class="conversation-preview${live ? ' is-live' : ''}">${esc(preview.slice(0, 160))}</span>
+        </span>
+      </button>
+    </li>`;
   }).join('');
-  return title('Сообщения') + tabs([['all','Все'],['personal','Личные'],['group','Команды и лобби']], ui.messageType, 'message-tab')
-    + `<div class="grid">${cards || '<p class="empty-inline">В этой категории пока нет переписок.</p>'}</div>`;
+}
+function conversationSidebar(hasThread) {
+  const entries = visibleConversations();
+  const heading = hasThread ? 'h2' : 'h1';
+  return `<aside class="conversation-sidebar" aria-labelledby="conversation-heading">
+    <header class="conversation-sidebar-head">
+      <${heading} id="conversation-heading"${hasThread ? '' : ' tabindex="-1"'}>Сообщения</${heading}>
+      <label class="conversation-search">
+        <span class="sr-only">Поиск чатов</span>${svg('search')}
+        <input id="conversation-search" type="search" value="${esc(ui.messageQuery || '')}" placeholder="Найти чат" autocomplete="off" maxlength="120">
+      </label>
+      <div role="group" aria-label="Тип переписки">${tabs(messageCategories, ui.messageType, 'message-tab')}</div>
+      <span class="sr-only" id="conversation-results" role="status">Чатов в списке: ${entries.length}</span>
+    </header>
+    <ul class="conversation-list" id="conversation-list">${conversationRows(entries)}</ul>
+  </aside>`;
+}
+function updateConversationList() {
+  const list = document.getElementById('conversation-list');
+  if (!list) return;
+  const entries = visibleConversations();
+  list.innerHTML = conversationRows(entries);
+  list.scrollTop = 0;
+  document.getElementById('conversation-results').textContent = `Чатов в списке: ${entries.length}`;
+}
+function messengerWorkspace(thread, hasThread = false) {
+  return `<div class="messenger-workspace${hasThread ? ' has-thread' : ''}">
+    ${conversationSidebar(hasThread)}
+    <section class="messenger-thread" aria-label="Переписка">${thread}</section>
+  </div>`;
+}
+function messagesView() {
+  const empty = !db.chats.some(hasChatAccess);
+  return messengerWorkspace(`<div class="thread-placeholder">${svg('messages')}
+    <h2>${empty ? 'Переписок пока нет' : 'Выберите чат'}</h2>
+    ${empty ? link('Найти команду', 'search') : ''}
+  </div>`);
 }
 function chatView() {
-  const c = db.chats.find(c => c.id === route.id);
-  if (!hasChatAccess(c)) return missing('Чат доступен только участникам команды или лобби.');
+  const c = db.chats.find(chat => chat.id === route.id);
+  const back = `<button class="back thread-back" type="button" data-action="go" data-screen="messages" aria-label="К списку сообщений">${svg('back')}</button>`;
+  if (!hasChatAccess(c)) return messengerWorkspace(`<div class="thread-unavailable">
+    <header class="page-head thread-header">${back}<h1 tabindex="-1">Чат недоступен</h1></header>
+    <p class="muted">${c ? 'Чат доступен только участникам команды или лобби.' : 'Выберите переписку из списка сообщений.'}</p>
+  </div>`, true);
   const inThisCall = ui.call?.id === c.id;
-  return title(chatName(c), 'messages') + `<div class="chat">
-    <button class="callbar" data-action="${inThisCall ? 'return-call' : 'start-call'}" data-id="${esc(c.id)}">${svg('video')} ${inThisCall ? 'Вернуться в звонок' : 'Начать видеозвонок'}</button>
-    <div class="chatlog" id="chatlog" role="log" aria-label="Сообщения" aria-live="polite">${c.messages.length ? c.messages.map(message => chatEntry(message, c.id)).join('') : '<p class="muted">Напишите первое сообщение.</p>'}</div>
+  const callLabel = inThisCall ? 'Вернуться в звонок' : 'Начать видеозвонок';
+  return messengerWorkspace(`<div class="chat">
+    <header class="page-head thread-header">
+      ${back}${conversationAvatar(c)}
+      <div class="thread-identity"><h1 tabindex="-1">${esc(conversationTitle(c))}</h1><small>${conversationKind(c)}</small></div>
+      <button type="button" class="callbar" data-action="${inThisCall ? 'return-call' : 'start-call'}" data-id="${esc(c.id)}" aria-label="${callLabel}" title="${callLabel}">${svg('video')}<span>${callLabel}</span></button>
+    </header>
+    <div class="chatlog" id="chatlog" role="log" aria-label="Сообщения" aria-live="polite" tabindex="0">${chatHistory(c)}</div>
     <form id="message-form" class="composer"><label for="message" class="sr-only">Сообщение</label><textarea name="message" id="message" placeholder="Сообщение…" rows="2" maxlength="2000" required></textarea><button type="submit" aria-label="Отправить сообщение" title="Отправить сообщение">${svg('send')}</button></form>
-  </div>`;
+  </div>`, true);
 }
 function videoTile(id, index, call) {
   const local = id === 'me';
@@ -1165,7 +1446,6 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const motionListSelectors = {
   search: '.search-results > .team',
   groups: '.squads > .squad',
-  messages: '.grid > .card',
   incoming: '.grid > .card',
   applications: '.application-workspace .list > .application-card',
 };
@@ -1182,7 +1462,7 @@ function animateView(routeChanged, resultsChanged) {
   const selector = motionListSelectors[route.screen];
   if (routeChanged) {
     const heading = app.querySelector('.page-head, h1, .center > .symbol');
-    const panel = app.querySelector(':scope > :is(.content,.narrow,.center,.video-call), :scope > .chat .callbar');
+    const panel = app.querySelector(':scope > :is(.content,.narrow,.center,.video-call), .messenger-thread .callbar');
     heading?.classList.add('motion-enter');
     if (!selector && panel && !panel.contains(heading)) panel.classList.add('motion-panel');
   }
@@ -1222,8 +1502,11 @@ function renderListChange(trigger) {
   (controls.find(control => control.dataset.value === value) || app.querySelector('h1'))?.focus({preventScroll: true});
 }
 
-function activeNavSection(screen) {
-  if (['groups','applications','create','new','requirements','published','incoming','candidate'].includes(screen)) return 'groups';
+function activeNavSection(screen, id) {
+  const source = history.state?.fromSection;
+  if (['team','player','application'].includes(screen) && navRoutes.some(([section]) => section === source)) return source;
+  if (screen === 'team' && group(id)?.members.includes('me')) return 'groups';
+  if (['groups','applications','application','create','new','requirements','published','incoming','candidate'].includes(screen)) return 'groups';
   if (['messages','chat','call'].includes(screen)) return 'messages';
   if (['profile','subscription','settings','edit','preferences','games','timezone','notifications','privacy'].includes(screen)) return 'profile';
   return 'search';
@@ -1234,14 +1517,23 @@ function callIndicator() {
     <button type="button" class="quick-hangup" data-action="end-call" aria-label="Завершить звонок" title="Завершить звонок">${svg('hangup')}</button>
   </div>`;
 }
-function render({resultsChanged=false} = {}) {
+function render({resultsChanged=false, scrollChatToEnd=false} = {}) {
   const {screen, id} = route;
+  const previousList = document.getElementById('conversation-list');
+  if (previousList?.clientHeight) ui.conversationListScroll = previousList.scrollTop;
   const routeKey = href(screen, id);
   const routeChanged = lastRoute !== routeKey;
+  const previousLog = document.getElementById('chatlog');
+  const previousComposer = document.getElementById('message');
+  const caret = !routeChanged && previousComposer && document.activeElement === previousComposer
+    ? [previousComposer.selectionStart, previousComposer.selectionEnd, previousComposer.selectionDirection]
+    : null;
+  if (previousLog?.dataset.chatId) rememberChatScroll(previousLog);
+  chatViewport?.disconnect();
   const showIndicator = !!ui.call && !(screen === 'call' && id === ui.call.id);
-  const navSection = activeNavSection(screen);
+  const navSection = activeNavSection(screen, id);
   app.dataset.screen = screen;
-  app.classList.toggle('chat-screen', screen === 'chat');
+  app.classList.toggle('messenger-screen', screen === 'messages' || screen === 'chat');
   document.body.classList.toggle('has-call-indicator', showIndicator);
   document.body.classList.toggle('signed-out', !!db.signedOut);
   nav.innerHTML = db.signedOut ? '<span class="brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>WithTeam</span>' : `
@@ -1252,7 +1544,30 @@ function render({resultsChanged=false} = {}) {
   app.innerHTML = (views[screen] || (() => missing()))();
   document.title = 'WithTeam — ' + (app.querySelector('h1')?.textContent || 'Поиск');
   const log = document.getElementById('chatlog');
-  if (log) log.scrollTop = log.scrollHeight;
+  if (log) {
+    log.dataset.chatId = id;
+    const composer = document.getElementById('message');
+    composer.value = messageDrafts.get(id) || '';
+    composer.form.querySelector('[type=submit]').disabled = !composer.value.trim();
+    const position = chatScroll.get(id);
+    log.scrollTop = scrollChatToEnd || !position || position.atEnd ? log.scrollHeight : position.scrollTop;
+    rememberChatScroll(log);
+    chatViewport?.observe(log);
+    if (caret) {
+      composer.focus({preventScroll:true});
+      composer.setSelectionRange(...caret);
+    }
+  }
+  const list = document.getElementById('conversation-list');
+  if (list?.clientHeight) {
+    list.scrollTop = ui.conversationListScroll || 0;
+    const current = routeChanged && list.querySelector('[aria-current=true]');
+    if (current) {
+      const bounds = list.getBoundingClientRect(), row = current.getBoundingClientRect();
+      if (row.top < bounds.top) list.scrollTop += row.top - bounds.top;
+      if (row.bottom > bounds.bottom) list.scrollTop += row.bottom - bounds.bottom;
+    }
+  }
   if (routeChanged) {
     window.scrollTo({top:0,behavior:'instant'});
     app.querySelector('h1')?.focus({preventScroll:true});
@@ -1267,8 +1582,12 @@ function replaceRoute(screen) {
 }
 function readRoute() {
   let [screen, id = ''] = (location.hash.slice(1) || 'search').split('/');
-  if (screen === 'app' && lastRoute && !db.signedOut) { app.focus(); return; }
+  if (screen === 'app') { screen = 'search'; id = ''; replaceRoute(screen); }
   if (db.signedOut) {
+    messageDrafts.clear();
+    chatScroll.clear();
+    ui.messageType = 'all';
+    ui.messageQuery = '';
     if (screen !== 'signin' || id) replaceRoute('signin');
     if (finishCall()) persist();
     screen = 'signin';
@@ -1433,6 +1752,10 @@ function positionCalendar(){
   const gutter=12, space=8;
   const topLimit=bar.top<=0?bar.bottom+space:space;
   const bottomLimit=bar.top>0?bar.top-space:window.innerHeight-space;
+  if (target.bottom <= topLimit || target.top >= bottomLimit) {
+    closeCalendar();
+    return;
+  }
   popup.style.maxHeight=`${Math.max(0,bottomLimit-topLimit)}px`;
   const height=popup.offsetHeight, width=popup.offsetWidth;
   const below=bottomLimit-target.bottom, above=target.top-topLimit;
@@ -1556,15 +1879,21 @@ document.addEventListener('keydown',event=>{
   navigateCalendar(target,true);
 });
 function ensureGroupChat(g){let c=db.chats.find(c=>c.group===g.id);if(!c){c={id:newId('chat'),group:g.id,messages:[]};db.chats.push(c);persist()}return c}
-function decide(id,status){let a=db.applications.find(a=>a.id===id),g=a&&group(a.group);if(!a||!g||g.owner!=='me'||a.status!=='pending')return toast('Эта заявка уже обработана.');if(status==='accepted'){if(!capacity(g))return toast('Состав уже собран. Нового игрока пока добавить нельзя.');if(!g.members.includes(a.player))g.members.push(a.player);if(capacity(g)>0&&g.roles.length>1)g.roles=g.roles.filter(role=>role!==a.role);if(!capacity(g))g.active=false;ensureGroupChat(g)}a.status=status;a.decided=Date.now();persist();go('incoming',g.id);toast(status==='accepted'?'Игрок принят в состав':'В этот раз не подошло')}
+function decide(id,status){let a=db.applications.find(a=>a.id===id),g=a&&group(a.group);if(!a||!g||g.owner!=='me'||a.status!=='pending')return toast('Эта заявка уже обработана.');if(status==='accepted'){if(lobbyEnded(g))return toast('Лобби уже завершилось.');if(!capacity(g))return toast('Состав уже собран. Нового игрока пока добавить нельзя.');if(!g.members.includes(a.player))g.members.push(a.player);if(capacity(g)>0&&g.roles.length>1)g.roles=g.roles.filter(role=>role!==a.role);if(!capacity(g))g.active=false;ensureGroupChat(g)}a.status=status;a.decided=Date.now();persist();go('incoming',g.id);toast(status==='accepted'?'Игрок принят в состав':'В этот раз не подошло')}
 document.addEventListener('click',e=>{let b=e.target.closest('[data-action]');if(!b||b.disabled)return;let {action,screen,id,value,field:filterField,status}=b.dataset;
 if(action==='sign-in')return changeSignIn(false);
 if(db.signedOut)return;
 if(action==='application-filter'&&(ui.applicationFilter||'all')!==value){ui.applicationFilter=value;return renderListChange(b)}
-if(action==='back'){if(history.state?.withteam)history.back();else go(screen,id);return}if(action==='seats'){let input=document.getElementById('capacity');input.value=Math.min(Number(input.max),Math.max(Number(input.min),Math.trunc(Number(input.value))+Number(b.dataset.delta)));input.dispatchEvent(new Event('input',{bubbles:true}));return}if(action==='go'){if(screen==='games')ui.profileGame=null;if(screen==='player'&&group(route.id))ui.playerGame=group(route.id).game;if(route.screen==='new'){let f=document.getElementById('new-form');if(f)captureNew(f)}go(screen,id);}
+if(action==='back'){if(history.state?.withteam)history.back();else go(screen,id);return}if(action==='seats'){let input=document.getElementById('capacity');input.value=Math.min(Number(input.max),Math.max(Number(input.min),Math.trunc(Number(input.value))+Number(b.dataset.delta)));input.dispatchEvent(new Event('input',{bubbles:true}));return}if(action==='go'){if(b.matches('.nav-item,.brand,.conversation-row')&&screen===route.screen&&(id||'')===route.id)return;if(screen==='games')ui.profileGame=null;if(screen==='player'&&group(route.id))ui.playerGame=group(route.id).game;if(route.screen==='new'){let f=document.getElementById('new-form');if(f)captureNew(f)}go(screen,id);}
 if(action==='search-tab'&&ui.searchType!==value){ui.searchType=value;renderListChange(b)}
 if(action==='group-tab'){if(value==='applications')go('applications');else if(ui.groupType!==value){ui.groupType=value;renderListChange(b)}}
-if(action==='message-tab'&&ui.messageType!==value){ui.messageType=value;renderListChange(b)}
+if(action==='message-tab'&&ui.messageType!==value){
+  ui.messageType=value;
+  for(const tab of app.querySelectorAll('[data-action="message-tab"]')){
+    tab.setAttribute('aria-pressed',String(tab===b));
+  }
+  updateConversationList();
+}
 if(action==='filters'){ui.draftFilters={...ui.filters,type:ui.searchType==='team'?'Команда':'Лобби'};go('filters')}
 if(action==='filter-choice'){
   let f=ui.draftFilters, selected=f[filterField];
@@ -1582,7 +1911,7 @@ if(action==='filter-choice'){
     .find(option=>option.dataset.value===value)?.focus({preventScroll:true});
 }
 if(action==='reset-filters'){ui.filters=defaultFilters();renderListChange(b)}
-if(action==='clear-filter-draft'){ui.draftFilters={...defaultFilters(),type:ui.searchType==='team'?'Команда':'Лобби'};render()}
+if(action==='clear-filter-draft'){ui.draftFilters={...defaultFilters(),type:ui.searchType==='team'?'Команда':'Лобби'};renderListChange(b)}
 if(action==='create-group')go(db.plus?'new':'create');
 if(action==='activate-plus'){db.plus=true;persist();go('new');toast('Plus включён для демонстрации. Оплаты нет.')}
 if(action==='withdraw'){let a=db.applications.find(a=>a.id===id&&a.player==='me');if(a?.status==='pending'){a.status='withdrawn';persist();render();toast('Заявка отозвана')}}
@@ -1596,8 +1925,18 @@ if(action==='end-call')endCall();
 if(action==='sign-out')changeSignIn(true);
 });
 document.addEventListener('input',e=>{
+  if(e.target.id!=='conversation-search')return;
+  ui.messageQuery=e.target.value;
+  updateConversationList();
+});
+document.addEventListener('input',e=>{
   const form=e.target.closest('form');
   if(!form)return;
+  if(form.id==='message-form'&&e.target.name==='message'){
+    if(e.target.value)messageDrafts.set(route.id,e.target.value);
+    else messageDrafts.delete(route.id);
+    form.querySelector('[type=submit]').disabled=!e.target.value.trim();
+  }
   if(form.id==='apply-form')ui.applicationDraft[form.dataset.group]=Object.fromEntries(new FormData(form));
   if(form.id==='filters-form'&&e.target.name==='filter-date')ui.draftFilters.date=e.target.value;
   if(form.id==='new-form'){
@@ -1610,7 +1949,7 @@ document.addEventListener('input',e=>{
 document.addEventListener('change',e=>{let f=e.target.closest('form');if(!f)return;if(f.id==='new-form'){captureNew(f);if(['type','game'].includes(e.target.name)){render();document.getElementById(e.target.name)?.focus({preventScroll:true})}}if(f.id==='settings-form'&&route.screen==='games'&&e.target.name==='game'){ui.profileGame=e.target.value;let g=games[e.target.value],p=db.user.profiles.find(p=>p.game===e.target.value);f.elements.rank.innerHTML=g.ranks.map(v=>`<option ${v===p?.rank?'selected':''}>${esc(v)}</option>`).join('');f.elements.role.innerHTML=g.roles.map(v=>`<option ${v===p?.role?'selected':''}>${esc(v)}</option>`).join('')}});
 document.addEventListener('submit',e=>{let f=e.target;if(!(f instanceof HTMLFormElement))return;e.preventDefault();if(db.signedOut)return;let data=new FormData(f),v=Object.fromEntries(data);
 if(f.id==='filters-form'){let {type,...filters}=ui.draftFilters;filters.date=v['filter-date'];ui.filters=filters;ui.searchType=type==='Лобби'?'lobby':'team';go('search')}
-if(f.id==='apply-form'){let g=group(f.dataset.group);if(!g||g.members.includes('me')||ownApplication(g)||!g.active||!capacity(g))return toast('Нельзя отправить заявку. Обновите страницу команды или лобби.');if(!(g.roles.length?g.roles:games[g.game].roles).includes(v.role))return toast('Выберите доступную роль.');let a={id:newId('application'),group:g.id,player:'me',role:v.role,text:v.text.trim(),status:'pending',created:Date.now()};db.applications.push(a);persist();delete ui.applicationDraft[g.id];go('application',a.id)}
+if(f.id==='apply-form'){let g=group(f.dataset.group);if(!g||g.members.includes('me')||ownApplication(g)||!recruitmentOpen(g))return toast('Нельзя отправить заявку. Обновите страницу команды или лобби.');if(!(g.roles.length?g.roles:games[g.game].roles).includes(v.role))return toast('Выберите доступную роль.');let a={id:newId('application'),group:g.id,player:'me',role:v.role,text:v.text.trim(),status:'pending',created:Date.now()};db.applications.push(a);persist();delete ui.applicationDraft[g.id];go('application',a.id)}
 if(f.id==='new-form'){
   const d=captureNew(f);
   if(!d.name.trim())return toast('Введите название.');
@@ -1643,7 +1982,15 @@ if(f.id==='recruit-form'){
   ui.recruitDraft=null;
   go('published',g.id);
 }
-if(f.id==='message-form'){let text=v.message.trim(),c=db.chats.find(c=>c.id===route.id);if(!text||!hasChatAccess(c))return;c.messages.push({author:'me',text,created:Date.now()});persist();render();document.getElementById('message')?.focus()}
+if(f.id==='message-form'){
+  const text=v.message.trim(), chat=db.chats.find(c=>c.id===route.id);
+  if(!text||!hasChatAccess(chat))return;
+  chat.messages.push({author:'me',text,created:Date.now()});
+  messageDrafts.delete(chat.id);
+  persist();
+  render({scrollChatToEnd:true});
+  document.getElementById('message')?.focus({preventScroll:true});
+}
 if(f.id==='settings-form'){let s=route.screen;if(s==='edit'){if(!v.nick.trim())return toast('Введите ник.');db.user.nick=v.nick.trim();db.user.about=v.about.trim()}if(s==='preferences'){db.user.language=v.language;db.user.schedule=v.schedule.trim();db.user.goal=v.goal.trim()}if(s==='games'){let p={game:v.game,rank:v.rank,role:v.role},index=db.user.profiles.findIndex(p=>p.game===v.game);if(index<0)db.user.profiles.push(p);else db.user.profiles[index]=p;ui.profileGame=v.game;}if(s==='timezone')db.user.timezone=v.timezone;if(s==='notifications'){db.settings.applications=data.has('applications');db.settings.messages=data.has('messages')}if(s==='privacy'){db.settings.visible=data.has('visible');db.settings.allowDM=data.has('allowDM')}persist();go(['preferences','games'].includes(s)?'profile':'settings');toast('Изменения сохранены')}
 });
 function updateTimer() {
@@ -1655,7 +2002,13 @@ function updateTimer() {
   });
 }
 window.addEventListener('hashchange',readRoute);
-window.addEventListener('popstate',readRoute);
+document.querySelector('.skip').addEventListener('click', event => {
+  event.preventDefault();
+  app.focus({preventScroll:true});
+});
+document.addEventListener('scroll', event => {
+  if (event.target.id === 'chatlog') rememberChatScroll(event.target);
+}, {capture:true, passive:true});
 window.addEventListener('storage',e=>{if(e.key!==STORAGE)return;try{let value=JSON.parse(e.newValue);if(value?.version===2&&value.groups&&value.user){db=value;readRoute()}}catch{}});
 ui.call = restoreCall();
 setInterval(updateTimer,1000);
