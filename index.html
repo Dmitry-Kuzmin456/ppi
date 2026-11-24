@@ -239,7 +239,6 @@
 }
 @media (max-height: 500px) {
   .thread-header { min-height: 50px; }
-  .messenger-thread .composer textarea { min-height: 46px; }
 }
 
 /* Chat and video call */
@@ -250,7 +249,7 @@
 }
 .chat .callbar[data-action="return-call"] { background: var(--surface-hover, #292238); }
 .chat .callbar svg { width: 17px; height: 17px; }
-.chat .composer textarea { field-sizing: content; height: auto; min-height: 70px; }
+.chat .composer textarea { field-sizing: content; height: auto; }
 .chat .composer button { border-radius: 7px; color: var(--accent-ink, #180D2A); }
 .chat .composer button svg { width: 19px; height: 19px; }
 .bubble { padding: 9px 12px; border-radius: 3px 9px 9px 9px; font-size: 14px; }
@@ -893,6 +892,7 @@ button:focus-visible, a:focus-visible, input[type=checkbox]:focus-visible {
 .account-menu .account-icon { background: var(--surface-accent); border-radius: 6px; }
 .account-menu .account-label { font-weight: 650; }
 .account-menu:hover { background: var(--surface-hover); border-color: var(--line-strong); }
+.checkrow:has(input:enabled), .checkrow input:enabled { cursor: pointer; }
 .checkrow input {
   appearance: none;
   display: block;
@@ -1552,7 +1552,7 @@ function chatView() {
       <button type="button" class="callbar" data-action="${inThisCall ? 'return-call' : 'start-call'}" data-id="${esc(c.id)}" aria-label="${callLabel}" title="${callLabel}">${svg('video')}<span>${callLabel}</span></button>
     </header>
     <div class="chatlog" id="chatlog" role="log" aria-label="Сообщения" aria-live="polite" tabindex="0">${chatHistory(c)}</div>
-    <form id="message-form" class="composer"><label for="message" class="sr-only">Сообщение</label><textarea name="message" id="message" placeholder="Сообщение…" rows="2" maxlength="2000" required></textarea><button type="submit" aria-label="Отправить сообщение" title="Отправить сообщение">${svg('send')}</button></form>
+    <form id="message-form" class="composer"><label for="message" class="sr-only">Сообщение</label><textarea name="message" id="message" placeholder="Сообщение…" rows="1" maxlength="2000" required></textarea><button type="submit" aria-label="Отправить сообщение" title="Отправить сообщение">${svg('send')}</button></form>
   </div>`, true);
 }
 function videoTile(id, index, call) {
@@ -1628,6 +1628,9 @@ function settingsParent(screen) {
 const views={search:searchView,filters:filtersView,team:teamView,player:playerView,apply:applyView,application:applicationView,groups:groupsView,applications:applicationsView,create:createView,new:newView,requirements:requirementsView,published:publishedView,incoming:incomingView,candidate:candidateView,messages:messagesView,chat:chatView,call:callView,profile:profileView,subscription:subscriptionView,settings:settingsView,edit:settingsFormView,preferences:settingsFormView,games:settingsFormView,timezone:settingsFormView,notifications:settingsFormView,privacy:settingsFormView,signin:signInView};
 const navRoutes = [ ['search','Поиск'], ['groups','Мои команды'], ['messages','Сообщения'], ['profile','Профиль'] ];
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+nav.addEventListener('animationend', event => {
+  if (event.animationName === 'wt-nav-in') nav.classList.remove('motion-nav');
+});
 const motionListSelectors = {
   search: '.search-results > .team',
   groups: '.squads > .squad',
@@ -1637,15 +1640,14 @@ const motionListSelectors = {
 let rowObserver;
 let revealedRow = false;
 
-function animateView(routeChanged, resultsChanged) {
+function animateView({routeChanged, enteredSection, resultsChanged}) {
   rowObserver?.disconnect();
   rowObserver = null;
   if (routeChanged || resultsChanged) revealedRow = false;
-  nav.classList.toggle('motion-nav', routeChanged && !reducedMotion.matches);
   if (reducedMotion.matches) return;
 
   const selector = motionListSelectors[route.screen];
-  if (routeChanged) {
+  if (enteredSection) {
     const heading = app.querySelector('.page-head, h1, .center > .symbol');
     const panel = app.querySelector(':scope > :is(.content,.narrow,.center,.video-call), .messenger-thread .callbar');
     heading?.classList.add('motion-enter');
@@ -1658,7 +1660,7 @@ function animateView(routeChanged, resultsChanged) {
   const navTop = nav.getBoundingClientRect().top;
   const viewportEnd = navTop > 0 ? Math.min(navTop, window.innerHeight) : window.innerHeight;
   const positions = items.map(item => item.getBoundingClientRect().top);
-  if (routeChanged || resultsChanged) {
+  if (enteredSection || resultsChanged) {
     items.filter((_, index) => positions[index] < viewportEnd).slice(0, 3).forEach((item, index) => {
       item.style.setProperty('--motion-delay', `${index * 25}ms`);
       item.classList.add('motion-enter');
@@ -1842,13 +1844,19 @@ function render({resultsChanged=false, scrollChatToEnd=false, preserveSettingsDr
   if (previousLog?.dataset.chatId) rememberChatScroll(previousLog);
   chatViewport?.disconnect();
   const showFloatingCall = !!ui.call && !(screen === 'call' && id === ui.call.id);
-  const navSection = activeNavSection(screen, id);
+  const previousNavSection = nav.querySelector('.nav-item[aria-current="page"]')?.dataset.screen ?? null;
+  const navSection = db.signedOut ? null : activeNavSection(screen, id);
+  const navChanged = previousNavSection !== navSection;
+  const enteredSection = navChanged || lastRoute === null;
   app.dataset.screen = screen;
   app.classList.toggle('messenger-screen', screen === 'messages' || screen === 'chat');
   document.body.classList.toggle('signed-out', !!db.signedOut);
-  nav.innerHTML = db.signedOut ? '<span class="brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>WithTeam</span>' : `
-    <button class="brand" data-action="go" data-screen="search" aria-label="WithTeam — Поиск"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>WithTeam</button>
-    ${navRoutes.map(([s, t]) => `<button class="nav-item" data-action="go" data-screen="${s}" ${navSection === s ? 'aria-current="page"' : ''}>${svg(s)}<span>${t}</span></button>`).join('')}`;
+  if (navChanged || !nav.firstElementChild) {
+    nav.classList.toggle('motion-nav', !!(previousNavSection && navSection && !reducedMotion.matches));
+    nav.innerHTML = db.signedOut ? '<span class="brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>WithTeam</span>' : `
+      <button class="brand" data-action="go" data-screen="search" aria-label="WithTeam — Поиск"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>WithTeam</button>
+      ${navRoutes.map(([s, t]) => `<button class="nav-item" data-action="go" data-screen="${s}" ${navSection === s ? 'aria-current="page"' : ''}>${svg(s)}<span>${t}</span></button>`).join('')}`;
+  }
   closeCalendar();
   app.innerHTML = (views[screen] || (() => missing()))();
   if (settingsDraft) {
@@ -1887,7 +1895,7 @@ function render({resultsChanged=false, scrollChatToEnd=false, preserveSettingsDr
     app.querySelector('h1')?.focus({preventScroll:true});
     lastRoute = routeKey;
   }
-  animateView(routeChanged, resultsChanged);
+  animateView({routeChanged, enteredSection, resultsChanged});
   syncPreview();
   renderFloatingCall(showFloatingCall);
   updateTimer();
