@@ -456,7 +456,7 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
 .signed-out .nav .brand { cursor: default; }
 @media (max-width: 899px) { .signed-out .nav { display: none; } }
 /* Team search, scheduling, and recruitment */
-.search-controls{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.search-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
 .search-controls .tabs{margin:0}
 .filter-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 12px;min-height:42px;border-radius:9px;background:var(--panel);border:1px solid var(--line);font-weight:bold}
 .filter-toggle svg{width:18px;height:18px;color:var(--purple)}
@@ -616,6 +616,11 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
   color: inherit;
 }
 .search-controls .filter-toggle { border-radius: 8px; }
+@media (max-width: 360px) {
+  .search-controls { gap: 8px; }
+  .search-controls .chip { padding-inline: 8px; }
+  .search-controls .filter-toggle { gap: 6px; padding-inline: 8px; font-size: 13px; }
+}
 .search-results .team {
   border-radius: 11px;
   background: var(--card);
