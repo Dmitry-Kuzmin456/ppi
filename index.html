@@ -444,7 +444,26 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
 .schedule-fields{padding:16px;border:1px solid var(--line);border-radius:12px}
 .schedule-fields>legend{padding:0 6px;margin:0 0 0 -6px}
 .schedule-fields .field input{min-height:44px}
-.field input[type=time]::-webkit-calendar-picker-indicator{cursor:pointer}
+.schedule-time-row{display:flex;align-items:stretch;gap:6px}
+.schedule-time-control{position:relative;flex:1;min-width:0}
+.schedule-time-control > svg{display:none}
+.schedule-time-control input::-webkit-date-and-time-value{text-align:start}
+.schedule-time-control input::-webkit-calendar-picker-indicator{cursor:pointer}
+.schedule-time-clear{
+  display:grid;place-items:center;flex:none;width:44px;min-height:44px;
+  border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--dim);
+}
+.schedule-time-clear svg{width:16px;height:16px}
+@media(max-width:540px), (pointer:coarse){
+  .schedule-time-control input{appearance:none;font-size:16px;padding-inline-end:34px}
+  .schedule-time-control input::-webkit-calendar-picker-indicator{
+    position:absolute;inset:0;width:auto;height:auto;margin:0;padding:0;opacity:0;
+  }
+  .schedule-time-control > svg{
+    display:block;pointer-events:none;position:absolute;inset-inline-end:11px;top:50%;
+    transform:translateY(-50%);width:17px;height:17px;color:var(--purple);
+  }
+}
 
 /* Calendar used by group scheduling and search filters. */
 .date-picker .calendar-trigger{
@@ -456,6 +475,10 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
 .calendar-trigger svg{width:18px;height:18px;color:var(--purple)}
 .calendar-value.is-empty{color:var(--dim)}
 .calendar-popup{
+  --calendar-safe-top:env(safe-area-inset-top,0px);
+  --calendar-safe-right:env(safe-area-inset-right,0px);
+  --calendar-safe-bottom:env(safe-area-inset-bottom,0px);
+  --calendar-safe-left:env(safe-area-inset-left,0px);
   position:fixed;z-index:30;width:min(320px,calc(100% - 24px));padding:12px;
   background:var(--panel);border:1px solid var(--line);border-radius:14px;
   box-shadow:0 16px 44px #0009;overflow:auto;scrollbar-width:thin;overscroll-behavior:contain;
@@ -471,6 +494,7 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
 .calendar-days{width:100%;table-layout:fixed;border-spacing:3px;font-variant-numeric:tabular-nums}
 .calendar-days th{padding:5px 0;color:var(--dim);font-size:11px;font-weight:normal}
 .calendar-days td{padding:0}
+.calendar-empty-week{display:none}
 .calendar-day{width:100%;min-height:34px;padding:0;border-radius:7px;background:transparent}
 .calendar-day:hover:not(:disabled),.calendar-text-button:hover:not(:disabled){background:var(--surface-accent)}
 .calendar-day:disabled{opacity:.42}
@@ -544,7 +568,7 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
 .metadata > span { min-width: 0; }
 @media (min-width: 900px) {
   .nav {
-    padding-inline: max(var(--page-gutter), calc((100vw - var(--page-width)) / 2 + var(--page-gutter)));
+    padding-inline: max(var(--page-gutter), calc((100% - var(--page-width)) / 2 + var(--page-gutter)));
   }
 }
 @media (max-width: 899px) {
@@ -931,6 +955,8 @@ button:focus-visible, a:focus-visible, input[type=checkbox]:focus-visible {
 }
 /* Keep keyboard focus above the fixed navigation, including short viewports. */
 html { scroll-behavior: auto; scroll-padding-block: 86px 16px; }
+html { overflow-y: scroll; scrollbar-color: var(--dim) transparent; }
+.conversation-list, .messenger-thread .chatlog, .video-tiles { scrollbar-gutter: stable; }
 @media (max-width: 899px) {
   html { scroll-padding-block: 8px calc(84px + env(safe-area-inset-bottom)); }
 }
@@ -989,6 +1015,21 @@ body:has(.messenger-screen, .floating-call:not([hidden])) .toast { top: 84px; bo
   .calendar-days th { padding-block: 1px; }
   .calendar-day { min-height: 30px; }
 }
+@media (max-width: 540px) {
+  .calendar-popup {
+    --calendar-tap-size: clamp(32px,calc((var(--calendar-available-height,400px) - 66px) / 8),42px);
+    padding: 8px;
+  }
+  .calendar-header { margin-bottom: 4px; }
+  .calendar-month { min-width: 0; overflow-wrap: normal; }
+  .calendar-month-button { width: var(--calendar-tap-size); height: var(--calendar-tap-size); flex-shrink: 0; }
+  .calendar-days { border-spacing: 2px; }
+  .calendar-days th { padding-block: 3px; }
+  .calendar-days tbody tr { height: var(--calendar-tap-size); }
+  .calendar-empty-week { display: table-row; }
+  .calendar-day, .calendar-text-button { min-height: var(--calendar-tap-size); }
+  .calendar-footer { margin-top: 4px; padding-top: 4px; }
+}
 @media (max-height: 600px) {
   .video-tiles {
     --video-tiles-height: max(80px, calc(100dvh - 286px));
@@ -1019,6 +1060,7 @@ body:has(.messenger-screen, .floating-call:not([hidden])) .toast { top: 84px; bo
 const STORAGE='withteam.local.v2';
 const CALL_SESSION='withteam.video-call.v1';
 const icons = {
+  close: "<path d=\"m18 6-12 12M6 6l12 12\"/>",
   search: "<path d=\"m21 21-4.34-4.34\"/><circle cx=\"11\" cy=\"11\" r=\"8\"/>",
   groups: "<path d=\"M18 21a8 8 0 0 0-16 0\"/><circle cx=\"10\" cy=\"8\" r=\"5\"/><path d=\"M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3\"/>",
   messages: "<path d=\"M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z\"/><path d=\"M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1\"/>",
@@ -1164,6 +1206,12 @@ function tabs(items,selected,action){return `<div class="tabs">${items.map(([v,t
 function choices(name,label,items,current){let multiple=Array.isArray(current);return `<div class="field"><fieldset><legend>${esc(label)}</legend><div class="options">${items.map((v,i)=>`<button type="button" class="chip" data-action="filter-choice" data-field="${name}" data-value="${esc(v)}" aria-pressed="${multiple?(i===0?!current.length:current.includes(v)):v===current}">${esc(v)}</button>`).join('')}</div></fieldset></div>`}
 function field(name,label,control){return `<div class="field"><label for="${name}">${esc(label)}</label>${control}</div>`}
 function input(name,value,extra=''){return `<input id="${name}" name="${name}" value="${esc(value)}" ${extra}>`}
+function scheduleTimeField(name,label,value,required=false){
+  return field(name,label,`<div class="schedule-time-row"><div class="schedule-time-control">
+    ${input(name,value,`type="time" aria-describedby="schedule-error" ${required?'required':''}`)}${svg('clock')}
+    </div>${required?'':`<button type="button" class="schedule-time-clear" data-action="clear-end-time"
+      aria-label="Очистить время окончания" title="Очистить время окончания" ${value?'':'disabled'}>${svg('close')}</button>`}</div>`);
+}
 const calendarDateLabel=new Intl.DateTimeFormat('ru-RU',{dateStyle:'long',timeZone:'UTC'});
 const calendarDayLabel=new Intl.DateTimeFormat('ru-RU',{dateStyle:'full',timeZone:'UTC'});
 const calendarMonthLabel=new Intl.DateTimeFormat('ru-RU',{month:'long',year:'numeric',timeZone:'UTC'});
@@ -1398,7 +1446,7 @@ function lobbyParentField(d){
 function newView(){
   if(!db.plus)return createView();
   const d=draft(), team=d.type==='team';
-  return title(team?'Новая команда':'Новое лобби','groups')+`<form id="new-form" class="content fields"><div class="form-grid">${field('type','Формат',select('type',[['team','Постоянная команда'],['lobby','Лобби на одну игру']],d.type))}${field('name',team?'Название команды':'Название лобби',input('name',d.name,'required maxlength="60" placeholder="Например, Ancient Squad"'))}${field('game','Игра',select('game',Object.keys(games),d.game))}${field('language','Язык',select('language',['Русский','English'],d.language))}<div${team?' class="wide"':''}>${field('goal','Цель (необязательно)',input('goal',d.goal,'maxlength="140"'))}</div>${team?'':lobbyParentField(d)}<fieldset class="wide schedule-fields"><legend>Расписание</legend><div class="form-grid">${calendarInput('startsOn',team?'Дата первой игры':'Дата игры',d.startsOn,true)}<div class="schedule-period"><span class="field-label">Время суток</span><output id="schedule-period" for="startsAt">${d.startsAt?timePeriod(d.startsAt):'Укажите время начала'}</output></div>${field('startsAt','Начало',input('startsAt',d.startsAt,'type="time" required'))}${field('endsAt','Окончание (необязательно)',input('endsAt',d.endsAt,'type="time"'))}</div>${team?`<label class="schedule-repeat"><input type="checkbox" name="repeatsWeekly" ${d.repeatsWeekly?'checked':''}> Повторять еженедельно</label>`:''}<p id="schedule-error" class="error" role="alert" hidden></p></fieldset><div class="wide">${field('description','Описание (необязательно)',textarea('description',d.description,'maxlength="1500"'))}</div></div>${submit('Перейти к условиям набора')}</form>`;
+  return title(team?'Новая команда':'Новое лобби','groups')+`<form id="new-form" class="content fields"><div class="form-grid">${field('type','Формат',select('type',[['team','Постоянная команда'],['lobby','Лобби на одну игру']],d.type))}${field('name',team?'Название команды':'Название лобби',input('name',d.name,'required maxlength="60" placeholder="Например, Ancient Squad"'))}${field('game','Игра',select('game',Object.keys(games),d.game))}${field('language','Язык',select('language',['Русский','English'],d.language))}<div${team?' class="wide"':''}>${field('goal','Цель (необязательно)',input('goal',d.goal,'maxlength="140"'))}</div>${team?'':lobbyParentField(d)}<fieldset class="wide schedule-fields"><legend>Расписание</legend><div class="form-grid">${calendarInput('startsOn',team?'Дата первой игры':'Дата игры',d.startsOn,true)}<div class="schedule-period"><span class="field-label">Время суток</span><output id="schedule-period" for="startsAt">${d.startsAt?timePeriod(d.startsAt):'Укажите время начала'}</output></div>${scheduleTimeField('startsAt','Начало',d.startsAt,true)}${scheduleTimeField('endsAt','Окончание (необязательно)',d.endsAt)}</div>${team?`<label class="schedule-repeat"><input type="checkbox" name="repeatsWeekly" ${d.repeatsWeekly?'checked':''}> Повторять еженедельно</label>`:''}<p id="schedule-error" class="error" role="alert" hidden></p></fieldset><div class="wide">${field('description','Описание (необязательно)',textarea('description',d.description,'maxlength="1500"'))}</div></div>${submit('Перейти к условиям набора')}</form>`;
 }
 function requirementsView(){
   if(!db.plus)return createView();
@@ -2078,6 +2126,13 @@ function captureNew(form){
   ui.newDraft={...previous,...values};
   return ui.newDraft;
 }
+function updateSchedule(form){
+  const d=captureNew(form);
+  document.getElementById('schedule-period').textContent=d.startsAt?timePeriod(d.startsAt):'Укажите время начала';
+  document.getElementById('schedule-error').hidden=true;
+  form.elements.endsAt.removeAttribute('aria-invalid');
+  form.querySelector('.schedule-time-clear').disabled=!d.endsAt;
+}
 function captureRecruit(form){
   const data=new FormData(form), input=form.elements.capacity;
   const vacancies=input.valueAsNumber, valid=Number.isInteger(vacancies)&&vacancies>=Number(input.min)&&vacancies<=Number(input.max);
@@ -2108,22 +2163,42 @@ function shiftCalendarMonth(date,offset,day=date.getUTCDate()){
 function positionCalendar(){
   if(!activeCalendar)return;
   const {trigger,popup}=activeCalendar;
+  const visual=window.visualViewport;
+  const viewportLeft=visual?.offsetLeft??0, viewportTop=visual?.offsetTop??0;
+  const viewportWidth=visual?.width??document.documentElement.clientWidth;
+  const viewportHeight=visual?.height??window.innerHeight;
+  const style=getComputedStyle(popup);
+  const safeInset=side=>parseFloat(style.getPropertyValue('--calendar-safe-'+side))||0;
   const target=trigger.getBoundingClientRect(), bar=nav.getBoundingClientRect();
+  const bottomNav=window.matchMedia('(max-width: 899px)').matches;
   const gutter=12, space=8;
-  const topLimit=bar.top<=0?bar.bottom+space:space;
-  const bottomLimit=bar.top>0?bar.top-space:window.innerHeight-space;
-  if (target.bottom <= topLimit || target.top >= bottomLimit) {
+  const leftLimit=Math.max(viewportLeft,safeInset('left'))+gutter;
+  const rightLimit=Math.min(viewportLeft+viewportWidth,document.documentElement.clientWidth-safeInset('right'))-gutter;
+  const topLimit=Math.max(viewportTop,safeInset('top'),bottomNav?0:bar.bottom)+space;
+  const bottomLimit=Math.min(viewportTop+viewportHeight,window.innerHeight-safeInset('bottom'),bottomNav?bar.top:Infinity)-space;
+  if (!bottomNav && (target.bottom <= topLimit || target.top >= bottomLimit)) {
     closeCalendar();
     return;
   }
-  popup.style.maxHeight=`${Math.max(0,bottomLimit-topLimit)}px`;
+  const availableHeight=Math.max(0,bottomLimit-topLimit);
+  popup.style.setProperty('--calendar-available-height',`${availableHeight}px`);
+  popup.style.maxHeight=`${availableHeight}px`;
+  popup.style.maxWidth=`${Math.max(0,rightLimit-leftLimit)}px`;
   const height=popup.offsetHeight, width=popup.offsetWidth;
   const below=bottomLimit-target.bottom, above=target.top-topLimit;
   const opensBelow=below>=height+space||below>=above;
   const top=opensBelow?target.bottom+space:target.top-height-space;
   popup.style.top=`${Math.max(topLimit,Math.min(top,bottomLimit-height))}px`;
-  popup.style.left=`${Math.max(gutter,Math.min(target.left,document.documentElement.clientWidth-width-gutter))}px`;
+  popup.style.left=`${Math.max(leftLimit,Math.min(target.left,rightLimit-width))}px`;
   if(!popup.dataset.motionSide)popup.dataset.motionSide=opensBelow?'below':'above';
+}
+function focusCalendarDay(popup,date){
+  const day=popup.querySelector(`[data-date="${date}"]`);
+  day.focus({preventScroll:true});
+  const dayBounds=day.getBoundingClientRect(), popupBounds=popup.getBoundingClientRect();
+  const above=dayBounds.top-popupBounds.top-4;
+  const below=dayBounds.bottom-popupBounds.bottom+4;
+  popup.scrollTop+=Math.min(0,above)+Math.max(0,below);
 }
 function renderCalendar(focusDay){
   const {popup,value,minimum,today,date}=activeCalendar;
@@ -2138,7 +2213,8 @@ function renderCalendar(focusDay){
   const monthLabel=calendarMonthLabel.format(date);
   popup.querySelector('.calendar-month').textContent=monthLabel[0].toUpperCase()+monthLabel.slice(1);
   const rows=[];
-  for(let week=0;week<Math.ceil((weekdays+daysInMonth)/7);week++){
+  const weekCount=Math.ceil((weekdays+daysInMonth)/7);
+  for(let week=0;week<6;week++){
     const cells=[];
     for(let weekday=0;weekday<7;weekday++){
       const day=week*7+weekday-weekdays+1;
@@ -2152,14 +2228,14 @@ function renderCalendar(focusDay){
         tabindex="${key===activeDay?0:-1}" aria-label="${esc(accessibleLabel)}" aria-pressed="${key===value.value}"
         ${key===today?'aria-current="date"':''} ${key<minimum?'disabled':''}>${day}</button></td>`);
     }
-    rows.push(`<tr>${cells.join('')}</tr>`);
+    rows.push(`<tr${week>=weekCount?' class="calendar-empty-week" aria-hidden="true"':''}>${cells.join('')}</tr>`);
   }
   popup.querySelector('tbody').innerHTML=rows.join('');
   const clear=popup.querySelector('[data-calendar-action="clear"]');
   if(clear)clear.disabled=!value.value;
   positionCalendar();
-  if(focusDay||document.activeElement===previous&&previous.disabled||document.activeElement===next&&next.disabled){
-    popup.querySelector(`[data-date="${activeDay}"]`).focus();
+  if(activeCalendar&&(focusDay||document.activeElement===previous&&previous.disabled||document.activeElement===next&&next.disabled)){
+    focusCalendarDay(popup,activeDay);
   }
 }
 function closeCalendar(restoreFocus=false){
@@ -2221,6 +2297,8 @@ document.addEventListener('pointerdown',dismissCalendarOutside);
 document.addEventListener('focusin',dismissCalendarOutside);
 window.addEventListener('resize',positionCalendar);
 window.addEventListener('scroll',positionCalendar,{passive:true});
+window.visualViewport?.addEventListener('resize',positionCalendar);
+window.visualViewport?.addEventListener('scroll',positionCalendar);
 document.addEventListener('keydown',event=>{
   if(!activeCalendar)return;
   if(event.key==='Escape'){
@@ -2286,6 +2364,13 @@ if(action==='filter-choice'){
 }
 if(action==='reset-filters'){ui.filters=defaultFilters();renderListChange(b)}
 if(action==='clear-filter-draft'){ui.draftFilters={...defaultFilters(),type:ui.searchType==='team'?'Команда':'Лобби'};renderListChange(b)}
+if(action==='clear-end-time'){
+  const end=b.form.elements.endsAt;
+  if(document.activeElement===b)end.focus({preventScroll:true});
+  end.value='';
+  updateSchedule(b.form);
+  return;
+}
 if(action==='create-group')go(db.plus?'new':'create');
 if(action==='activate-plus'){db.plus=true;persist();go('new');toast('WithTeam Plus подключён.')}
 if(action==='withdraw'){let a=db.applications.find(a=>a.id===id&&a.player==='me');if(a?.status==='pending'){a.status='withdrawn';persist();render();toast('Заявка отозвана')}}
@@ -2319,14 +2404,10 @@ document.addEventListener('input',e=>{
   }
   if(form.id==='apply-form')ui.applicationDraft[form.dataset.group]=Object.fromEntries(new FormData(form));
   if(form.id==='filters-form'&&e.target.name==='filter-date')ui.draftFilters.date=e.target.value;
-  if(form.id==='new-form'){
-    const d=captureNew(form);
-    document.getElementById('schedule-period').textContent=d.startsAt?timePeriod(d.startsAt):'Укажите время начала';
-    document.getElementById('schedule-error').hidden=true;
-  }
+  if(form.id==='new-form')updateSchedule(form);
   if(form.id==='recruit-form')captureRecruit(form);
 });
-document.addEventListener('change',e=>{let f=e.target.closest('form');if(!f)return;if(f.id==='new-form'){captureNew(f);if(['type','game'].includes(e.target.name)){render();document.getElementById(e.target.name)?.focus({preventScroll:true})}}if(f.id==='settings-form'&&route.screen==='games'&&e.target.name==='game'){ui.profileGame=e.target.value;let g=games[e.target.value],p=db.user.profiles.find(p=>p.game===e.target.value);f.elements.rank.innerHTML=g.ranks.map(v=>`<option ${v===p?.rank?'selected':''}>${esc(v)}</option>`).join('');f.elements.role.innerHTML=g.roles.map(v=>`<option ${v===p?.role?'selected':''}>${esc(v)}</option>`).join('')}});
+document.addEventListener('change',e=>{let f=e.target.closest('form');if(!f)return;if(f.id==='new-form'){updateSchedule(f);if(['type','game'].includes(e.target.name)){render();document.getElementById(e.target.name)?.focus({preventScroll:true})}}if(f.id==='settings-form'&&route.screen==='games'&&e.target.name==='game'){ui.profileGame=e.target.value;let g=games[e.target.value],p=db.user.profiles.find(p=>p.game===e.target.value);f.elements.rank.innerHTML=g.ranks.map(v=>`<option ${v===p?.rank?'selected':''}>${esc(v)}</option>`).join('');f.elements.role.innerHTML=g.roles.map(v=>`<option ${v===p?.role?'selected':''}>${esc(v)}</option>`).join('')}});
 document.addEventListener('submit',e=>{let f=e.target;if(!(f instanceof HTMLFormElement))return;e.preventDefault();if(db.signedOut)return;let data=new FormData(f),v=Object.fromEntries(data);
 if(f.id==='filters-form'){let {type,...filters}=ui.draftFilters;filters.date=v['filter-date'];ui.filters=filters;ui.searchType=type==='Лобби'?'lobby':'team';go('search')}
 if(f.id==='apply-form'){let g=group(f.dataset.group);if(!g||g.members.includes('me')||ownApplication(g)||!recruitmentOpen(g))return toast('Нельзя отправить заявку. Обновите страницу команды или лобби.');if(!(g.roles.length?g.roles:games[g.game].roles).includes(v.role))return toast('Выберите доступную роль.');let a={id:newId('application'),group:g.id,player:'me',role:v.role,text:v.text.trim(),status:'pending',created:Date.now()};db.applications.push(a);persist();delete ui.applicationDraft[g.id];go('application',a.id)}
@@ -2343,7 +2424,10 @@ if(f.id==='new-form'){
       const trigger=document.getElementById('startsOn-trigger');
       trigger.setAttribute('aria-invalid','true');
       trigger.focus();
-    } else if(ended) f.elements.endsAt.focus();
+    } else if(ended||d.startsAt===d.endsAt){
+      f.elements.endsAt.setAttribute('aria-invalid','true');
+      f.elements.endsAt.focus();
+    }
     return;
   }
   go('requirements');
