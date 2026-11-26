@@ -74,27 +74,53 @@
 
 .field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23c497fa' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-position:right 12px center;background-repeat:no-repeat;padding-right:42px;cursor:pointer;min-height:44px}.stepper{display:flex;align-items:center;gap:8px}.stepper button{width:44px;height:44px;border-radius:9px;background:var(--card);border:1px solid var(--line);color:var(--purple);font-size:22px}.stepper input{width:76px;text-align:center;appearance:textfield}.stepper input::-webkit-inner-spin-button{appearance:none}.nav-item{white-space:nowrap}.pricing small{display:block;margin-top:6px}
 
-.dashboard-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:24px}.dashboard-head .page-head{margin-bottom:18px}.dashboard-head .subtitle{margin:0;max-width:620px}.dashboard-head>.primary{width:auto;flex-shrink:0}.dashboard-layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:24px}.dashboard-aside{display:grid;gap:16px;align-content:start}.dashboard-aside h2{font-size:15px}.dashboard-aside .card{border:1px solid var(--line)}.squads{display:grid;gap:16px}.squad{border:1px solid var(--line);padding:22px}.squad .teamtop>.badge{margin:0 0 0 auto;white-space:nowrap}.squad .teamtop h3{font-size:17px;margin-bottom:3px}.squad .gameicon{width:42px;height:42px;font-size:13px}.squad-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.squad .avatars{margin-bottom:12px}.review-applications{display:flex;justify-content:space-between;gap:10px;background:var(--surface-accent);color:var(--purple);padding:12px;border-radius:8px;width:100%;margin-top:12px;font-size:12px;text-align:left}.attention{display:grid;gap:6px;width:100%;text-align:left;background:var(--surface-accent);border-radius:9px;color:var(--purple);padding:14px;margin-top:14px}.attention span{font-size:12px}.session{padding-top:14px}.session+.session{border-top:1px solid var(--line);margin-top:14px}.session .link{display:block;padding-left:0;margin-top:6px}.toolbar .tabs{margin:0}.dashboard-layout .toolbar{margin-bottom:10px}.page-head h1:focus{outline:none}@media(min-width:1200px){.shell{max-width:1240px}.dashboard-layout{grid-template-columns:minmax(0,1fr) 320px}}@media(max-width:760px){.dashboard-head{display:block}.dashboard-head>.primary{margin-top:18px;width:100%}.dashboard-layout{grid-template-columns:1fr}.dashboard-aside{grid-template-columns:1fr}.squad{padding:16px}.squad .teamtop{flex-wrap:wrap}.squad .teamtop>.badge{margin-left:0}.squad-actions{grid-template-columns:1fr 1fr}.review-applications{flex-wrap:wrap}}
-
-.application-workspace{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:24px;align-items:start}.application-card{border:1px solid var(--line);padding:22px}.application-card .teamtop>.badge{margin:0 0 0 auto}.application-card h3{font-size:17px}.application-card h4{font-size:12px;margin:0 0 8px;color:var(--dim)}.application-message{background:var(--bg);padding:14px;border-radius:8px;white-space:pre-wrap;overflow-wrap:anywhere}.application-footer{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-top:10px;margin-top:16px}.application-help{border:1px solid var(--line)}.application-help h2{font-size:16px}.application-help ol{padding-left:20px;margin:18px 0}.application-help li{padding:0 0 18px 4px;font-size:12px}.application-help li::marker{color:var(--purple)}.application-help li p{color:var(--dim);margin-top:5px}.application-help li:last-child{padding-bottom:0}@media(max-width:760px){.application-workspace{grid-template-columns:1fr}.application-card{padding:16px}.application-card .teamtop{flex-wrap:wrap}.application-card .teamtop>.badge{margin-left:0}}
-
-/* Application filters occupy a separate row; both cards share a baseline. */
-.application-workspace{row-gap:18px;column-gap:24px}
-.application-workspace>section{display:contents}
-.application-workspace>section>.tabs{grid-column:1/-1;margin:0}
-.application-workspace>section>.list{grid-column:1;grid-row:2;min-width:0}
-.application-workspace>.application-help{grid-column:2;grid-row:2}
-.application-card,.application-help{padding:22px}
-.application-card .teamtop{align-items:center}
-.application-card .teamtop h3{margin:0 0 4px}
-.application-card .teamtop small{display:block}
-.application-card .meta{margin:22px 0}
-.application-card .application-message{margin:0}
-.application-card .squad-actions{margin-top:18px}
-.application-footer .link{padding:8px 0}
-.application-help ol{margin:20px 0;padding-left:20px}
-.application-help li{padding-left:4px}
-@media(max-width:760px){.application-workspace>section>.list{grid-column:1;grid-row:2}.application-workspace>.application-help{grid-column:1;grid-row:3}.application-card,.application-help{padding:16px}}
+/* Shared workspace for teams, lobbies and outgoing applications. */
+.dashboard-head { margin-bottom: 20px; }
+.dashboard-head .page-head { margin: 0; }
+.dashboard-layout {
+  display: grid; grid-template-columns: minmax(0,1fr) 290px;
+  gap: 14px 24px; align-items: start;
+}
+.dashboard-toolbar {
+  grid-column: 1/-1; display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px 16px;
+}
+.dashboard-toolbar .tabs { margin: 0; }
+.dashboard-toolbar-actions { display: flex; align-items: stretch; gap: 8px; max-width: 100%; }
+.dashboard-toolbar-actions > .primary { width: auto; margin-inline-start: auto; }
+.dashboard-panel { min-width: 0; }
+.dashboard-aside { display: grid; gap: 16px; align-content: start; }
+.dashboard-aside h2 { font-size: 15px; }
+.dashboard-aside .card { border: 1px solid var(--line); }
+.application-filter { position: relative; flex: none; cursor: pointer; }
+.application-filter:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
+.application-filter select { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.squads{display:grid;gap:16px}.squad{border:1px solid var(--line);padding:22px}.squad .teamtop>.badge{margin:0 0 0 auto;white-space:nowrap}.squad .teamtop h3{font-size:17px;margin-bottom:3px}.squad .gameicon{width:42px;height:42px;font-size:13px}.squad-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.squad .avatars{margin-bottom:12px}.review-applications{display:flex;justify-content:space-between;gap:10px;background:var(--surface-accent);color:var(--purple);padding:12px;border-radius:8px;width:100%;margin-top:12px;font-size:12px;text-align:left}.attention{display:grid;gap:6px;width:100%;text-align:left;background:var(--surface-accent);border-radius:9px;color:var(--purple);padding:14px;margin-top:14px}.attention span{font-size:12px}.session{padding-top:14px}.session+.session{border-top:1px solid var(--line);margin-top:14px}.session .link{display:block;padding-left:0;margin-top:6px}
+.toolbar .tabs { margin: 0; }
+.page-head h1:focus { outline: none; }
+.application-card { border: 1px solid var(--line); padding: 22px; }
+.application-card .teamtop { align-items: center; }
+.application-card .teamtop > .badge { margin: 0 0 0 auto; }
+.application-card .teamtop h3 { font-size: 17px; margin: 0 0 4px; }
+.application-card .teamtop small { display: block; }
+.application-card h4 { font-size: 12px; margin: 0 0 8px; color: var(--dim); }
+.application-card .meta { margin: 22px 0; }
+.application-message { background: var(--bg); margin: 0; padding: 14px; border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.application-footer { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid var(--line); padding-top: 10px; margin-top: 16px; }
+.application-footer .link { padding: 8px 0; }
+@media (min-width:1200px) {
+  .shell { max-width: 1240px; }
+  .dashboard-layout { grid-template-columns: minmax(0,1fr) 320px; }
+}
+@media (max-width:760px) {
+  .dashboard-layout { grid-template-columns: minmax(0,1fr); }
+  .dashboard-toolbar-actions { width: 100%; }
+  .dashboard-toolbar-actions > .primary { flex: 1; min-width: 0; }
+  .squad, .application-card { padding: 16px; }
+  :is(.squad, .application-card) .teamtop { flex-wrap: wrap; }
+  :is(.squad, .application-card) .teamtop > .badge { margin-left: 0; }
+  .review-applications { flex-wrap: wrap; }
+}
 
 /* Conversation list and thread scroll independently. */
 .shell.messenger-screen {
@@ -512,7 +538,6 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
 .schedule-repeat{width:fit-content;margin-top:16px}
 .schedule-repeat input,.recruit-roles input{margin:0;accent-color:var(--purple)}
 .schedule-fields .error:not([hidden]){margin-top:10px}
-.application-workspace{width:100%;max-width:860px;margin-inline:auto;grid-template-columns:minmax(0,1fr)}
 @media(max-width:540px){.schedule-fields{padding:12px}.search-controls .chip,.filter-toggle{min-height:40px}.team .cardfoot button{font-size:12px}}
 /* Keep page titles, content and navigation on a shared grid. */
 :root {
@@ -544,10 +569,6 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
   width: min(100%, 760px);
   margin-inline: auto;
 }
-.shell[data-screen="applications"] > .page-head {
-  width: min(100%, 860px);
-  margin-inline: auto;
-}
 .content > .subtitle { margin-top: 0; text-align: left; }
 .page-head { min-height: 36px; }
 .primary, .secondary, .danger {
@@ -557,9 +578,6 @@ video:not([hidden]) + .video-participant :is(span, .video-mic) {
   gap: 8px;
 }
 .primary svg, .secondary svg, .danger svg { width: 18px; height: 18px; }
-.dashboard-head { align-items: center; }
-.dashboard-head .page-head { margin-bottom: 0; }
-.dashboard-layout .toolbar { min-height: 44px; margin-bottom: 14px; }
 .grid { align-items: stretch; }
 .teamtop > div { min-width: 0; }
 .member { min-height: 44px; }
@@ -1097,7 +1115,7 @@ function persist(){try{localStorage.setItem(STORAGE,JSON.stringify(db));return t
 const periods=['Утро','День','Вечер','Ночь'];
 const anyGame='Любая игра';
 const defaultFilters=()=>({game:anyGame,role:[],rank:'Любой',language:[],period:[],date:''});
-const ui={searchType:'team',groupType:'team',messageType:'all',lastChatId:null,filters:defaultFilters(),draftFilters:null,newDraft:null,recruitDraft:null,applicationDraft:{},call:null};
+const ui={searchType:'team',applicationFilter:'all',messageType:'all',lastChatId:null,filters:defaultFilters(),draftFilters:null,newDraft:null,recruitDraft:null,applicationDraft:{},call:null};
 const app=document.getElementById('app'),nav=document.getElementById('nav');
 const messageDrafts = new Map();
 const chatScroll = new Map();
@@ -1201,7 +1219,7 @@ const dateTime=n=>new Date(n).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:
 const shortDate=n=>new Date(n).toLocaleDateString('ru-RU',{day:'numeric',month:'short',timeZone:db.user.timezone});
 function button(text,action,options={}){let attrs=Object.entries(options).filter(([k])=>!['secondary','danger','disabled'].includes(k)).map(([k,v])=>`data-${k}="${esc(v)}"`).join(' ');return `<button type="button" class="${options.danger?'danger':options.secondary?'secondary':'primary'}" data-action="${action}" ${attrs} ${options.disabled?'disabled':''}>${text}</button>`}
 function link(text,screen,id='',extra=''){return `<button type="button" class="link" data-action="go" data-screen="${screen}" data-id="${esc(id)}" ${extra}>${esc(text)}</button>`}
-function title(text,back=''){if(!back&&!['search','groups','messages','profile'].includes(route.screen))back='groups';return `<header class="page-head">${back?`<button class="back" type="button" data-action="back" data-screen="${back.split('/')[0]}" data-id="${esc(back.split('/')[1]||'')}" aria-label="Назад">${svg('back')}</button>`:''}<h1 tabindex="-1">${esc(text)}</h1></header>`}
+function title(text,back=''){if(!back&&!['search','groups','applications','messages','profile'].includes(route.screen))back='groups';return `<header class="page-head">${back?`<button class="back" type="button" data-action="back" data-screen="${back.split('/')[0]}" data-id="${esc(back.split('/')[1]||'')}" aria-label="Назад">${svg('back')}</button>`:''}<h1 tabindex="-1">${esc(text)}</h1></header>`}
 function tabs(items,selected,action){return `<div class="tabs">${items.map(([v,t])=>`<button class="chip" type="button" data-action="${action}" data-value="${v}" aria-pressed="${v===selected}">${t}</button>`).join('')}</div>`}
 function choices(name,label,items,current){let multiple=Array.isArray(current);return `<div class="field"><fieldset><legend>${esc(label)}</legend><div class="options">${items.map((v,i)=>`<button type="button" class="chip" data-action="filter-choice" data-field="${name}" data-value="${esc(v)}" aria-pressed="${multiple?(i===0?!current.length:current.includes(v)):v===current}">${esc(v)}</button>`).join('')}</div></fieldset></div>`}
 function field(name,label,control){return `<div class="field"><label for="${name}">${esc(label)}</label>${control}</div>`}
@@ -1398,36 +1416,50 @@ function groupsView(){
   const now=new Date();
   const waiting=db.applications.filter(a=>a.status==='pending'&&group(a.group));
   const pending=waiting.filter(a=>group(a.group).owner==='me');
-  const outgoing=waiting.filter(a=>a.player==='me'&&outboundStatus(a,group(a.group),now)==='pending');
-  const list=ui.groupType==='team'?teams:lobbies;
-  return `<div class="dashboard-head"><div>${title('Мои команды')}</div>${button('Создать команду или лобби','create-group')}</div>
-    <div class="dashboard-layout"><section>
-      <div class="toolbar">${tabs([['team','Команды ('+teams.length+')'],['lobby','Лобби ('+lobbies.length+')'],['applications','Мои заявки']],ui.groupType,'group-tab')}</div>
-      <div class="squads">${list.length?list.map(summaryCard).join(''):`<div class="empty-inline"><h3>Здесь пока пусто</h3><p>Найдите подходящий состав или создайте свой.</p>${link('Перейти к поиску','search')}</div>`}</div>
-    </section><aside class="dashboard-aside">
+  const applications=db.applications.filter(a=>a.player==='me')
+    .map(a=>({a,g:group(a.group)})).filter(({g})=>g)
+    .sort((x,y)=>y.a.created-x.a.created)
+    .map(({a,g})=>({a,g,status:outboundStatus(a,g,now)}));
+  const outgoing=applications.filter(({status})=>status==='pending');
+  const tab=route.screen==='applications'?'applications':route.id==='lobby'?'lobby':'team';
+  const list=tab==='team'?teams:lobbies;
+  const labels=[['team',`Команды (${teams.length})`],['lobby',`Лобби (${lobbies.length})`],['applications',`Мои заявки (${applications.length})`]];
+  return `<div class="dashboard-head">${title('Мои команды')}</div>
+    <div class="dashboard-layout">
+      <div class="dashboard-toolbar">${tabs(labels,tab,'group-tab')}
+        <div class="dashboard-toolbar-actions">${tab==='applications'?applicationFilterControl():''}${button('Создать команду или лобби','create-group')}</div>
+      </div>
+      <section class="dashboard-panel" aria-label="${labels.find(([value])=>value===tab)[1]}">
+        ${tab==='applications'?applicationList(applications):`<div class="squads">${list.length?list.map(summaryCard).join(''):`<div class="empty-inline"><h3>Здесь пока пусто</h3><p>Найдите подходящий состав или создайте свой.</p>${link('Перейти к поиску','search')}</div>`}</div>`}
+      </section><aside class="dashboard-aside">
       <section class="card"><h2>Требует внимания</h2>${pending.length?`<p class="muted">Ждут решения: ${pending.length}</p>${[...new Set(pending.map(a=>a.group))].map(id=>`<button class="attention" data-action="go" data-screen="incoming" data-id="${esc(id)}"><strong>${esc(group(id).name)}</strong><span>Рассмотреть (${pending.filter(a=>a.group===id).length}) ${svg('next')}</span></button>`).join('')}`:'<p class="muted">Нет заявок, требующих решения.</p>'}</section>
-      ${ui.groupType==='team'&&lobbies.length?`<section class="card"><h2>Ваши лобби</h2>${lobbies.map(g=>`<div class="session"><strong>${esc(g.name)}</strong><p class="note">${esc(scheduleText(g))}</p><small>${metadata(g.game, `${g.members.length} из ${g.capacity} игроков`)}</small><button type="button" class="link" data-action="open-group-chat" data-id="${esc(g.id)}">Перейти в чат</button></div>`).join('')}</section>`:''}
-      <section class="card"><h2>Мои заявки</h2><p class="muted">${outgoing.length?'Ждут ответа: '+outgoing.length:'Нет заявок, ожидающих ответа.'}</p>${link('Посмотреть мои заявки','applications')}</section>
+      ${tab==='team'&&lobbies.length?`<section class="card"><h2>Ваши лобби</h2>${lobbies.map(g=>`<div class="session"><strong>${esc(g.name)}</strong><p class="note">${esc(scheduleText(g))}</p><small>${metadata(g.game, `${g.members.length} из ${g.capacity} игроков`)}</small><button type="button" class="link" data-action="open-group-chat" data-id="${esc(g.id)}">Перейти в чат</button></div>`).join('')}</section>`:''}
+      ${tab!=='applications'?`<section class="card"><h2>Мои заявки</h2><p class="muted">${outgoing.length?'Ждут ответа: '+outgoing.length:'Нет заявок, ожидающих ответа.'}</p>${link('Посмотреть мои заявки','applications')}</section>`:''}
     </aside></div>`;
 }
 
-function applicationsView(){
-  const now=new Date(), filter=ui.applicationFilter||'all';
-  const all=db.applications.filter(a=>a.player==='me')
-    .map(a=>({a,g:group(a.group)})).filter(({g})=>g)
-    .sort((x,y)=>y.a.created-x.a.created);
-  const entries=all.map(({a,g})=>({a,g,status:outboundStatus(a,g,now)}))
-    .filter(({status})=>filter==='all'||status===filter);
-  return title('Мои заявки','groups')+`<div class="application-workspace"><section>
-    ${tabs([['all','Все ('+all.length+')'],['pending','Ждут решения'],['accepted','Приняты'],['rejected','Отклонены'],['withdrawn','Отозваны']],filter,'application-filter')}
-    <div class="list">${entries.length?entries.map(({a,g,status})=>`<article class="card application-card">
+function applicationFilterControl(){
+  const statuses=[['all','Все статусы'],['pending','Ждут решения'],['accepted','Приняты'],['rejected','Отклонены'],['withdrawn','Отозваны'],['expired','Лобби завершилось']];
+  return `<label class="filter-toggle application-filter" for="application-status">${svg('filter')}<span>Фильтры<span class="sr-only"> заявок по статусу</span></span>
+    ${ui.applicationFilter==='all'?'':'<span class="filter-count" aria-hidden="true">1</span>'}${select('application-status',statuses,ui.applicationFilter)}</label>`;
+}
+
+function setApplicationFilter(value){
+  if(ui.applicationFilter===value)return;
+  ui.applicationFilter=value;
+  render({resultsChanged:true});
+  document.getElementById('application-status')?.focus({preventScroll:true});
+}
+
+function applicationList(all){
+  const entries=all.filter(({status})=>ui.applicationFilter==='all'||status===ui.applicationFilter);
+  return `<div class="list">${entries.length?entries.map(({a,g,status})=>`<article class="card application-card">
       <div class="teamtop"><span class="gameicon">${games[g.game].icon}</span><div><h3>${esc(g.name)}</h3><small>${metadata(g.game, g.type==='team'?'Команда':'Лобби')}</small></div>${badge(status)}</div>
       <dl class="meta"><div><dt>Ваша роль</dt><dd>${esc(a.role)}</dd></div><div><dt>Отправлена</dt><dd>${shortDate(a.created)}</dd></div></dl>
       ${a.text?`<h4>Ваше сообщение</h4><p class="application-message">${esc(a.text)}</p>`:''}
       <div class="squad-actions">${button('Посмотреть '+(g.type==='team'?'команду':'лобби'),'go',{screen:'team',id:g.id,secondary:true})}${status==='accepted'?button('Открыть чат','open-group-chat',{id:g.id}):button('Подробнее о заявке','go',{screen:'application',id:a.id,secondary:true})}</div>
       ${status==='pending'?`<div class="application-footer"><button class="link" data-action="dm" data-id="${g.owner}">Написать капитану</button><button class="link" data-action="withdraw" data-id="${a.id}">Отозвать заявку</button></div>`:''}
-    </article>`).join(''):`<div class="empty-inline"><h3>${all.length?'Таких заявок пока нет':'Вы ещё не отправляли заявки'}</h3><p>${all.length?'Выберите другой статус, чтобы увидеть остальные отклики.':'Выберите команду или лобби в поиске.'}</p>${button(all.length?'Показать все заявки':'Найти команду',all.length?'application-filter':'go',all.length?{value:'all',secondary:true}:{screen:'search'})}</div>`}</div>
-  </section></div>`;
+    </article>`).join(''):`<div class="empty-inline"><h3>${all.length?'Таких заявок пока нет':'Вы ещё не отправляли заявки'}</h3><p>${all.length?'Выберите другой статус, чтобы увидеть остальные отклики.':'Выберите команду или лобби в поиске.'}</p>${button(all.length?'Показать все заявки':'Найти команду',all.length?'application-filter':'go',all.length?{value:'all',secondary:true}:{screen:'search'})}</div>`}</div>`;
 }
 
 function createView(){return title('Создать команду или лобби','groups')+`<div class="center"><div class="symbol">${svg('star')}</div><h2>Нужен WithTeam Plus</h2><p>WithTeam Plus позволяет создавать постоянные команды и временные лобби.</p><div class="actions">${button('Подробнее о Plus','go',{screen:'subscription'})}${button('Вернуться к моим командам','go',{screen:'groups',secondary:true})}</div></div>`}
@@ -1693,7 +1725,7 @@ return title(names[s],settingsParent(s))+`<form id="settings-form" class="narrow
 function settingsParent(screen) {
   return ['preferences','games'].includes(screen) ? 'profile' : 'settings';
 }
-const views={search:searchView,filters:filtersView,team:teamView,player:playerView,apply:applyView,application:applicationView,groups:groupsView,applications:applicationsView,create:createView,new:newView,requirements:requirementsView,published:publishedView,incoming:incomingView,candidate:candidateView,messages:messagesView,chat:chatView,call:callView,profile:profileView,subscription:subscriptionView,settings:settingsView,edit:settingsFormView,preferences:settingsFormView,games:settingsFormView,timezone:settingsFormView,notifications:settingsFormView,privacy:settingsFormView,signin:signInView};
+const views={search:searchView,filters:filtersView,team:teamView,player:playerView,apply:applyView,application:applicationView,groups:groupsView,applications:groupsView,create:createView,new:newView,requirements:requirementsView,published:publishedView,incoming:incomingView,candidate:candidateView,messages:messagesView,chat:chatView,call:callView,profile:profileView,subscription:subscriptionView,settings:settingsView,edit:settingsFormView,preferences:settingsFormView,games:settingsFormView,timezone:settingsFormView,notifications:settingsFormView,privacy:settingsFormView,signin:signInView};
 const navRoutes = [ ['search','Поиск'], ['groups','Мои команды'], ['messages','Сообщения'], ['profile','Профиль'] ];
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 nav.addEventListener('animationend', event => {
@@ -1703,7 +1735,7 @@ const motionListSelectors = {
   search: '.search-results > .team',
   groups: '.squads > .squad',
   incoming: '.grid > .card',
-  applications: '.application-workspace .list > .application-card',
+  applications: '.dashboard-panel .list > .application-card',
 };
 let rowObserver;
 let revealedRow = false;
@@ -2328,7 +2360,7 @@ if(action==='go'&&screen==='messages'&&b.classList.contains('nav-item')&&window.
     return;
   }
 }
-if(action==='application-filter'&&(ui.applicationFilter||'all')!==value){ui.applicationFilter=value;return renderListChange(b)}
+if(action==='application-filter')return setApplicationFilter(value);
 if(action==='back'){if(history.state?.withteam)history.back();else go(screen,id);return}if(action==='seats'){let input=document.getElementById('capacity');input.value=Math.min(Number(input.max),Math.max(Number(input.min),Math.trunc(Number(input.value))+Number(b.dataset.delta)));input.dispatchEvent(new Event('input',{bubbles:true}));return}if(action==='go'){if(b.matches('.nav-item,.brand,.conversation-row')&&screen===route.screen&&(id||'')===route.id)return;if(screen==='games')ui.profileGame=null;if(route.screen==='new'){let f=document.getElementById('new-form');if(f)captureNew(f)}
   if(screen==='player'){
     ui.playerGame=group(route.id)?.game;
@@ -2338,7 +2370,15 @@ if(action==='back'){if(history.state?.withteam)history.back();else go(screen,id)
   }else go(screen,id);
 }
 if(action==='search-tab'&&ui.searchType!==value){ui.searchType=value;renderListChange(b)}
-if(action==='group-tab'){if(value==='applications')go('applications');else if(ui.groupType!==value){ui.groupType=value;renderListChange(b)}}
+if(action==='group-tab'){
+  const section=value==='applications'?'applications':'groups';
+  const tab=value==='lobby'?'lobby':'';
+  if(route.screen!==section||route.id!==tab){
+    go(section,tab);
+    app.querySelector('[data-action="group-tab"][aria-pressed="true"]')?.focus({preventScroll:true});
+  }
+  return;
+}
 if(action==='message-tab'&&ui.messageType!==value){
   ui.messageType=value;
   for(const tab of app.querySelectorAll('[data-action="message-tab"]')){
@@ -2373,7 +2413,17 @@ if(action==='clear-end-time'){
 }
 if(action==='create-group')go(db.plus?'new':'create');
 if(action==='activate-plus'){db.plus=true;persist();go('new');toast('WithTeam Plus подключён.')}
-if(action==='withdraw'){let a=db.applications.find(a=>a.id===id&&a.player==='me');if(a?.status==='pending'){a.status='withdrawn';persist();render();toast('Заявка отозвана')}}
+if(action==='withdraw'){
+  const application=db.applications.find(a=>a.id===id&&a.player==='me');
+  if(application?.status==='pending'){
+    application.status='withdrawn';
+    persist();
+    render();
+    document.getElementById('application-status')?.focus({preventScroll:true});
+    toast('Заявка отозвана');
+  }
+  return;
+}
 if(action==='open-group-chat'){let g=group(id);if(g?.members.includes('me'))go('chat',ensureGroupChat(g).id)}
 if(action==='dm'){if(id==='me')return go('profile');if(!player(id))return;let c=db.chats.find(c=>c.peer===id);if(!c){c={id:newId('dm'),peer:id,messages:[]};db.chats.push(c);persist()}go('chat',c.id)}
 if(action==='decide')decide(id,status);
@@ -2407,7 +2457,7 @@ document.addEventListener('input',e=>{
   if(form.id==='new-form')updateSchedule(form);
   if(form.id==='recruit-form')captureRecruit(form);
 });
-document.addEventListener('change',e=>{let f=e.target.closest('form');if(!f)return;if(f.id==='new-form'){updateSchedule(f);if(['type','game'].includes(e.target.name)){render();document.getElementById(e.target.name)?.focus({preventScroll:true})}}if(f.id==='settings-form'&&route.screen==='games'&&e.target.name==='game'){ui.profileGame=e.target.value;let g=games[e.target.value],p=db.user.profiles.find(p=>p.game===e.target.value);f.elements.rank.innerHTML=g.ranks.map(v=>`<option ${v===p?.rank?'selected':''}>${esc(v)}</option>`).join('');f.elements.role.innerHTML=g.roles.map(v=>`<option ${v===p?.role?'selected':''}>${esc(v)}</option>`).join('')}});
+document.addEventListener('change',e=>{if(e.target.id==='application-status')return setApplicationFilter(e.target.value);let f=e.target.closest('form');if(!f)return;if(f.id==='new-form'){updateSchedule(f);if(['type','game'].includes(e.target.name)){render();document.getElementById(e.target.name)?.focus({preventScroll:true})}}if(f.id==='settings-form'&&route.screen==='games'&&e.target.name==='game'){ui.profileGame=e.target.value;let g=games[e.target.value],p=db.user.profiles.find(p=>p.game===e.target.value);f.elements.rank.innerHTML=g.ranks.map(v=>`<option ${v===p?.rank?'selected':''}>${esc(v)}</option>`).join('');f.elements.role.innerHTML=g.roles.map(v=>`<option ${v===p?.role?'selected':''}>${esc(v)}</option>`).join('')}});
 document.addEventListener('submit',e=>{let f=e.target;if(!(f instanceof HTMLFormElement))return;e.preventDefault();if(db.signedOut)return;let data=new FormData(f),v=Object.fromEntries(data);
 if(f.id==='filters-form'){let {type,...filters}=ui.draftFilters;filters.date=v['filter-date'];ui.filters=filters;ui.searchType=type==='Лобби'?'lobby':'team';go('search')}
 if(f.id==='apply-form'){let g=group(f.dataset.group);if(!g||g.members.includes('me')||ownApplication(g)||!recruitmentOpen(g))return toast('Нельзя отправить заявку. Обновите страницу команды или лобби.');if(!(g.roles.length?g.roles:games[g.game].roles).includes(v.role))return toast('Выберите доступную роль.');let a={id:newId('application'),group:g.id,player:'me',role:v.role,text:v.text.trim(),status:'pending',created:Date.now()};db.applications.push(a);persist();delete ui.applicationDraft[g.id];go('application',a.id)}
